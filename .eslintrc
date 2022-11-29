@@ -41,15 +41,22 @@
             }
         ],
         "prettier/prettier": [
-            2,
+            "error",
             {
-                "bracketSpacing": true,
-                "printWidth": 140,
+                "printWidth": 100,
+                "trailingComma": "es5",
+                "tabWidth": 2,
+                "semi": true,
                 "singleQuote": true,
-                "trailingComma": "none",
-                "tabWidth": 4,
+                "bracketSpacing": false,
+                "jsxBracketSameLine": false,
+                "arrowParens": "always",
+                "endOfLine": "auto",
+                "jsxSingleQuote": true,
+                "proseWrap": "preserve",
+                "quoteProps": "as-needed",
                 "useTabs": false,
-                "endOfLine": "auto"
+                "htmlWhitespaceSensitivity": "css"
             }
         ]
     }
