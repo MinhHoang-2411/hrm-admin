@@ -5,7 +5,14 @@ import {
     BarcodeOutlined,
     BgColorsOutlined,
     FontSizeOutlined,
-    LoadingOutlined
+    LoadingOutlined,
+    HomeOutlined,
+    UserOutlined,
+    FundProjectionScreenOutlined,
+    ProjectOutlined,
+    CalendarOutlined,
+    CodeOutlined,
+    UsergroupAddOutlined
 } from '@ant-design/icons';
 
 // icons
@@ -15,44 +22,78 @@ const icons = {
     BarcodeOutlined,
     AntDesignOutlined,
     LoadingOutlined,
-    AppstoreAddOutlined
+    AppstoreAddOutlined,
+    HomeOutlined,
+    UserOutlined,
+    FundProjectionScreenOutlined,
+    ProjectOutlined,
+    CalendarOutlined,
+    CodeOutlined,
+    UsergroupAddOutlined
 };
 
 // ==============================|| MENU ITEMS - UTILITIES ||============================== //
 
 const utilities = {
     id: 'utilities',
-    title: 'Utilities',
+    title: 'Management',
     type: 'group',
     children: [
         {
-            id: 'util-typography',
-            title: 'Typography',
+            id: 'util-employee',
+            title: 'Employee',
             type: 'item',
-            url: '/typography',
-            icon: icons.FontSizeOutlined
+            url: '/employee',
+            icon: icons.UserOutlined
         },
         {
-            id: 'util-color',
-            title: 'Color',
+            id: 'util-branch',
+            title: 'Branch',
             type: 'item',
-            url: '/color',
-            icon: icons.BgColorsOutlined
+            url: '/branch',
+            icon: icons.HomeOutlined
         },
         {
-            id: 'util-shadow',
-            title: 'Shadow',
+            id: 'util-asset',
+            title: 'Asset',
             type: 'item',
-            url: '/shadow',
-            icon: icons.BarcodeOutlined
+            url: '/asset',
+            icon: icons.FundProjectionScreenOutlined
         },
         {
-            id: 'ant-icons',
-            title: 'Ant Icons',
+            id: 'util-project',
+            title: 'Project',
             type: 'item',
-            url: '/icons/ant',
-            icon: icons.AntDesignOutlined,
-            breadcrumbs: false
+            url: '/project',
+            icon: icons.ProjectOutlined
+        },
+        {
+            id: 'util-leave',
+            title: 'Leave',
+            type: 'item',
+            url: '/leave',
+            icon: icons.CalendarOutlined
+        },
+        {
+            id: 'util-skill',
+            title: 'Skill',
+            type: 'item',
+            url: '/skill',
+            icon: icons.CodeOutlined
+        },
+        {
+            id: 'util-review',
+            title: 'Review',
+            type: 'item',
+            url: '/review',
+            icon: icons.AntDesignOutlined
+        },
+        {
+            id: 'util-candidate',
+            title: 'Candidate',
+            type: 'item',
+            url: '/candidate',
+            icon: icons.AntDesignOutlined
         }
     ]
 };
