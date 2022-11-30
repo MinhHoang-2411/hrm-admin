@@ -1,21 +1,19 @@
 import PropTypes from 'prop-types';
 import {forwardRef, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
 
 // material-ui
-import {useTheme} from '@mui/material/styles';
 import {Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography} from '@mui/material';
-
-// project import
-import {activeItem} from 'store/reducers/menu';
+import {useTheme} from '@mui/material/styles';
+import {useAppDispatch, useAppSelector} from 'app/hooks';
+import {menuActions} from 'store/menu/menuSlice';
 
 // ==============================|| NAVIGATION - LIST ITEM ||============================== //
 
 const NavItem = ({item, level}) => {
   const theme = useTheme();
-  const dispatch = useDispatch();
-  const menu = useSelector((state) => state.menu);
+  const dispatch = useAppDispatch();
+  const menu = useAppSelector((state) => state.menu);
   const {drawerOpen, openItem} = menu;
 
   let itemTarget = '_self';
@@ -33,7 +31,7 @@ const NavItem = ({item, level}) => {
   }
 
   const itemHandler = (id) => {
-    dispatch(activeItem({openItem: [id]}));
+    dispatch(menuActions.activeItem({openItem: [id]}));
   };
 
   const Icon = item.icon;

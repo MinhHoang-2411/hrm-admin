@@ -11,7 +11,7 @@ const initialState = {
 
 // ==============================|| SLICE - MENU ||============================== //
 
-const menu = createSlice({
+const menuSlice = createSlice({
   name: 'menu',
   initialState,
   reducers: {
@@ -33,6 +33,9 @@ const menu = createSlice({
   },
 });
 
-export default menu.reducer;
+// Actions
+export const menuActions = menuSlice.actions;
 
-export const {activeItem, activeComponent, openDrawer, openComponentDrawer} = menu.actions;
+// Reducer
+const menuReducer = menuSlice.reducer;
+export default menuReducer;

@@ -5,33 +5,36 @@ import {Link as RouterLink} from 'react-router-dom';
 import {
   Button,
   Checkbox,
-  Divider,
   FormControlLabel,
   FormHelperText,
   Grid,
-  Link,
   IconButton,
   InputAdornment,
   InputLabel,
+  Link,
   OutlinedInput,
   Stack,
   Typography,
 } from '@mui/material';
 
 // third party
-import * as Yup from 'yup';
 import {Formik} from 'formik';
+import * as Yup from 'yup';
 
 // project import
-import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from 'components/@extended/AnimateButton';
 
 // assets
-import {EyeOutlined, EyeInvisibleOutlined} from '@ant-design/icons';
+import {EyeInvisibleOutlined, EyeOutlined} from '@ant-design/icons';
+import {useAppDispatch} from 'app/hooks';
+import {useNavigate} from 'react-router-dom';
+import {authActions} from 'store/auth/authSlice';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [checked, setChecked] = React.useState(false);
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -59,6 +62,13 @@ const AuthLogin = () => {
           try {
             setStatus({success: false});
             setSubmitting(false);
+            dispatch(
+              authActions.login({
+                email: values.email,
+                password: values.password,
+                onNavigate: () => navigate('/'),
+              })
+            );
           } catch (err) {
             setStatus({success: false});
             setErrors({submit: err.message});

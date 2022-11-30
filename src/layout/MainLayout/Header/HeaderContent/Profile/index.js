@@ -28,6 +28,9 @@ import SettingTab from './SettingTab';
 // assets
 import avatar1 from 'assets/images/users/avatar-1.png';
 import {LogoutOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
+import {useAppDispatch} from 'app/hooks';
+import {authActions} from 'store/auth/authSlice';
+import {useNavigate} from 'react-router-dom';
 
 // tab panel wrapper
 function TabPanel({children, value, index, ...other}) {
@@ -60,10 +63,16 @@ function a11yProps(index) {
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
 const Profile = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const handleLogout = async () => {
-    // logout
+    dispatch(
+      authActions.logout({
+        onNavigate: () => navigate('/login'),
+      })
+    );
   };
 
   const anchorRef = useRef(null);

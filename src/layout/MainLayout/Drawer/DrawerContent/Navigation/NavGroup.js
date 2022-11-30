@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
 
 // material-ui
 import {Box, List, Typography} from '@mui/material';
 
 // project import
+import {useAppSelector} from 'app/hooks';
 import NavItem from './NavItem';
 
 // ==============================|| NAVIGATION - LIST GROUP ||============================== //
 
 const NavGroup = ({item}) => {
-  const menu = useSelector((state) => state.menu);
+  const menu = useAppSelector((state) => state.menu);
   const {drawerOpen} = menu;
 
   const navCollapse = item.children?.map((menuItem) => {
