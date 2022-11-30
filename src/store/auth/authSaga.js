@@ -4,7 +4,6 @@ import {login} from "../../api/login";
 
 function* handleLogin(payload) {
   try {
-    // yield delay(1000);
     const response = yield call(login,payload);
 
     localStorage.setItem('access_token', JSON.stringify(response.data.id_token));
@@ -13,7 +12,7 @@ function* handleLogin(payload) {
 
     payload.onNavigate?.();
   } catch (error) {
-    console.error(error);
+
     yield put(authActions.loginFailed(error));
   }
 }
