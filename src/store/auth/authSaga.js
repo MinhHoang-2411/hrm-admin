@@ -1,16 +1,18 @@
 import {call, delay, fork, put, take} from 'redux-saga/effects';
 import {authActions} from './authSlice';
+import {login} from "../../api/login";
 
 function* handleLogin(payload) {
   try {
-    yield delay(1000);
-    localStorage.setItem('access_token', JSON.stringify(payload));
+    const response = yield call(login,payload);
+
+    localStorage.setItem('access_token', JSON.stringify(response.data.id_token));
 
     yield put(authActions.loginSuccess({...payload}));
 
     payload.onNavigate?.();
   } catch (error) {
-    console.error(error);
+
     yield put(authActions.loginFailed(error));
   }
 }
