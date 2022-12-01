@@ -7,7 +7,7 @@ import {useTheme} from '@mui/material/styles';
 
 // project import
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
-import navigation from 'menu-items';
+import navigation from '../../components/menu-items';
 import Drawer from './Drawer';
 import Header from './Header';
 

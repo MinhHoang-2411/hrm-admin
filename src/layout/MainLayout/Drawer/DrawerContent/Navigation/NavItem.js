@@ -46,10 +46,10 @@ const NavItem = ({item, level}) => {
       .split('/')
       .findIndex((id) => id === item.id);
     if (currentIndex > -1) {
-      dispatch(activeItem({openItem: [item.id]}));
+      dispatch(menuActions.activeItem({openItem: [item.id]}));
     }
     // eslint-disable-next-line
-  }, []);
+  }, [document.location.pathname]);
 
   const textColor = 'text.primary';
   const iconSelectedColor = 'primary.main';

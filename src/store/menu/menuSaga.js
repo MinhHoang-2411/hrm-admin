@@ -1,4 +1,4 @@
-import {call, delay, fork, put, take} from 'redux-saga/effects';
+import {fork, put, take} from 'redux-saga/effects';
 import {menuActions} from './menuSlice';
 
 function* handleActiveItem(payload) {

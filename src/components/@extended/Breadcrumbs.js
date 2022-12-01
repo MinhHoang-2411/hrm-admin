@@ -89,13 +89,7 @@ const Breadcrumbs = ({navigation, title, ...others}) => {
           >
             <Grid item>
               <MuiBreadcrumbs aria-label='breadcrumb'>
-                <Typography
-                  component={Link}
-                  to='/'
-                  color='textSecondary'
-                  variant='h6'
-                  sx={{textDecoration: 'none'}}
-                >
+                <Typography color='textSecondary' variant='h6' sx={{textDecoration: 'none'}}>
                   Home
                 </Typography>
                 {mainContent}
