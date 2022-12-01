@@ -39,12 +39,6 @@
     "jsx-a11y/anchor-is-valid": 0,
     "prefer-destructuring": 0,
     "no-shadow": 0,
-    "no-unused-vars": [
-      1,
-      {
-        "ignoreRestSiblings": false
-      }
-    ],
     "prettier/prettier": [
       "error",
       {

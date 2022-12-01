@@ -24,6 +24,10 @@ const LoginRoutes = {
       element: <AuthRegister />,
     },
     {
+      path: '/',
+      element: <Navigate to='login' />,
+    },
+    {
       path: '*',
       element: <Navigate to='login' />,
     },

@@ -1,4 +1,5 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
+import {getAuth} from 'utils/auth/index';
 
 const axiosClient = axios.create({
   baseURL: 'https://js-post-api.herokuapp.com/api',
@@ -9,16 +10,18 @@ const axiosClient = axios.create({
 
 export default axiosClient;
 
+axios.defaults.headers.Accept = 'application/json';
 // Add a request interceptor
 axios.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
+  (config) => {
+    const auth = getAuth();
+    if (auth && auth.id_token) {
+      config.headers.Authorization = `Bearer ${auth.id_token}`;
+    }
+
     return config;
   },
-  function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
+  (err) => Promise.reject(err)
 );
 
 // Add a response interceptor
