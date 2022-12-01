@@ -10,7 +10,7 @@ const icons = {
 
 const dashboard = {
   id: 'group-dashboard',
-  title: 'Dashboard',
+  title: 'Home',
   type: 'group',
   children: [
     {
