@@ -1,99 +1,32 @@
 // assets
-import {
-  AppstoreAddOutlined,
-  AntDesignOutlined,
-  BarcodeOutlined,
-  BgColorsOutlined,
-  FontSizeOutlined,
-  LoadingOutlined,
-  HomeOutlined,
-  UserOutlined,
-  FundProjectionScreenOutlined,
-  ProjectOutlined,
-  CalendarOutlined,
-  CodeOutlined,
-  UsergroupAddOutlined,
-} from '@ant-design/icons';
+import {CoffeeOutlined, DollarCircleOutlined} from '@ant-design/icons';
 
 // icons
 const icons = {
-  FontSizeOutlined,
-  BgColorsOutlined,
-  BarcodeOutlined,
-  AntDesignOutlined,
-  LoadingOutlined,
-  AppstoreAddOutlined,
-  HomeOutlined,
-  UserOutlined,
-  FundProjectionScreenOutlined,
-  ProjectOutlined,
-  CalendarOutlined,
-  CodeOutlined,
-  UsergroupAddOutlined,
+  CoffeeOutlined,
+  DollarCircleOutlined,
 };
 
 // ==============================|| MENU ITEMS - UTILITIES ||============================== //
 
 const utilities = {
   id: 'utilities',
-  title: 'Management',
+  title: 'Utilities',
   type: 'group',
   children: [
     {
-      id: 'util-employee',
-      title: 'Employee',
+      id: 'util-bar',
+      title: 'Bar',
       type: 'item',
-      url: '/employee',
-      icon: icons.UserOutlined,
+      url: '/bar',
+      icon: icons.CoffeeOutlined,
     },
     {
-      id: 'util-branch',
-      title: 'Branch',
+      id: 'util-charity',
+      title: 'Charity',
       type: 'item',
-      url: '/branch',
-      icon: icons.HomeOutlined,
-    },
-    {
-      id: 'util-asset',
-      title: 'Asset',
-      type: 'item',
-      url: '/asset',
-      icon: icons.FundProjectionScreenOutlined,
-    },
-    {
-      id: 'util-project',
-      title: 'Project',
-      type: 'item',
-      url: '/project',
-      icon: icons.ProjectOutlined,
-    },
-    {
-      id: 'util-leave',
-      title: 'Leave',
-      type: 'item',
-      url: '/leave',
-      icon: icons.CalendarOutlined,
-    },
-    {
-      id: 'util-skill',
-      title: 'Skill',
-      type: 'item',
-      url: '/skill',
-      icon: icons.CodeOutlined,
-    },
-    {
-      id: 'util-review',
-      title: 'Review',
-      type: 'item',
-      url: '/review',
-      icon: icons.AntDesignOutlined,
-    },
-    {
-      id: 'util-candidate',
-      title: 'Candidate',
-      type: 'item',
-      url: '/candidate',
-      icon: icons.AntDesignOutlined,
+      url: '/charity',
+      icon: icons.DollarCircleOutlined,
     },
   ],
 };
