@@ -22,7 +22,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 // project import
-import AnimateButton from 'components/@extended/AnimateButton';
+import AnimateButton from 'components/extended/AnimateButton';
 
 // assets
 import {EyeInvisibleOutlined, EyeOutlined} from '@ant-design/icons';

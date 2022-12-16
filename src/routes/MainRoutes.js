@@ -8,6 +8,19 @@ import {Navigate} from 'react-router-dom';
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const EmployeePage = Loadable(lazy(() => import('pages/employee/index')));
+const AssetPage = Loadable(lazy(() => import('pages/asset/index')));
+const AccountPage = Loadable(lazy(() => import('pages/account/index')));
+const Candidate = Loadable(lazy(() => import('pages/candidate/index')));
+const ProjectPage = Loadable(lazy(() => import('pages/project/index')));
+const SkillPage = Loadable(lazy(() => import('pages/skill/index')));
+const LeavePage = Loadable(lazy(() => import('pages/leave/index')));
+const ReviewPage = Loadable(lazy(() => import('pages/review/index')));
+const WorkOrganizationPage = Loadable(lazy(() => import('pages/work-organization/index')));
+const BarPage = Loadable(lazy(() => import('pages/bar/index')));
+const CharityPage = Loadable(lazy(() => import('pages/charity/index')));
+const WorkRulePage = Loadable(lazy(() => import('pages/work-rule/index')));
+const PolicyPage = Loadable(lazy(() => import('pages/policy/index')));
+const SecurityPage = Loadable(lazy(() => import('pages/security/index')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -30,6 +43,59 @@ const MainRoutes = {
     {
       path: '/employee',
       element: <EmployeePage />,
+    },
+    {
+      path: '/asset',
+      element: <AssetPage />,
+    },
+    {
+      path: '/candidate',
+      element: <Candidate />,
+    },
+
+    {
+      path: '/account',
+      element: <AccountPage />,
+    },
+    {
+      path: '/project',
+      element: <ProjectPage />,
+    },
+    {
+      path: '/skill',
+      element: <SkillPage />,
+    },
+    {
+      path: '/leave',
+      element: <LeavePage />,
+    },
+    {
+      path: '/review',
+      element: <ReviewPage />,
+    },
+    {
+      path: '/work-organization',
+      element: <WorkOrganizationPage />,
+    },
+    {
+      path: '/bar',
+      element: <BarPage />,
+    },
+    {
+      path: '/charity',
+      element: <CharityPage />,
+    },
+    {
+      path: '/work-rule',
+      element: <WorkRulePage />,
+    },
+    {
+      path: '/policy',
+      element: <PolicyPage />,
+    },
+    {
+      path: '/security',
+      element: <SecurityPage />,
     },
   ],
 };

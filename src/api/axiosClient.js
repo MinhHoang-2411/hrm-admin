@@ -1,8 +1,10 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
+import axios from 'axios';
 import {getAuth} from 'utils/auth/index';
 
+const URL_API_ADMIN = process.env.REACT_APP_API_URL_AMDIN;
+
 const axiosClient = axios.create({
-  baseURL: 'https://js-post-api.herokuapp.com/api',
+  baseURL: URL_API_ADMIN,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,26 +12,30 @@ const axiosClient = axios.create({
 
 export default axiosClient;
 
-axios.defaults.headers.Accept = 'application/json';
+axiosClient.defaults.headers.Accept = 'application/json';
 // Add a request interceptor
-axios.interceptors.request.use(
-  (config) => {
+axiosClient.interceptors.request.use(
+  function (config) {
     const auth = getAuth();
-    if (auth && auth.id_token) {
-      config.headers.Authorization = `Bearer ${auth.id_token}`;
+    if (auth) {
+      config.headers = {
+        Authorization: `Bearer ${auth}`,
+      };
     }
-
     return config;
   },
-  (err) => Promise.reject(err)
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
+axiosClient.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    return response.data;
+    return response;
   },
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
