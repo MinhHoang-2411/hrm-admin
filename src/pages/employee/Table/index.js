@@ -1,25 +1,41 @@
-import {useState} from 'react';
-import {Link as RouterLink} from 'react-router-dom';
-import Switch from '@mui/material/Switch';
+import Avatar from '@mui/material/Avatar';
+import {useCallback, useState} from 'react';
 
 // material-ui
+import {DeleteFilled, EditFilled} from '@ant-design/icons';
 import {
   Box,
-  Link,
+  Checkbox,
+  IconButton,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
 } from '@mui/material';
+import {OrderTableHead} from 'components/table/table-head';
+import {nameMatching} from 'utils/format/name';
+import {formatTimeStampToDate} from 'utils/index';
 
 const headCells = [
   {
-    id: 'id',
+    id: 'checkbox',
     align: 'left',
     disablePadding: false,
-    label: 'ID',
+    label: '',
+    width: '40px',
+  },
+  {
+    id: 'avatar',
+    align: 'left',
+    disablePadding: false,
+    label: 'Avatar',
+  },
+  {
+    id: 'employeeCode',
+    align: 'left',
+    disablePadding: false,
+    label: 'Employee Code',
   },
   {
     id: 'fullName',
@@ -28,16 +44,16 @@ const headCells = [
     label: 'Full Name',
   },
   {
+    id: 'dataOfBirth',
+    align: 'left',
+    disablePadding: false,
+    label: 'Date of birth',
+  },
+  {
     id: 'gender',
     align: 'left',
     disablePadding: false,
     label: 'Gender',
-  },
-  {
-    id: 'dataOfBirth',
-    align: 'left',
-    disablePadding: false,
-    label: 'Birthday',
   },
   {
     id: 'phoneNumber',
@@ -46,16 +62,28 @@ const headCells = [
     label: 'Phone Number',
   },
   {
+    id: 'email',
+    align: 'left',
+    disablePadding: false,
+    label: 'Email',
+  },
+  {
+    id: 'address',
+    align: 'left',
+    disablePadding: false,
+    label: 'Address',
+  },
+  {
     id: 'joinedDate',
     align: 'left',
     disablePadding: false,
     label: 'Joined Date',
   },
   {
-    id: 'position',
+    id: 'department',
     align: 'left',
     disablePadding: false,
-    label: 'Position',
+    label: 'Department',
   },
   {
     id: 'employeeBranch',
@@ -64,45 +92,102 @@ const headCells = [
     label: 'Branch',
   },
   {
-    id: 'employeeTeam',
+    id: 'action',
     align: 'left',
     disablePadding: false,
-    label: 'Team',
-  },
-  {
-    id: 'active',
-    align: 'left',
-    disablePadding: false,
-    label: 'Active',
+    label: 'Actions',
   },
 ];
 
-function OrderTableHead({order, orderBy}) {
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.align}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            {headCell.label}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-export default function TableEmployee({data}) {
+export default function TableEmployee({
+  data,
+  setIdEmployee,
+  setTypeOpenModal,
+  handleOpen,
+  handleRemove,
+}) {
+  const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
   const [order] = useState('asc');
   const [orderBy] = useState('trackingNo');
   const [selected] = useState([]);
+  const [listChecked, setListChecked] = useState([]);
 
-  const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
-  const label = {inputProps: {'aria-label': 'Switch demo'}};
+  const isCheckAll = data?.length > 0 && listChecked?.length === data?.length;
+
+  const handleChecked = (e) => {
+    const id = Number(e.target.value);
+    const tmpList = [...listChecked];
+    const index = tmpList.indexOf(id);
+    if (index > -1) tmpList.splice(index, 1);
+    else tmpList.push(id);
+    setListChecked(tmpList);
+  };
+
+  const handleCheckAll = () => {
+    if (isCheckAll) setListChecked([]);
+    else setListChecked(data?.map((item) => item?.id));
+  };
+
+  const handleEdit = (id) => {
+    setIdEmployee(id);
+    setTypeOpenModal('edit');
+    handleOpen();
+  };
+
+  const renderList = useCallback(
+    () =>
+      Array.isArray(data) &&
+      data?.map((row, index) => (
+        <TableRow
+          hover
+          role='checkbox'
+          sx={{'&:last-child td, &:last-child th': {border: 0}}}
+          aria-checked={isSelected(row?.trackingNo)}
+          tabIndex={-1}
+          key={row.id}
+          selected={isSelected(row?.trackingNo)}
+        >
+          <TableCell
+            component='th'
+            id={`enhanced-table-checkbox-${index}`}
+            scope='row'
+            align='left'
+          >
+            <Checkbox
+              value={row?.id}
+              checked={listChecked?.includes(row?.id)}
+              onChange={handleChecked}
+            />
+          </TableCell>
+          <TableCell align='left'>
+            <Avatar alt={row?.fullName} src={row?.avatar} sx={{width: 40, height: 40}} />
+          </TableCell>
+          <TableCell align='left'>{row?.employeeCode}</TableCell>
+          <TableCell align='left'>
+            {nameMatching(row?.user?.firstName, row?.user?.lastName)}
+          </TableCell>
+          <TableCell align='left'>{formatTimeStampToDate(row?.dateOfBirth)}</TableCell>
+          <TableCell align='left'>{row?.gender}</TableCell>
+          <TableCell align='left'>{row?.phoneNumber}</TableCell>
+          <TableCell align='left'>{row?.user?.email}</TableCell>
+          <TableCell align='left'>{row?.address?.city}</TableCell>
+          <TableCell align='left'>{formatTimeStampToDate(row?.joinedDate)}</TableCell>
+          <TableCell align='left'>{row?.department}</TableCell>
+          <TableCell align='left'>{row?.branch?.name}</TableCell>
+          <TableCell>
+            <Box>
+              <IconButton aria-label='edit' onClick={() => handleEdit(row?.id)}>
+                <EditFilled />
+              </IconButton>
+              <IconButton aria-label='delete' onClick={() => handleRemove(row)}>
+                <DeleteFilled />
+              </IconButton>
+            </Box>
+          </TableCell>
+        </TableRow>
+      )),
+    [data, listChecked]
+  );
 
   return (
     <Box>
@@ -116,53 +201,25 @@ export default function TableEmployee({data}) {
           '& td, & th': {whiteSpace: 'nowrap'},
         }}
       >
-        <Table
-          aria-labelledby='tableTitle'
-          sx={{
-            '& .MuiTableCell-root:first-child': {
-              pl: 2,
-            },
-            '& .MuiTableCell-root:last-child': {
-              pr: 3,
-            },
-          }}
-        >
-          <OrderTableHead order={order} orderBy={orderBy} />
-          <TableBody>
-            {data?.length > 0 &&
-              data.map((row, index) => {
-                const isItemSelected = isSelected(row.trackingNo);
-                const labelId = `enhanced-table-checkbox-${index}`;
+        <Table aria-labelledby='tableTitle'>
+          <OrderTableHead
+            headCells={headCells}
+            order={order}
+            orderBy={orderBy}
+            handleCheckAll={handleCheckAll}
+            checked={isCheckAll}
+          />
 
-                return (
-                  <TableRow
-                    hover
-                    role='checkbox'
-                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                  >
-                    <TableCell component='th' id={labelId} scope='row' align='left'>
-                      <Link color='secondary' component={RouterLink} to=''>
-                        {row.id}
-                      </Link>
-                    </TableCell>
-                    <TableCell align='left'>{row.fullName}</TableCell>
-                    <TableCell align='left'>{row.gender}</TableCell>
-                    <TableCell align='left'>{row.dataOfBirth}</TableCell>
-                    <TableCell align='left'>{row.phoneNumber}</TableCell>
-                    <TableCell align='left'>{row.joinedDate}</TableCell>
-                    <TableCell align='left'>{row.position}</TableCell>
-                    <TableCell align='left'>{row.employeeBranch}</TableCell>
-                    <TableCell align='left'>{row.employeeTeam}</TableCell>
-                    <TableCell align='left'>
-                      <Switch {...label} defaultChecked />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+          <TableBody>
+            {data?.length ? (
+              renderList()
+            ) : (
+              <TableRow>
+                <TableCell colSpan={12} scope='full' align='center'>
+                  <h3>There is currently no data available</h3>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

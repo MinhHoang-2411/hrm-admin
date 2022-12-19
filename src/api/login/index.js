@@ -7,4 +7,4 @@ export const LOGIN_URL = `${API_URL}/authenticate`;
 export function login(params) {
   const response = axiosClient.post(LOGIN_URL, params);
   return response;
- }
+}

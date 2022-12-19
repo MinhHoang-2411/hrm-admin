@@ -6,8 +6,8 @@ import {Box, Toolbar, useMediaQuery} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 
 // project import
-import Breadcrumbs from 'components/@extended/Breadcrumbs';
-import navigation from '../../components/menu-items';
+import Breadcrumbs from 'components/extended/Breadcrumbs';
+import navigation from '../menu-items/index';
 import Drawer from './Drawer';
 import Header from './Header';
 
@@ -56,9 +56,12 @@ const MainLayout = () => {
     <Box sx={{display: 'flex', width: '100%'}}>
       <Header open={open} handleDrawerToggle={handleDrawerToggle} />
       <Drawer open={open} handleDrawerToggle={handleDrawerToggle} />
-      <Box component='main' sx={{width: '100%', flexGrow: 1, p: {xs: 2, sm: 3}}}>
+      <Box
+        component='main'
+        sx={{width: '100%', flexGrow: 1, p: {xs: 2, sm: 3}, overflowX: 'hidden'}}
+      >
         <Toolbar />
-        <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} />
+        <Breadcrumbs navigation={navigation} title divider={false} />
         <Outlet />
       </Box>
     </Box>
