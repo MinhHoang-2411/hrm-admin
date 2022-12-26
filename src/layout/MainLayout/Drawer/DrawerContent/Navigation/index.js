@@ -3,7 +3,7 @@ import {Box, Typography} from '@mui/material';
 
 // project import
 import NavGroup from './NavGroup';
-import menuItems from 'components/menu-items/index';
+import menuItems from 'layout/menu-items/index';
 
 // ==============================|| DRAWER CONTENT - NAVIGATION ||============================== //
 

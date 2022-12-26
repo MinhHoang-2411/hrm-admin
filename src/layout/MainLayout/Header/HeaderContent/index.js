@@ -1,6 +1,6 @@
 // material-ui
 import {Box, IconButton, Link, useMediaQuery} from '@mui/material';
-import {GithubOutlined} from '@ant-design/icons';
+import {MailOutlined} from '@ant-design/icons';
 
 // project import
 import Search from './Search';
@@ -24,10 +24,10 @@ const HeaderContent = () => {
         target='_blank'
         disableRipple
         color='secondary'
-        title='Download Free Version'
+        title='Email'
         sx={{color: 'text.primary', bgcolor: 'grey.100'}}
       >
-        <GithubOutlined />
+        <MailOutlined />
       </IconButton>
 
       <Notification />
