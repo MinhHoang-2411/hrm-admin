@@ -9,8 +9,10 @@ import employeeReducer from 'store/employee/employeeSlice';
 import leaveReducer from 'store/leave/leaveSlice';
 import menuReducer from 'store/menu/menuSlice';
 import modalReducer from 'store/modal/modalSlice';
+import skillReducer from 'store/skill/skillSlice';
 import teamReducer from 'store/team/teamSlice';
 import userReducer from 'store/user/userSlice';
+import accountReducer from 'store/account/accountSlice';
 import rootSaga from './rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -26,7 +28,9 @@ export const store = configureStore({
     alert: alertReducer,
     modal: modalReducer,
     user: userReducer,
+    account: accountReducer,
     leave: leaveReducer,
+    skill: skillReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

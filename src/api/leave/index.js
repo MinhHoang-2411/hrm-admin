@@ -5,9 +5,9 @@ const leaveApi = {
     const url = '/leaves';
     return axiosClient.get(url, {params});
   },
-  getById(id) {
-    const url = `/leaves/${id}`;
-    return axiosClient.get(url);
+  changeStatus(params) {
+    const url = `/leaves/${params.id}`;
+    return axiosClient.patch(url, params);
   },
   remove(id) {
     const url = `/leaves/${id}`;

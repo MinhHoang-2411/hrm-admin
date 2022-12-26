@@ -38,6 +38,30 @@ function* handleCreate(action) {
   }
 }
 
+function* handleEdit(action) {
+  try {
+    const params = action.payload;
+    yield call(candidateApi.edit, params);
+
+    yield put(candidateActions.editSuccess());
+
+    yield put(
+      alertActions.showAlert({
+        text: 'Update successful candidates',
+        type: 'success',
+      })
+    );
+  } catch (error) {
+    yield put(candidateActions.editFalse('An error occurred, please try again'));
+    yield put(
+      alertActions.showAlert({
+        text: 'An error occurred, please try again',
+        type: 'error',
+      })
+    );
+  }
+}
+
 function* handleGetById(action) {
   try {
     const id = action.payload;
@@ -82,6 +106,7 @@ function* candidateFlow() {
   yield all([
     takeLatest(candidateActions.fetchData.type, handleFetchData),
     takeLatest(candidateActions.create.type, handleCreate),
+    takeLatest(candidateActions.edit.type, handleEdit),
     takeLatest(candidateActions.getById.type, handleGetById),
     takeLatest(candidateActions.remove.type, handleRemove),
   ]);

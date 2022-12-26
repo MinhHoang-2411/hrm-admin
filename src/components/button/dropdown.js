@@ -5,6 +5,9 @@ import {CaretDownFilled} from '@ant-design/icons';
 export default function DropdownBtn({title = '', content = null}) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
+  const widthBtn = anchorRef?.current?.clientWidth
+    ? `${anchorRef?.current?.clientWidth}px`
+    : 'unset';
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -36,6 +39,7 @@ export default function DropdownBtn({title = '', content = null}) {
       <Popper
         sx={{
           zIndex: 1,
+          width: widthBtn,
         }}
         open={open}
         anchorEl={anchorRef.current}

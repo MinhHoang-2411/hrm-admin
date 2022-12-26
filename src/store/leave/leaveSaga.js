@@ -14,14 +14,32 @@ function* handleFetchData(action) {
   }
 }
 
-function* handleGetById(action) {
+function* handleGetListWaiting(action) {
   try {
-    const id = action.payload;
-    const reps = yield call(leaveApi.getById, id);
+    const params = action.payload;
+    params['status.equals'] = 'WAITING';
+    const response = yield call(leaveApi.getAll, params);
 
-    yield put(leaveActions.getByIdSuccess(reps?.data));
+    yield put(leaveActions.getListWaitingSuccess(response));
   } catch (error) {
-    yield put(leaveActions.getByIdFalse('An error occurred, please try again'));
+    yield put(leaveActions.getListWaitingFalse('An error occurred, please try again'));
+  }
+}
+
+function* handleChangeStatus(action) {
+  try {
+    const params = action.payload;
+    const reps = yield call(leaveApi.changeStatus, params);
+
+    yield put(leaveActions.changeStatusSuccess(reps?.data));
+    yield put(
+      alertActions.showAlert({
+        text: `Leave has been ${params?.status}`,
+        type: 'success',
+      })
+    );
+  } catch (error) {
+    yield put(leaveActions.changeStatusFalse('An error occurred, please try again'));
     yield put(
       alertActions.showAlert({
         text: 'An error occurred, please try again',
@@ -57,7 +75,8 @@ function* handleRemove(action) {
 function* leaveFlow() {
   yield all([
     takeLatest(leaveActions.fetchData.type, handleFetchData),
-    takeLatest(leaveActions.getById.type, handleGetById),
+    takeLatest(leaveActions.getListWaiting.type, handleGetListWaiting),
+    takeLatest(leaveActions.changeStatus.type, handleChangeStatus),
     takeLatest(leaveActions.remove.type, handleRemove),
   ]);
 }

@@ -20,13 +20,7 @@ import '../../../assets/style/employee.scss';
 import useUploadImg from '../../../hooks/useUploadImg';
 import {CreateCandidateSchema} from '../../../utils/validate/create-candidate-schema';
 
-export default function ModalCreateCandidate({
-  setOpenModalCreate,
-  id,
-  typeOpenModal,
-  setTypeOpenModal,
-  handleClose,
-}) {
+export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
   const dispatch = useAppDispatch();
   const dataCandidate = useAppSelector((state) => state.candidate.dataCandidate);
   const isLoading = useAppSelector((state) => state.candidate.loadingEdit);
@@ -46,7 +40,8 @@ export default function ModalCreateCandidate({
         resumeUrl: values.resumeUrl,
         status: values.status,
       };
-      dispatch(candidateActions.create(params));
+      if (typeOpenModal == 'edit') dispatch(candidateActions.edit({...params, id: id}));
+      else dispatch(candidateActions.create(params));
     } catch (error) {
       console.error({error});
     } finally {
@@ -56,10 +51,6 @@ export default function ModalCreateCandidate({
 
   useEffect(() => {
     if (typeOpenModal == 'edit' && id) dispatch(candidateActions.getById(id));
-    return () => {
-      setTypeOpenModal('');
-      dispatch(candidateActions.clearData());
-    };
   }, [id]);
 
   return (
@@ -237,7 +228,7 @@ export default function ModalCreateCandidate({
                           size='error'
                           className='button-submit-member'
                           startIcon={<CloseOutlined />}
-                          onClick={() => setOpenModalCreate(false)}
+                          onClick={() => handleClose()}
                         >
                           Cancel
                         </Button>

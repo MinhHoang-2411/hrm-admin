@@ -1,26 +1,26 @@
 import axiosClient from '../axiosClient';
 
-const candidateApi = {
+const skillApi = {
   getAll(params) {
-    const url = '/candidates';
+    const url = '/skills';
     return axiosClient.get(url, {params});
   },
   create(params) {
-    const url = '/candidates';
+    const url = '/skills';
     return axiosClient.post(url, params);
   },
   edit(params) {
-    const url = `/candidates/${params.id}`;
-    return axiosClient.put(url, params);
+    const url = `/skills/${params?.id}`;
+    return axiosClient.patch(url, params);
   },
   getById(id) {
-    const url = `/candidates/${id}`;
+    const url = `/skills/${id}`;
     return axiosClient.get(url);
   },
   remove(id) {
-    const url = `/candidates/${id}`;
+    const url = `/skills/${id}`;
     return axiosClient.delete(url);
   },
 };
 
-export default candidateApi;
+export default skillApi;

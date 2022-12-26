@@ -87,7 +87,6 @@ export default function AssetPage() {
   const handleClose = () => {
     setOpen(false);
     setTypeOpenModal('');
-    // dispatch(assetActions.clearData());
   };
 
   const debounceSearch = useCallback(

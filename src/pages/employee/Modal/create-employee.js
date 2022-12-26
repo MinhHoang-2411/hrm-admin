@@ -1,47 +1,45 @@
+import {CameraOutlined, CloseOutlined, SaveOutlined} from '@ant-design/icons';
 import {
+  Box,
   Button,
   FormControl,
+  FormHelperText,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
   TextField,
-  Box,
-  Grid,
-  FormHelperText,
 } from '@mui/material';
+import {useAppDispatch, useAppSelector} from 'app/hooks';
+import {DEPARTMENTS, POSITION} from 'constants/index';
 import {Form, Formik} from 'formik';
 import {useEffect, useState} from 'react';
 import Avatar from 'react-avatar';
 import {ThreeDots} from 'react-loader-spinner';
-import {formatDateMaterial} from 'utils';
-import {CreateAssetSchema} from '../../../utils/validate/create-asset-schema';
-import '../../../assets/style/asset.scss';
-import {CloseOutlined, SaveOutlined, CameraOutlined} from '@ant-design/icons';
+import {employeeActions} from 'store/employee/employeeSlice';
+import {formatDateMaterial, formatDateMaterialToTimeStamp} from 'utils/index';
+import {CreateEmployeeSchema} from 'utils/validate/create-employee-schema';
+import '../../../assets/style/employee.scss';
 import useUploadImg from '../../../hooks/useUploadImg';
-import {useAppDispatch, useAppSelector} from 'app/hooks';
-import {assetActions} from 'store/asset/assetSlice';
-import {DEPARTMENTS, POSITION} from 'constants/index';
-import {formatDateMaterialToTimeStamp} from 'utils/index';
 
 export default function ModalCreateAsset({
-  idAsset,
+  idEmployee,
   typeOpenModal,
   listTeam,
   listBranches,
   handleClose,
 }) {
   const dispatch = useAppDispatch();
-  const dataAsset = useAppSelector((state) => state.asset.dataAsset);
-  const isLoading = useAppSelector((state) => state.asset.loadingEdit);
+  const dataEmployee = useAppSelector((state) => state.employee.dataEmployee);
+  const isLoading = useAppSelector((state) => state.employee.loadingEdit);
   const {getRootProps, getInputProps, imagePreview, avatarBase64} = useUploadImg();
-  const [phoneNumber, setPhoneNumber] = useState(dataAsset?.phoneNumber || '');
+  const [phoneNumber, setPhoneNumber] = useState(dataEmployee?.phoneNumber || '');
   const NUMBER_REGEX = /^[0-9]+$/;
 
   const onCreateAsset = async (values) => {
     try {
       const params = {
-        id: idAsset || null,
-        assetCode: `CH-${Math.floor(Math.random() * 90000) + 10000}`,
+        id: idEmployee || null,
         user: {
           id: null,
         },
@@ -62,12 +60,12 @@ export default function ModalCreateAsset({
         },
         joinedDate: formatDateMaterialToTimeStamp(values?.joinedDate),
         user: {
-          id: dataAsset?.user?.id,
-          firstName: values?.firstName || dataAsset?.user?.firstName,
-          lastName: values?.lastName || dataAsset?.user?.lastName,
-          login: values?.login || dataAsset?.user?.login,
-          email: values?.email || dataAsset?.user?.email,
-          imageUrl: avatarBase64 || dataAsset?.user?.imageUrl,
+          id: dataEmployee?.user?.id,
+          firstName: values?.firstName || dataEmployee?.user?.firstName,
+          lastName: values?.lastName || dataEmployee?.user?.lastName,
+          login: values?.login || dataEmployee?.user?.login,
+          email: values?.email || dataEmployee?.user?.email,
+          imageUrl: avatarBase64 || dataEmployee?.user?.imageUrl,
         },
       };
       const userParams = {
@@ -79,10 +77,10 @@ export default function ModalCreateAsset({
         langKey: 'en',
         authorities: ['ROLE_USER'],
       };
-      if (typeOpenModal == 'edit' && idAsset) dispatch(assetActions.edit(params));
+      if (typeOpenModal == 'edit' && idEmployee) dispatch(employeeActions.edit(params));
       else {
         delete params.user;
-        dispatch(assetActions.create({params, userParams}));
+        dispatch(employeeActions.create({params, userParams}));
       }
     } catch (error) {
       console.error({error});
@@ -92,8 +90,8 @@ export default function ModalCreateAsset({
   };
 
   useEffect(() => {
-    if (typeOpenModal == 'edit' && idAsset) dispatch(assetActions.getById(idAsset));
-  }, [idAsset]);
+    if (typeOpenModal == 'edit' && idEmployee) dispatch(employeeActions.getById(idEmployee));
+  }, [idEmployee]);
 
   return (
     <>
@@ -104,14 +102,23 @@ export default function ModalCreateAsset({
       ) : (
         <Formik
           initialValues={{
-            description: '',
-            status: '',
-            note: '',
-            serialNumber: '',
-            usingBy: null,
-            assetModel: null,
+            firstName: dataEmployee?.user?.firstName || '',
+            lastName: dataEmployee?.user?.lastName || '',
+            avatar: dataEmployee?.user?.imageUrl || '',
+            dateOfBirth: formatDateMaterial(dataEmployee?.dateOfBirth) || '',
+            phoneNumber: phoneNumber,
+            email: dataEmployee?.user?.email || '',
+            gender: dataEmployee?.gender,
+            department: dataEmployee?.department,
+            position: dataEmployee?.position,
+            teamId: dataEmployee?.team?.id,
+            branchId: dataEmployee?.branch?.id,
+            nationality: dataEmployee?.nationality,
+            address: dataEmployee?.address?.city || '',
+            joinedDate: formatDateMaterial(dataEmployee?.joinedDate) || '',
+            login: dataEmployee?.user?.login || '',
           }}
-          validationSchema={CreateAssetSchema(typeOpenModal)}
+          validationSchema={CreateEmployeeSchema(typeOpenModal)}
           onSubmit={onCreateAsset}
         >
           {({errors, touched, values, setFieldValue, handleChange}) => (
@@ -353,7 +360,6 @@ export default function ModalCreateAsset({
                               InputLabelProps={{
                                 shrink: true,
                               }}
-                              // disabled={!checkPermissionByUser('test')}
                               onChange={handleChange}
                               error={touched.joinedDate && Boolean(errors.joinedDate)}
                               helperText={touched.joinedDate && errors.joinedDate}

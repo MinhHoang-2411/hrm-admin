@@ -185,6 +185,7 @@ export default function ModalSettingCategory({handleDelete}) {
                 handleSetData={handleSetData}
                 clearForm={clearForm}
                 onSubmit={handleSubmit}
+                key={index}
               />
             ) : (
               <TableRow

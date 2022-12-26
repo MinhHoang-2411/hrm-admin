@@ -27,21 +27,13 @@ import TableEmployee from './Table/index';
 import {optionsSelect} from 'components/select/index';
 import {modalActions} from 'store/modal/modalSlice';
 import {nameMatching} from 'utils/format/name';
-import {STYLE_MODAL} from 'constants/style';
+import {BtnAction, STYLE_MODAL} from 'constants/style';
 
 const BoxPagination = styled(Box)(({theme}) => ({
   padding: '20px 0px',
   display: 'flex',
   justifyContent: 'left',
 }));
-const BtnAction = styled.div`
-  padding: 10px 15px;
-  cursor: pointer;
-  &:hover {
-    background-color: #1890ff;
-    color: #ffff;
-  }
-`;
 
 const EmployeeDefault = () => {
   const dispatch = useAppDispatch();

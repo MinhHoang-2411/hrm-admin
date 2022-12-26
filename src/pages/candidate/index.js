@@ -12,6 +12,7 @@ import {
 import {useAppDispatch} from 'app/hooks';
 import DropdownBtn from 'components/button/dropdown';
 import MainCard from 'components/MainCard';
+import {BtnAction} from 'constants/style';
 import _ from 'lodash';
 import {useCallback, useState} from 'react';
 import {candidateActions} from 'store/candidate/candidateSlice';
@@ -40,14 +41,6 @@ const BoxPagination = styled(Box)(({theme}) => ({
   display: 'flex',
   justifyContent: 'left',
 }));
-const BtnAction = styled.div`
-  padding: 10px 15px;
-  cursor: pointer;
-  &:hover {
-    background-color: #1890ff;
-    color: #ffff;
-  }
-`;
 
 const CandidateDefault = () => {
   const dispatch = useAppDispatch();
@@ -73,7 +66,11 @@ const CandidateDefault = () => {
   );
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setTypeOpenModal('');
+    dispatch(candidateActions.clearData());
+  };
 
   const handlePagination = (event, value) => {
     setParams((prevState) => {
@@ -209,10 +206,8 @@ const CandidateDefault = () => {
       >
         <Box sx={style}>
           <ModalCreateCandidate
-            setOpenModalCreate={setOpen}
             id={idCandidate}
             typeOpenModal={typeOpenModal}
-            setTypeOpenModal={setTypeOpenModal}
             handleClose={handleClose}
           />
         </Box>

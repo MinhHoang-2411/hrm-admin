@@ -1,3 +1,5 @@
+import styled from '@emotion/styled';
+
 const STYLE_MODAL = {
   position: 'absolute',
   top: '50%',
@@ -11,4 +13,16 @@ const STYLE_MODAL = {
   borderRadius: 2,
 };
 
-export {STYLE_MODAL};
+const BtnAction = styled.div`
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: #1890ff;
+    color: #ffff;
+  }
+`;
+
+export {STYLE_MODAL, BtnAction};

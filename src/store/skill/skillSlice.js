@@ -2,19 +2,17 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
-  loadingWaiting: false,
-  loadingChangeStatus: false,
-  loadingRemove: false,
   reloadList: false,
-  reloadListWaiting: false,
+  loadingCreate: false,
+  loadingEdit: false,
+  loadingRemove: false,
   listData: [],
-  listDataWaiting: [],
+  dataSkill: null,
   pagination: undefined,
-  paginationWaiting: undefined,
 };
 
-const leaveSlice = createSlice({
-  name: 'leave',
+const skillSlice = createSlice({
+  name: 'skill',
   initialState,
   reducers: {
     fetchData(state, action) {
@@ -37,37 +35,46 @@ const leaveSlice = createSlice({
       console.error(action.payload);
     },
 
-    // LEAVE WAITING
-    getListWaiting(state, action) {
-      state.loadingWaiting = true;
-      state.paginationWaiting = {
-        size: action.payload.size,
-        page: action.payload.page,
-      };
+    // Create
+    create(state, action) {
+      state.loadingCreate = true;
     },
-    getListWaitingSuccess(state, action) {
-      state.loadingWaiting = false;
-      state.listDataWaiting = action.payload.data;
-      state.paginationWaiting = {
-        ...state.pagination,
-        totalCount: action?.payload?.headers?.['x-total-count'],
-      };
+    createSuccess(state, action) {
+      state.loadingCreate = false;
+      state.reloadList = !state.reloadList;
     },
-    getListWaitingFalse(state, action) {
-      state.loadingWaiting = false;
+    createFalse(state, action) {
+      state.loadingCreate = false;
       console.error(action.payload);
     },
 
-    // CHANGE STATUS
-    changeStatus(state, action) {
-      state.loadingChangeStatus = true;
+    // Edit
+    edit(state, action) {
+      state.loadingEdit = true;
     },
-    changeStatusSuccess(state, action) {
-      state.loadingChangeStatus = false;
+    editSuccess(state, action) {
+      state.loadingEdit = false;
       state.reloadList = !state.reloadList;
     },
-    changeStatusFalse(state, action) {
-      state.loadingChangeStatus = false;
+    editFalse(state, action) {
+      state.loadingEdit = false;
+      console.error(action.payload);
+    },
+
+    // Get data by Id
+    getById(state, action) {
+      state.loadingEdit = true;
+    },
+    getByIdSuccess(state, action) {
+      state.dataSkill = action.payload;
+      state.loadingEdit = false;
+    },
+    getByIdFalse(state, action) {
+      console.error(action.payload);
+      state.loadingEdit = false;
+    },
+    clearData(state, action) {
+      state.dataSkill = null;
     },
 
     //Remove
@@ -86,8 +93,8 @@ const leaveSlice = createSlice({
 });
 
 // Actions
-export const leaveActions = leaveSlice.actions;
+export const skillActions = skillSlice.actions;
 
 // Reducer
-const leaveReducer = leaveSlice.reducer;
-export default leaveReducer;
+const skillReducer = skillSlice.reducer;
+export default skillReducer;

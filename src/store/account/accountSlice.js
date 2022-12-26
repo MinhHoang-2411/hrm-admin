@@ -7,14 +7,15 @@ const initialState = {
   loadingEdit: false,
   loadingRemove: false,
   listData: [],
-  dataCandidate: null,
+  dataAccount: null,
   pagination: undefined,
 };
 
-const candidateSlice = createSlice({
-  name: 'candidate',
+const accountSlice = createSlice({
+  name: 'account',
   initialState,
   reducers: {
+    //fetch all accounts
     fetchData(state, action) {
       state.loading = true;
       state.pagination = {
@@ -23,19 +24,19 @@ const candidateSlice = createSlice({
       };
     },
     fetchDataSuccess(state, action) {
-      state.loading = false;
       state.listData = action.payload.data;
       state.pagination = {
         ...state.pagination,
         totalCount: action?.payload?.headers?.['x-total-count'],
       };
+      state.loading = false;
     },
     fetchDataFalse(state, action) {
-      state.loading = false;
       console.error(action.payload);
+      state.loading = false;
     },
 
-    // Create
+    // Create account
     create(state, action) {
       state.loadingCreate = true;
     },
@@ -48,25 +49,12 @@ const candidateSlice = createSlice({
       console.error(action.payload);
     },
 
-    // Edit
-    edit(state, action) {
-      state.loadingEdit = true;
-    },
-    editSuccess(state, action) {
-      state.loadingEdit = false;
-      state.reloadList = !state.reloadList;
-    },
-    editFalse(state, action) {
-      state.loadingEdit = false;
-      console.error(action.payload);
-    },
-
-    // Get data by Id
+    // Get an account by Id
     getById(state, action) {
       state.loadingEdit = true;
     },
     getByIdSuccess(state, action) {
-      state.dataCandidate = action.payload;
+      state.dataAccount = action.payload;
       state.loadingEdit = false;
     },
     getByIdFalse(state, action) {
@@ -74,10 +62,22 @@ const candidateSlice = createSlice({
       state.loadingEdit = false;
     },
     clearData(state, action) {
-      state.dataCandidate = null;
+      state.dataAccount = null;
     },
 
-    //Remove
+    // Edit an Account
+    changePassword(state, action) {
+      state.loadingEdit = true;
+    },
+    changePasswordSuccess(state, action) {
+      state.loadingEdit = false;
+    },
+    changePasswordFalse(state, action) {
+      state.loadingEdit = false;
+      console.error(action.payload);
+    },
+
+    //Remove an Account
     remove(state, action) {
       state.loadingRemove = true;
     },
@@ -93,8 +93,8 @@ const candidateSlice = createSlice({
 });
 
 // Actions
-export const candidateActions = candidateSlice.actions;
+export const accountActions = accountSlice.actions;
 
 // Reducer
-const candidateReducer = candidateSlice.reducer;
-export default candidateReducer;
+const accountReducer = accountSlice.reducer;
+export default accountReducer;

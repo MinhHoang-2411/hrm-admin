@@ -7,8 +7,10 @@ import {candidateSaga} from 'store/candidate/candidateSaga';
 import {employeeSaga} from 'store/employee/employeeSaga';
 import {leaveSaga} from 'store/leave/leaveSaga';
 import {menuSaga} from 'store/menu/menuSaga';
+import {skillSaga} from 'store/skill/skillSaga';
 import {teamSaga} from 'store/team/teamSaga';
 import {userSaga} from 'store/user/userSaga';
+import {accountSaga} from 'store/account/accountSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -21,6 +23,8 @@ export default function* rootSaga() {
     candidateSaga(),
     alertSaga(),
     userSaga(),
+    accountSaga(),
     leaveSaga(),
+    skillSaga(),
   ]);
 }
