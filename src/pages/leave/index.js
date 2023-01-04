@@ -22,6 +22,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks';
 import Empty from 'components/Empty';
 import {InputSearch} from 'components/filter/input-search';
 import MainCard from 'components/MainCard';
+import SkeletonLoading from 'components/SkeletonLoading';
 import {STATUS_LEAVE, TYPE_LEAVE} from 'constants/index';
 import useGetAllList from 'hooks/useGetAllList';
 import _ from 'lodash';
@@ -82,8 +83,12 @@ export default function LeavePage() {
   const [searchListPending, setSearchListPending] = useState('');
   const {listData: listLeave} = useGetAllList(paramsAll, leaveActions, 'leave');
   const listOtherLeave = listLeave?.filter((item) => item?.status !== 'CONFIRMED');
-  const listLeavePending = useAppSelector((state) => state.leave.listDataPending);
-  const reloadList = useAppSelector((state) => state.leave.reloadList);
+  const {
+    listDataPending: listLeavePending,
+    reloadList,
+    loadingPending,
+    loading,
+  } = useAppSelector((state) => state.leave);
   const isLeavePending = (status) => status == 'CONFIRMED';
   const [open, setOpen] = useState(false);
   const [leaveId, setLeaveId] = useState(null);
@@ -343,8 +348,19 @@ export default function LeavePage() {
                     <DateRangePickerValue params={paramsPending} handleFilter={handleFilter} />
                   </Box>
                 </Box>
-                <Box sx={{overflowX: 'auto', height: '90vh', padding: '10px'}}>
-                  {listLeavePending?.length ? renderList(listLeavePending) : <Empty />}
+                <Box>
+                  {loadingPending ? (
+                    [...Array(2).keys()].map((value) => (
+                      <SkeletonLoading
+                        key={value}
+                        sx={{marginBottom: '15px', minHeight: '270px'}}
+                      />
+                    ))
+                  ) : listLeavePending?.length ? (
+                    renderList(listLeavePending)
+                  ) : (
+                    <Empty />
+                  )}
                 </Box>
               </Box>
             </Grid>
@@ -417,8 +433,19 @@ export default function LeavePage() {
                     </LocalizationProvider>
                   </Box>
                 </Box>
-                <Box sx={{overflowX: 'auto', height: '90vh', padding: '10px'}}>
-                  {listOtherLeave?.length ? renderList(listOtherLeave) : <Empty />}
+                <Box sx={{overflowX: 'auto', height: '90vh'}}>
+                  {loading ? (
+                    [...Array(2).keys()].map((value) => (
+                      <SkeletonLoading
+                        key={value}
+                        sx={{marginBottom: '15px', minHeight: '270px'}}
+                      />
+                    ))
+                  ) : listOtherLeave?.length ? (
+                    renderList(listOtherLeave)
+                  ) : (
+                    <Empty />
+                  )}
                 </Box>
               </Box>
             </Grid>

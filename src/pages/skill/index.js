@@ -1,7 +1,7 @@
 import {PlusCircleTwoTone} from '@ant-design/icons';
 import styled from '@emotion/styled';
 import {Box, Grid, Modal} from '@mui/material';
-import {useAppDispatch} from 'app/hooks';
+import {useAppDispatch, useAppSelector} from 'app/hooks';
 import {InputSearch} from 'components/filter/input-search';
 import MainCard from 'components/MainCard';
 import {STYLE_MODAL} from 'constants/style';
@@ -14,6 +14,7 @@ import {totalPagePagination} from 'utils/pagination';
 import {Pagination} from '../../../node_modules/@mui/lab/index';
 import CardSkill from './Card/index';
 import ModalCreateSkill from './Modal/create-skill';
+import SkeletonLoading from './../../components/SkeletonLoading';
 
 const styleCard = {
   display: 'flex',
@@ -44,6 +45,7 @@ const BoxPagination = styled(Box)(({theme}) => ({
 }));
 
 export default function SkillPage() {
+  const loading = useAppSelector((state) => state.skill.loading);
   const dispatch = useAppDispatch();
   const [search, setSearch] = useState('');
   const [params, setParams] = useState({
@@ -163,7 +165,15 @@ export default function SkillPage() {
                   <PlusCircleTwoTone style={{fontSize: '60px', color: '#1890ff'}} />
                 </Box>
               </Grid>
-              {listSkill?.length > 0 ? renderList() : ''}
+              {loading
+                ? [...Array(7).keys()].map((data) => (
+                    <Grid item xs={2} sm={4} md={4} key={data}>
+                      <SkeletonLoading sx={styleCard} />
+                    </Grid>
+                  ))
+                : listSkill?.length > 0
+                ? renderList()
+                : null}
             </Grid>
           </Box>
           {pagination && listSkill?.length > 0 && (
