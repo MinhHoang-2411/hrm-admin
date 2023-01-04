@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import {forwardRef, memo, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {DownOutlined, UpOutlined} from '@ant-design/icons';
 
 // material-ui
@@ -25,6 +25,7 @@ const NavItem = ({item, level}) => {
   const dispatch = useAppDispatch();
   const menu = useAppSelector((state) => state.menu);
   const {drawerOpen, openItem, subMenu, countMenu} = menu;
+  const {pathname} = useLocation();
 
   let itemTarget = '_self';
   if (item.target) {
@@ -52,7 +53,7 @@ const NavItem = ({item, level}) => {
   const Icon = item.icon;
   const itemIcon = item.icon ? <Icon style={{fontSize: drawerOpen ? '1rem' : '1.25rem'}} /> : false;
 
-  const isSelected = openItem.findIndex((id) => id === item.id) > -1;
+  const isSelected = item?.url == pathname;
 
   // active menu item on page load
   useEffect(() => {
@@ -64,7 +65,7 @@ const NavItem = ({item, level}) => {
       dispatch(menuActions.activeItem({openItem: [item.id]}));
     }
     // eslint-disable-next-line
-  }, [document.location.pathname]);
+  }, [pathname]);
 
   const textColor = 'text.primary';
   const iconSelectedColor = 'primary.main';

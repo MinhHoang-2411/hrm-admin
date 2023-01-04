@@ -1,5 +1,6 @@
 import React from 'react';
+import Maintainance from './../../components/Maintainance';
 
 export default function CharityPage() {
-  return <div>CharityPage</div>;
+  return <Maintainance />;
 }

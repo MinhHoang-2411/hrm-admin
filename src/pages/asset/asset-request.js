@@ -14,6 +14,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks';
 import Empty from 'components/Empty';
 import {InputSearch} from 'components/filter/input-search';
 import MainCard from 'components/MainCard';
+import SkeletonLoading from 'components/SkeletonLoading';
 import {STATUS_ASSET_REQUEST} from 'constants/index';
 import useGetAllList from 'hooks/useGetAllList';
 import _ from 'lodash';
@@ -62,9 +63,14 @@ export default function RequestPage() {
   });
   const [search, setSearch] = useState('');
   const [searchListWaiting, setSearchListWaiting] = useState('');
-  const {listData: listRequest} = useGetAllList(paramsAll, assetRequestActions, 'assetRequest');
+  const {listData: listRequest, loading} = useGetAllList(
+    paramsAll,
+    assetRequestActions,
+    'assetRequest'
+  );
   const listOtherRequest = listRequest?.filter((item) => item?.status !== 'PENDING');
   const listRequestPending = useAppSelector((state) => state.assetRequest.listDataWaiting);
+  const loadingWaiting = useAppSelector((state) => state.assetRequest.loadingWaiting);
   const reloadList = useAppSelector((state) => state.assetRequest.reloadList);
   const isRequestWaiting = (status) => status == 'PENDING';
 
@@ -253,7 +259,20 @@ export default function RequestPage() {
                     />
                   </Box>
                 </Box>
-                <Box>{listRequestPending?.length ? renderList(listRequestPending) : <Empty />}</Box>
+                <Box>
+                  {loadingWaiting ? (
+                    [...Array(2).keys()].map((value) => (
+                      <SkeletonLoading
+                        key={value}
+                        sx={{marginBottom: '15px', minHeight: '290px'}}
+                      />
+                    ))
+                  ) : listRequestPending?.length ? (
+                    renderList(listRequestPending)
+                  ) : (
+                    <Empty />
+                  )}
+                </Box>
               </Box>
             </Grid>
             <Grid xs={7}>
@@ -295,7 +314,18 @@ export default function RequestPage() {
                   </Box>
                 </Box>
                 <Box sx={{overflowX: 'auto', height: '90vh', padding: '10px'}}>
-                  {listOtherRequest?.length ? renderList(listOtherRequest) : <Empty />}
+                  {loading ? (
+                    [...Array(2).keys()].map((value) => (
+                      <SkeletonLoading
+                        key={value}
+                        sx={{marginBottom: '15px', minHeight: '290px'}}
+                      />
+                    ))
+                  ) : listOtherRequest?.length ? (
+                    renderList(listOtherRequest)
+                  ) : (
+                    <Empty />
+                  )}
                 </Box>
               </Box>
             </Grid>
