@@ -1,4 +1,4 @@
-import {CloseCircleOutlined, CheckOutlined, CheckCircleTwoTone} from '@ant-design/icons';
+import {CloseCircleOutlined, CheckOutlined} from '@ant-design/icons';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,14 +9,17 @@ import {useAppDispatch} from 'app/hooks';
 import {modalActions} from 'store/modal/modalSlice';
 
 const titleModal = {
-  fontSize: '20px',
+  fontSize: '22px',
   fontWeight: 'bold',
   padding: '10px 24px !important',
   borderBottom: '1px solid #ccc',
 };
 const contentModal = {
-  fontSize: '18px',
-  paddingTop: '24px !important',
+  paddingTop: '30px !important',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minWidth: '400px',
 };
 const footerModal = {
   padding: '20px 24px !important',
@@ -42,13 +45,9 @@ export default function ConfirmModal(prop) {
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
-      <DialogTitle sx={titleModal}>
-        <CheckCircleTwoTone />
-        &nbsp;
-        {title}
-      </DialogTitle>
+      <DialogTitle sx={titleModal}>{title}</DialogTitle>
       <DialogContent sx={contentModal}>
-        <DialogContentText sx={{color: '#000'}}>{content}</DialogContentText>
+        <DialogContentText sx={{color: '#000', fontSize: '16px'}}>{content}</DialogContentText>
       </DialogContent>
       <DialogActions sx={footerModal}>
         <Button

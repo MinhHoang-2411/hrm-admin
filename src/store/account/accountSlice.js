@@ -5,7 +5,7 @@ const initialState = {
   reloadList: false,
   loadingCreate: false,
   loadingEdit: false,
-  loadingRemove: false,
+  loadingActivateOrDeactivate: false,
   listData: [],
   dataAccount: null,
   pagination: undefined,
@@ -77,16 +77,16 @@ const accountSlice = createSlice({
       console.error(action.payload);
     },
 
-    //Remove an Account
-    remove(state, action) {
-      state.loadingRemove = true;
+    //Activate or Deactivate an Account
+    activateOrDeactivate(state, action) {
+      state.loadingActivateOrDeactivate = true;
     },
-    removeSuccess(state, action) {
-      state.loadingRemove = false;
+    activateOrDeactivateSuccess(state, action) {
+      state.loadingActivateOrDeactivate = false;
       state.reloadList = !state.reloadList;
     },
-    removeFalse(state, action) {
-      state.loadingRemove = false;
+    activateOrDeactivateFalse(state, action) {
+      state.loadingActivateOrDeactivate = false;
       console.error(action.payload);
     },
   },

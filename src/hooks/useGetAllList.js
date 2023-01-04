@@ -3,9 +3,7 @@ import {useCallback, useEffect} from 'react';
 
 export default function useGetAllList(params, action, nameState) {
   const dispatch = useAppDispatch();
-  const listData = useAppSelector((state) => state[nameState].listData);
-  const pagination = useAppSelector((state) => state[nameState].pagination);
-  const reloadList = useAppSelector((state) => state[nameState].reloadList);
+  const {listData, pagination, reloadList, loading} = useAppSelector((state) => state[nameState]);
 
   const fetchData = useCallback(
     (params) => {
@@ -26,5 +24,5 @@ export default function useGetAllList(params, action, nameState) {
     fetchData(params);
   }, [params, reloadList]);
 
-  return {listData, pagination};
+  return {listData, pagination, loading};
 }

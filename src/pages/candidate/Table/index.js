@@ -2,7 +2,7 @@ import Avatar from '@mui/material/Avatar';
 import {useCallback, useState} from 'react';
 
 // material-ui
-import {DeleteFilled, EditFilled} from '@ant-design/icons';
+import {DeleteFilled, EditFilled, FilePdfOutlined} from '@ant-design/icons';
 import {
   Box,
   Checkbox,
@@ -15,6 +15,8 @@ import {
 } from '@mui/material';
 import {OrderTableHead} from 'components/table/table-head';
 import {nameMatching} from 'utils/format/name';
+import Empty from 'components/Empty';
+import TableLoading from 'components/table/table-loading';
 
 const headCells = [
   {
@@ -80,6 +82,7 @@ export default function TableCandidate({
   setTypeOpenModal,
   setIdCandidate,
   handleOpen,
+  isLoading,
 }) {
   const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
   const [order] = useState('asc');
@@ -141,7 +144,11 @@ export default function TableCandidate({
           {/* <TableCell align='left'>{row?.phoneNumber}</TableCell> */}
           <TableCell align='left'>{row?.email}</TableCell>
           <TableCell align='left'>{row?.note}</TableCell>
-          <TableCell align='left'>{row?.resumeUrl}</TableCell>
+          <TableCell align='left'>
+            <IconButton aria-label='edit' onClick={() => window.open(row?.resumeUrl)}>
+              <FilePdfOutlined style={{color: '#1890ff'}} />
+            </IconButton>
+          </TableCell>
           <TableCell align='left'>{row?.status}</TableCell>
           <TableCell>
             <Box>
@@ -179,17 +186,21 @@ export default function TableCandidate({
             checked={isCheckAll}
           />
 
-          <TableBody>
-            {data?.length ? (
-              renderList()
-            ) : (
-              <TableRow>
-                <TableCell colSpan={12} scope='full' align='center'>
-                  <h3>There is currently no data available</h3>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          {isLoading ? (
+            <TableLoading col={12} />
+          ) : (
+            <TableBody>
+              {data?.length ? (
+                renderList()
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={12} scope='full' align='center'>
+                    <Empty />
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </Box>

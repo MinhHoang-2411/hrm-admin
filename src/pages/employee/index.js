@@ -12,7 +12,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import {useAppDispatch} from 'app/hooks';
+import {useAppDispatch, useAppSelector} from 'app/hooks';
 import DropdownBtn from 'components/button/dropdown';
 import MainCard from 'components/MainCard';
 import useGetAllList from '../../hooks/useGetAllList';
@@ -50,9 +50,14 @@ const EmployeeDefault = () => {
 
   const [idEmployee, setIdEmployee] = useState(null);
   const [typeOpenModal, setTypeOpenModal] = useState('');
+  const openEmployeeModal = useAppSelector((state) => state.employee.openModal);
 
   // GET ALL DATA
-  const {listData: listEmployee, pagination} = useGetAllList(params, employeeActions, 'employee');
+  const {
+    listData: listEmployee,
+    pagination,
+    loading,
+  } = useGetAllList(params, employeeActions, 'employee');
   const {listData: listTeam} = useGetAllList(null, teamActions, 'team');
   const {listData: listBranches} = useGetAllList(null, branchesActions, 'branches');
 
@@ -214,6 +219,7 @@ const EmployeeDefault = () => {
           handleOpen={handleOpen}
           setTypeOpenModal={setTypeOpenModal}
           handleRemove={handleRemove}
+          isLoading={loading}
         />
         {/* End Table */}
         {pagination && listEmployee?.length > 0 && (
@@ -227,7 +233,7 @@ const EmployeeDefault = () => {
         )}
       </MainCard>
       <Modal
-        open={open}
+        open={open || openEmployeeModal}
         onClose={handleClose}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'

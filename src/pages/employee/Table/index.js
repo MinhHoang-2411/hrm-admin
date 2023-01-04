@@ -1,8 +1,7 @@
 import Avatar from '@mui/material/Avatar';
 import {useCallback, useState} from 'react';
 
-// material-ui
-import {DeleteFilled, EditFilled} from '@ant-design/icons';
+import {DeleteFilled, EditFilled, FilePdfOutlined} from '@ant-design/icons';
 import {
   Box,
   Checkbox,
@@ -16,6 +15,8 @@ import {
 import {OrderTableHead} from 'components/table/table-head';
 import {nameMatching} from 'utils/format/name';
 import {formatTimeStampToDate} from 'utils/index';
+import Empty from 'components/Empty';
+import TableLoading from 'components/table/table-loading';
 
 const headCells = [
   {
@@ -30,12 +31,6 @@ const headCells = [
     align: 'left',
     disablePadding: false,
     label: 'Avatar',
-  },
-  {
-    id: 'employeeCode',
-    align: 'left',
-    disablePadding: false,
-    label: 'Employee Code',
   },
   {
     id: 'fullName',
@@ -86,10 +81,28 @@ const headCells = [
     label: 'Department',
   },
   {
+    id: 'position',
+    align: 'left',
+    disablePadding: false,
+    label: 'Position',
+  },
+  {
     id: 'employeeBranch',
     align: 'left',
     disablePadding: false,
     label: 'Branch',
+  },
+  {
+    id: 'employeeTeam',
+    align: 'left',
+    disablePadding: false,
+    label: 'Team',
+  },
+  {
+    id: 'resumeUrl',
+    align: 'left',
+    disablePadding: false,
+    label: 'CV',
   },
   {
     id: 'action',
@@ -105,6 +118,7 @@ export default function TableEmployee({
   setTypeOpenModal,
   handleOpen,
   handleRemove,
+  isLoading,
 }) {
   const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
   const [order] = useState('asc');
@@ -162,7 +176,6 @@ export default function TableEmployee({
           <TableCell align='left'>
             <Avatar alt={row?.fullName} src={row?.avatar} sx={{width: 40, height: 40}} />
           </TableCell>
-          <TableCell align='left'>{row?.employeeCode}</TableCell>
           <TableCell align='left'>
             {nameMatching(row?.user?.firstName, row?.user?.lastName)}
           </TableCell>
@@ -173,7 +186,14 @@ export default function TableEmployee({
           <TableCell align='left'>{row?.address?.city}</TableCell>
           <TableCell align='left'>{formatTimeStampToDate(row?.joinedDate)}</TableCell>
           <TableCell align='left'>{row?.department}</TableCell>
+          <TableCell align='left'>{row?.position}</TableCell>
           <TableCell align='left'>{row?.branch?.name}</TableCell>
+          <TableCell align='left'>{row?.team?.name}</TableCell>
+          <TableCell align='left'>
+            <IconButton aria-label='edit' onClick={() => window.open(row?.resumeUrl)}>
+              <FilePdfOutlined style={{color: '#1890ff'}} />
+            </IconButton>
+          </TableCell>
           <TableCell>
             <Box>
               <IconButton aria-label='edit' onClick={() => handleEdit(row?.id)}>
@@ -210,17 +230,21 @@ export default function TableEmployee({
             checked={isCheckAll}
           />
 
-          <TableBody>
-            {data?.length ? (
-              renderList()
-            ) : (
-              <TableRow>
-                <TableCell colSpan={12} scope='full' align='center'>
-                  <h3>There is currently no data available</h3>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          {isLoading ? (
+            <TableLoading col={15} />
+          ) : (
+            <TableBody>
+              {data?.length ? (
+                renderList()
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={15} scope='full' align='center'>
+                    <Empty />
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </Box>

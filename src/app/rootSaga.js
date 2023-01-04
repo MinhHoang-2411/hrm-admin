@@ -1,6 +1,7 @@
 import {all} from 'redux-saga/effects';
 import {alertSaga} from 'store/alert/alertSaga';
 import {assetSaga} from 'store/asset/assetSaga';
+import {assetRequestSaga} from 'store/asset-request/assetRequestSaga';
 import {authSaga} from 'store/auth/authSaga';
 import {branchesSaga} from 'store/branches/branchesSaga';
 import {candidateSaga} from 'store/candidate/candidateSaga';
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     teamSaga(),
     branchesSaga(),
     assetSaga(),
+    assetRequestSaga(),
     candidateSaga(),
     alertSaga(),
     userSaga(),

@@ -1,6 +1,7 @@
 import leaveApi from 'api/leave/index';
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects';
 import {alertActions} from 'store/alert/alertSlice';
+import {menuActions} from 'store/menu/menuSlice';
 import {leaveActions} from './leaveSlice';
 
 function* handleFetchData(action) {
@@ -14,15 +15,15 @@ function* handleFetchData(action) {
   }
 }
 
-function* handleGetListWaiting(action) {
+function* handleGetListPending(action) {
   try {
     const params = action.payload;
-    params['status.equals'] = 'WAITING';
+    params['status.equals'] = 'CONFIRMED';
     const response = yield call(leaveApi.getAll, params);
 
-    yield put(leaveActions.getListWaitingSuccess(response));
+    yield put(leaveActions.getListPendingSuccess(response));
   } catch (error) {
-    yield put(leaveActions.getListWaitingFalse('An error occurred, please try again'));
+    yield put(leaveActions.getListPendingFalse('An error occurred, please try again'));
   }
 }
 
@@ -32,6 +33,7 @@ function* handleChangeStatus(action) {
     const reps = yield call(leaveApi.changeStatus, params);
 
     yield put(leaveActions.changeStatusSuccess(reps?.data));
+    yield put(menuActions.minusCountMenu('leave'));
     yield put(
       alertActions.showAlert({
         text: `Leave has been ${params?.status}`,
@@ -72,12 +74,33 @@ function* handleRemove(action) {
   }
 }
 
+function* handleGetById(action) {
+  try {
+    const id = action.payload;
+    const params = {};
+    params['id.equals'] = id;
+    const reps = yield call(leaveApi.getById, id);
+    const detail = yield call(leaveApi.getDetail, params);
+
+    yield put(leaveActions.getByIdSuccess({...reps?.data, detail: detail?.data || []}));
+  } catch (error) {
+    yield put(leaveActions.getByIdFalse('An error occurred, please try again'));
+    yield put(
+      alertActions.showAlert({
+        text: 'An error occurred, please try again',
+        type: 'error',
+      })
+    );
+  }
+}
+
 function* leaveFlow() {
   yield all([
     takeLatest(leaveActions.fetchData.type, handleFetchData),
-    takeLatest(leaveActions.getListWaiting.type, handleGetListWaiting),
+    takeLatest(leaveActions.getListPending.type, handleGetListPending),
     takeLatest(leaveActions.changeStatus.type, handleChangeStatus),
     takeLatest(leaveActions.remove.type, handleRemove),
+    takeLatest(leaveActions.getById.type, handleGetById),
   ]);
 }
 

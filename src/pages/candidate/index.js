@@ -59,11 +59,11 @@ const CandidateDefault = () => {
   const [typeOpenModal, setTypeOpenModal] = useState('');
 
   // GET ALL DATA
-  const {listData: listCandidate, pagination} = useGetAllList(
-    params,
-    candidateActions,
-    'candidate'
-  );
+  const {
+    listData: listCandidate,
+    pagination,
+    loading,
+  } = useGetAllList(params, candidateActions, 'candidate');
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -186,6 +186,7 @@ const CandidateDefault = () => {
           handleOpen={handleOpen}
           setIdCandidate={setIdCandidate}
           setTypeOpenModal={setTypeOpenModal}
+          isLoading={loading}
         />
         {/* End Table */}
         {pagination && listCandidate?.length > 0 && (

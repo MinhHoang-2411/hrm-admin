@@ -1,39 +1,39 @@
-import {call, delay, fork, put, take} from 'redux-saga/effects';
+import {call, delay, fork, put, takeLatest, all} from 'redux-saga/effects';
 import {authActions} from './authSlice';
 import {login} from '../../api/login';
+import {alertActions} from 'store/alert/alertSlice';
 
-function* handleLogin(payload) {
+function* handleLogin(action) {
   try {
-    const response = yield call(login, payload);
+    const response = yield call(login, action.payload);
     localStorage.setItem('access_token', JSON.stringify(response?.data?.id_token));
 
-    yield put(authActions.loginSuccess({...payload}));
+    yield put(authActions.loginSuccess({...action.payload}));
 
-    payload.onNavigate?.();
+    action.payload.onNavigate?.();
   } catch (error) {
     yield put(authActions.loginFailed(error));
+    yield put(
+      alertActions.showAlert({
+        text: 'Username or Password is not correct, please try again!',
+        type: 'error',
+      })
+    );
   }
 }
 
-function* handleLogout(payload) {
+function* handleLogout(action) {
   yield delay(500);
   localStorage.removeItem('access_token');
 
-  payload.onNavigate?.();
+  action.payload.onNavigate?.();
 }
 
 function* watchLoginFlow() {
-  while (true) {
-    const isLoggedIn = Boolean(localStorage.getItem('access_token'));
-
-    if (!isLoggedIn) {
-      const action = yield take(authActions.login.type);
-      yield fork(handleLogin, action.payload);
-    }
-
-    const action = yield take(authActions.logout.type);
-    yield call(handleLogout, action.payload);
-  }
+  yield all([
+    takeLatest(authActions.login.type, handleLogin),
+    takeLatest(authActions.logout.type, handleLogout),
+  ]);
 }
 
 export function* authSaga() {

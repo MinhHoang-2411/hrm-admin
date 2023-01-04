@@ -1,8 +1,7 @@
-import Avatar from '@mui/material/Avatar';
 import {useCallback, useState} from 'react';
 
 // material-ui
-import {DeleteFilled, EditFilled} from '@ant-design/icons';
+import {StopOutlined, SyncOutlined} from '@ant-design/icons';
 import {
   Box,
   Checkbox,
@@ -12,9 +11,12 @@ import {
   TableCell,
   TableContainer,
   TableRow,
+  Tooltip,
 } from '@mui/material';
 import {OrderTableHead} from 'components/table/table-head';
 import {nameMatching} from 'utils/format/name';
+import Empty from 'components/Empty';
+import TableLoading from 'components/table/table-loading';
 
 const headCells = [
   {
@@ -24,12 +26,7 @@ const headCells = [
     label: '',
     width: '40px',
   },
-  {
-    id: 'avatar',
-    align: 'left',
-    disablePadding: false,
-    label: 'Avatar',
-  },
+
   {
     id: 'username',
     align: 'left',
@@ -56,7 +53,7 @@ const headCells = [
   },
   {
     id: 'action',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Actions',
   },
@@ -67,7 +64,8 @@ export default function TableAccount({
   setIdAccount,
   setTypeOpenModal,
   handleOpen,
-  handleRemove,
+  handleActivateOrDeactivateAccount,
+  isLoading,
 }) {
   //STATES
   const [order, setOrder] = useState('asc');
@@ -97,6 +95,7 @@ export default function TableAccount({
     setTypeOpenModal('edit');
     handleOpen();
   };
+  const handleResetPwd = (data) => {};
 
   const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
 
@@ -107,12 +106,11 @@ export default function TableAccount({
         <TableRow
           hover
           role='checkbox'
-          sx={{'&:last-child td, &:last-child th': {border: 0}, cursor: 'pointer'}}
+          sx={{'&:last-child td, &:last-child th': {border: 0}}}
           aria-checked={isSelected(row?.trackingNo)}
           tabIndex={-1}
           key={row.id}
           selected={isSelected(row?.trackingNo)}
-          onClick={() => handleEdit(row.id)}
         >
           <TableCell
             component='th'
@@ -127,24 +125,42 @@ export default function TableAccount({
               onClick={(e) => e.stopPropagation()}
             />
           </TableCell>
-          <TableCell align='left'>
-            <Avatar alt={row?.firstName} src={row?.imageUrl} sx={{width: 40, height: 40}} />
-          </TableCell>
           <TableCell align='left'>{row?.login}</TableCell>
-          <TableCell align='left'>{nameMatching(row?.firstName, row?.lastName)}</TableCell>
+          <TableCell
+            align='left'
+            sx={{cursor: 'pointer', color: 'primary.main', fontWeight: '600'}}
+            onClick={() => handleEdit(row.id)}
+          >
+            {nameMatching(row?.firstName, row?.lastName)}
+          </TableCell>
           <TableCell align='left'>{row?.email}</TableCell>
           <TableCell align='left'>{row?.activated ? 'ACTIVATED' : null}</TableCell>
-          <TableCell>
+          <TableCell align='center'>
             <Box>
-              <IconButton
-                aria-label='delete'
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemove(row);
-                }}
+              <Tooltip
+                sx={{marginRight: '10px'}}
+                title={row?.activated ? 'Deactivate account' : 'Active account'}
               >
-                <DeleteFilled />
-              </IconButton>
+                <IconButton
+                  aria-label='delete'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleActivateOrDeactivateAccount(row);
+                  }}
+                >
+                  {row?.activated ? <StopOutlined /> : <CheckCircleOutlined />}
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Reset password'>
+                <IconButton
+                  aria-label='reset pwd'
+                  onClick={() => {
+                    handleResetPwd(row);
+                  }}
+                >
+                  <SyncOutlined />
+                </IconButton>
+              </Tooltip>
             </Box>
           </TableCell>
         </TableRow>
@@ -173,17 +189,21 @@ export default function TableAccount({
             checked={isCheckAll}
           />
 
-          <TableBody>
-            {data?.length ? (
-              renderList()
-            ) : (
-              <TableRow>
-                <TableCell colSpan={12} scope='full' align='center'>
-                  <h3>There is currently no data available</h3>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          {isLoading ? (
+            <TableLoading col={6} />
+          ) : (
+            <TableBody>
+              {data?.length ? (
+                renderList()
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} scope='full' align='center'>
+                    <Empty />
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </Box>

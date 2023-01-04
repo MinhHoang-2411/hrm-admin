@@ -118,28 +118,28 @@ export default function ModalCreateSkill({id, typeOpenModal, handleClose}) {
                     </div>
                   </Grid>
                 </Grid>
-                <div className='group-footer'>
-                  <Button
-                    variant='outlined'
-                    color='error'
-                    className='button-submit-member'
-                    startIcon={<CloseOutlined />}
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant='outlined'
-                    color='primary'
-                    size='large'
-                    type='submit'
-                    className='button-submit-member'
-                    startIcon={<SaveOutlined />}
-                  >
-                    Save
-                  </Button>
-                </div>
               </Box>
+              <div className='group-footer'>
+                <Button
+                  variant='outlined'
+                  color='error'
+                  className='button-submit-member'
+                  startIcon={<CloseOutlined />}
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='primary'
+                  size='large'
+                  type='submit'
+                  className='button-submit-member'
+                  startIcon={<SaveOutlined />}
+                >
+                  Save
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>

@@ -2,21 +2,19 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
-  loadingPending: false,
+  loadingWaiting: false,
   loadingChangeStatus: false,
   loadingRemove: false,
-  loadingDetail: false,
   reloadList: false,
-  reloadListPending: false,
+  reloadListWaiting: false,
   listData: [],
-  listDataPending: [],
+  listDataWaiting: [],
   pagination: undefined,
-  paginationPending: undefined,
-  dataLeave: null,
+  paginationWaiting: undefined,
 };
 
-const leaveSlice = createSlice({
-  name: 'leave',
+const assetRequestSlice = createSlice({
+  name: 'assetRequest',
   initialState,
   reducers: {
     fetchData(state, action) {
@@ -39,24 +37,24 @@ const leaveSlice = createSlice({
       console.error(action.payload);
     },
 
-    // LEAVE PENDING
-    getListPending(state, action) {
-      state.loadingPending = true;
-      state.paginationPending = {
+    // REQUEST WAITING
+    getListWaiting(state, action) {
+      state.loadingWaiting = true;
+      state.paginationWaiting = {
         size: action.payload.size,
         page: action.payload.page,
       };
     },
-    getListPendingSuccess(state, action) {
-      state.loadingPending = false;
-      state.listDataPending = action.payload.data;
-      state.paginationPending = {
+    getListWaitingSuccess(state, action) {
+      state.loadingWaiting = false;
+      state.listDataWaiting = action.payload.data;
+      state.paginationWaiting = {
         ...state.pagination,
         totalCount: action?.payload?.headers?.['x-total-count'],
       };
     },
-    getListPendingFalse(state, action) {
-      state.loadingPending = false;
+    getListWaitingFalse(state, action) {
+      state.loadingWaiting = false;
       console.error(action.payload);
     },
 
@@ -84,28 +82,12 @@ const leaveSlice = createSlice({
       state.loadingRemove = false;
       console.error(action.payload);
     },
-
-    //Get Data By Id
-    getById(state, action) {
-      state.loadingDetail = true;
-    },
-    getByIdSuccess(state, action) {
-      state.dataLeave = action.payload;
-      state.loadingDetail = false;
-    },
-    getByIdFalse(state, action) {
-      console.error(action.payload);
-      state.loadingDetail = false;
-    },
-    clearData(state, action) {
-      state.dataLeave = null;
-    },
   },
 });
 
 // Actions
-export const leaveActions = leaveSlice.actions;
+export const assetRequestActions = assetRequestSlice.actions;
 
 // Reducer
-const leaveReducer = leaveSlice.reducer;
-export default leaveReducer;
+const assetRequestReducer = assetRequestSlice.reducer;
+export default assetRequestReducer;

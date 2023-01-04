@@ -11,7 +11,9 @@ import {
   CardMedia,
   CardContent,
   Typography,
+  Pagination,
 } from '@mui/material';
+import styled from '@emotion/styled';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
 import MainCard from 'components/MainCard';
 import useGetAllList from '../../hooks/useGetAllList';
@@ -29,6 +31,7 @@ import ModalSettingModel from './Modal/model-setting-model';
 import IconLaptop from '../../assets/images/icons/laptop.png';
 import ModalCreateAsset from './Modal/model-asset';
 import {modalActions} from 'store/modal/modalSlice';
+import {totalPagePagination} from 'utils/pagination';
 
 const styleChipCategory = {
   padding: '7px',
@@ -57,6 +60,12 @@ const styleCardModel = {
   },
 };
 
+const BoxPagination = styled(Box)(({theme}) => ({
+  padding: '20px 0px',
+  display: 'flex',
+  justifyContent: 'left',
+}));
+
 export default function AssetPage() {
   const dispatch = useAppDispatch();
 
@@ -80,7 +89,7 @@ export default function AssetPage() {
   const listModels = useAppSelector((state) => state.asset.listModels);
   const reloadListCategory = useAppSelector((state) => state.asset.reloadListCategory);
   const reloadListModel = useAppSelector((state) => state.asset.reloadListModel);
-  const {listData: litsAssets} = useGetAllList(params, assetActions, 'asset');
+  const {listData: litsAssets, pagination, loading} = useGetAllList(params, assetActions, 'asset');
 
   //FUNCTION ACTION
   const handleOpen = () => setOpen(true);
@@ -132,6 +141,12 @@ export default function AssetPage() {
         return state;
       });
     }
+  };
+
+  const handlePagination = (event, value) => {
+    setParams((prevState) => {
+      return {...prevState, page: Number(value - 1)};
+    });
   };
 
   const showCategory = (data) => {
@@ -340,9 +355,19 @@ export default function AssetPage() {
               handleOpen={handleOpen}
               setTypeOpenModal={setTypeOpenModal}
               handleDelete={handleDelete}
+              isLoading={loading}
             />
             {/* End Table */}
           </Box>
+          {pagination && litsAssets?.length > 0 && (
+            <BoxPagination>
+              <Pagination
+                count={totalPagePagination(pagination)}
+                page={pagination?.page + 1 || 1}
+                onChange={handlePagination}
+              />
+            </BoxPagination>
+          )}
         </Box>
       </MainCard>
       <Modal
