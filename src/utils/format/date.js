@@ -3,7 +3,7 @@ import moment from 'moment';
 function formatTimeStampToDate(date) {
   if (!date) return '';
   try {
-    return moment(date).format('DD-MM-YYYY');
+    return moment(date).format('DD/MM/YYYY');
   } catch (e) {
     return date;
   }
@@ -11,7 +11,7 @@ function formatTimeStampToDate(date) {
 
 function formatDateMaterial(date) {
   // timeStamp -> time of mui
-  if (!date) return '';
+  if (!date) return null;
   try {
     return moment(date).format('YYYY-MM-DD');
   } catch (e) {

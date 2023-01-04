@@ -72,13 +72,35 @@ const management = {
       type: 'item',
       url: '/leave',
       icon: icons.CalendarOutlined,
+      chip: {
+        data: 'leave',
+        size: 'small',
+      },
     },
     {
-      id: 'asset',
       title: 'Asset',
       type: 'item',
-      url: '/asset',
       icon: icons.FundProjectionScreenOutlined,
+      children: [
+        {
+          id: 'asset',
+          title: 'Management',
+          type: 'item',
+          url: '/asset',
+          icon: icons.FundProjectionScreenOutlined,
+        },
+        {
+          id: 'asset-request',
+          title: 'Requests',
+          type: 'item',
+          url: '/asset-request',
+          icon: icons.FundProjectionScreenOutlined,
+          chip: {
+            data: 'asset_request',
+            size: 'small',
+          },
+        },
+      ],
     },
     {
       id: 'review',

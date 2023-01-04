@@ -15,6 +15,14 @@ const leaveApi = {
       isDeleted: true,
     });
   },
+  getById(id) {
+    const url = `/leaves/${id}`;
+    return axiosClient.get(url);
+  },
+  getDetail(params) {
+    const url = `/leave-details`;
+    return axiosClient.get(url, {params});
+  },
 };
 
 export default leaveApi;

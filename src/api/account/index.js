@@ -17,9 +17,9 @@ const accountApi = {
     const url = `/employee-users/${id}`;
     return axiosClient.get(url);
   },
-  remove(id) {
+  activateOrDeactivate(id) {
     const url = `/employee-users/${id}`;
-    return axiosClient.delete(url);
+    return axiosClient.post(url, {id});
   },
 };
 

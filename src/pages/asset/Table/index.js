@@ -13,6 +13,8 @@ import {
   TableRow,
 } from '@mui/material';
 import {OrderTableHead} from 'components/table/table-head';
+import Empty from 'components/Empty';
+import TableLoading from 'components/table/table-loading';
 
 const headCells = [
   {
@@ -66,6 +68,7 @@ export default function TableAssets({
   handleOpen,
   setTypeOpenModal,
   handleDelete,
+  isLoading,
 }) {
   const [order] = useState('asc');
   const [orderBy] = useState('trackingNo');
@@ -164,17 +167,21 @@ export default function TableAssets({
             checked={isCheckAll}
           />
 
-          <TableBody>
-            {data?.length ? (
-              renderList()
-            ) : (
-              <TableRow>
-                <TableCell colSpan={7} scope='full' align='center'>
-                  <h3>There is currently no data available</h3>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          {isLoading ? (
+            <TableLoading col={7} />
+          ) : (
+            <TableBody>
+              {data?.length ? (
+                renderList()
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={7} scope='full' align='center'>
+                    <Empty />
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </Box>

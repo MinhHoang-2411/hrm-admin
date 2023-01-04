@@ -46,7 +46,11 @@ const AccountDefault = () => {
   const [open, setOpen] = useState(false);
   const [typeOpenModal, setTypeOpenModal] = useState('');
 
-  const {listData: listAccount, pagination} = useGetAllList(params, accountActions, 'account');
+  const {
+    listData: listAccount,
+    pagination,
+    loading,
+  } = useGetAllList(params, accountActions, 'account');
 
   const debounceSearch = useCallback(
     _.debounce(
@@ -55,8 +59,10 @@ const AccountDefault = () => {
           const newState = {...prevState};
           if (value && value.trim() !== '') {
             newState['login.contains'] = value.trim();
+            newState['firstName.contains'] = value.trim();
           } else {
             delete newState['login.contains'];
+            delete newState['firstName.contains'];
           }
           return {...newState, page: 0};
         }),
@@ -86,16 +92,17 @@ const AccountDefault = () => {
     setOpen(false);
   };
 
-  const handleRemove = (data) => {
+  const handleActivateOrDeactivateAccount = (data) => {
     const params = {
       type: 'modalConfirm',
       title: 'Confirm',
       content: (
         <span>
-          Do you want to remove an account <b>{nameMatching(data?.firstName, data?.lastName)}</b>?
+          Do you want to {data?.activated ? 'deactivate' : 'activate'} an account{' '}
+          <b>{nameMatching(data?.firstName, data?.lastName)}</b>?
         </span>
       ),
-      onAction: () => dispatch(accountActions.remove(data?.id)),
+      onAction: () => dispatch(accountActions.activateOrDeactivate(data?.id)),
     };
     dispatch(modalActions.showModal(params));
   };
@@ -149,7 +156,7 @@ const AccountDefault = () => {
                 inputProps={{
                   'aria-label': 'weight',
                 }}
-                placeholder='Search username...'
+                placeholder='Search...'
                 value={search}
                 onChange={handleSearch}
               />
@@ -185,7 +192,8 @@ const AccountDefault = () => {
           setIdAccount={setIdAccount}
           handleOpen={handleOpen}
           setTypeOpenModal={setTypeOpenModal}
-          handleRemove={handleRemove}
+          handleActivateOrDeactivateAccount={handleActivateOrDeactivateAccount}
+          isLoading={loading}
         />
         {/* End Table */}
         {pagination && listAccount?.length > 0 && (

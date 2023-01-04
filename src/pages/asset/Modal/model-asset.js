@@ -190,31 +190,30 @@ export default function ModalCreateAsset({id, typeOpenModal, handleClose}) {
                           </Grid>
                         </Grid>
                       </Box>
-
-                      <div className='group-footer' sx={{marginTop: '40px'}}>
-                        <Button
-                          variant='outlined'
-                          size='error'
-                          className='button-submit-member'
-                          startIcon={<CloseOutlined />}
-                          onClick={() => handleClose()}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          variant='outlined'
-                          color='primary'
-                          size='large'
-                          type='submit'
-                          className='button-submit-member'
-                          startIcon={<SaveOutlined />}
-                        >
-                          Save
-                        </Button>
-                      </div>
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className='group-footer' sx={{marginTop: '40px'}}>
+                <Button
+                  variant='outlined'
+                  size='error'
+                  className='button-submit-member'
+                  startIcon={<CloseOutlined />}
+                  onClick={() => handleClose()}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='primary'
+                  size='large'
+                  type='submit'
+                  className='button-submit-member'
+                  startIcon={<SaveOutlined />}
+                >
+                  Save
+                </Button>
               </div>
             </Form>
           )}

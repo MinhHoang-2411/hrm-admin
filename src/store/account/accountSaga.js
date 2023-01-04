@@ -86,20 +86,20 @@ function* handleGetById(action) {
   }
 }
 
-function* handleRemove(action) {
+function* handleActivateOrDeactivate(action) {
   try {
     const id = action.payload;
-    yield call(accountApi.remove, id);
+    yield call(accountApi.activateOrDeactivate, id);
 
-    yield put(accountActions.removeSuccess());
+    yield put(accountActions.activateOrDeactivateSuccess());
     yield put(
       alertActions.showAlert({
-        text: 'Removeaccount successfully',
+        text: 'Successfully',
         type: 'success',
       })
     );
   } catch (error) {
-    yield put(accountActions.removeFalse('An error occurred, please try again'));
+    yield put(accountActions.activateOrDeactivateFalse('An error occurred, please try again'));
     yield put(
       alertActions.showAlert({
         text: 'An error occurred, please try again',
@@ -114,7 +114,7 @@ function* accountFlow() {
     takeLatest(accountActions.fetchData.type, handleFetchData),
     takeLatest(accountActions.create.type, handleCreate),
     takeLatest(accountActions.getById.type, handleGetById),
-    takeLatest(accountActions.remove.type, handleRemove),
+    takeLatest(accountActions.activateOrDeactivate.type, handleActivateOrDeactivate),
   ]);
 }
 

@@ -9,6 +9,7 @@ const initialState = {
   listData: [],
   dataEmployee: null,
   pagination: undefined,
+  openModal: false,
 };
 
 const employeeSlice = createSlice({
@@ -88,6 +89,11 @@ const employeeSlice = createSlice({
     removeFalse(state, action) {
       state.loadingRemove = false;
       console.error(action.payload);
+    },
+  },
+  extraReducers: {
+    ['openEmployeeModal']: (state) => {
+      state.openModal = true;
     },
   },
 });

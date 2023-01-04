@@ -10,8 +10,7 @@ import NavItem from './NavItem';
 // ==============================|| NAVIGATION - LIST GROUP ||============================== //
 
 const NavGroup = ({item}) => {
-  const menu = useAppSelector((state) => state.menu);
-  const {drawerOpen} = menu;
+  const drawerOpen = useAppSelector((state) => state.menu.drawerOpen);
 
   const navCollapse = item.children?.map((menuItem) => {
     switch (menuItem.type) {

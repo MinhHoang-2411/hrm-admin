@@ -9,6 +9,7 @@ import {Navigate} from 'react-router-dom';
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const EmployeePage = Loadable(lazy(() => import('pages/employee/index')));
 const AssetPage = Loadable(lazy(() => import('pages/asset/index')));
+const AssetRequestPage = Loadable(lazy(() => import('pages/asset/asset-request')));
 const AccountPage = Loadable(lazy(() => import('pages/account/index')));
 const Candidate = Loadable(lazy(() => import('pages/candidate/index')));
 const ProjectPage = Loadable(lazy(() => import('pages/project/index')));
@@ -47,6 +48,10 @@ const MainRoutes = {
     {
       path: '/asset',
       element: <AssetPage />,
+    },
+    {
+      path: '/asset-request',
+      element: <AssetRequestPage />,
     },
     {
       path: '/candidate',
