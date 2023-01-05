@@ -77,20 +77,20 @@ export default function RequestPage() {
   const showStatusRequest = (status) => {
     let color = '';
     switch (status) {
-      case 'CONFIRMED':
-        color = '#1890ff';
+      case 'PENDING':
+        color = '#6666ff';
         break;
-      case 'APPROVED':
+      case 'RECEIVED':
         color = '#04AA6D';
         break;
       case 'REJECTED':
         color = '#ff4d4f';
         break;
       case 'CANCELED':
-        color = '#ff8000';
+        color = '#b3b3b3';
         break;
-      case 'PENDING':
-        color = '#6666ff';
+      case 'PROCESSING':
+        color = '#ff8000';
         break;
     }
     return (
@@ -217,9 +217,9 @@ export default function RequestPage() {
                   variant='contained'
                   color='primary'
                   startIcon={<CheckOutlined />}
-                  onClick={() => handleAction(row, 'approve', 'APPROVED')}
+                  onClick={() => handleAction(row, 'received', 'RECEIVED')}
                 >
-                  APPROVE
+                  RECEIVED
                 </Button>
               </Box>
             )}
@@ -244,22 +244,22 @@ export default function RequestPage() {
         >
           <Grid container spacing={2} columns={16}>
             <Grid xs={9}>
-              <Box sx={{padding: '10px 20px', overflowX: 'auto', height: '90vh'}}>
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+              <Box sx={{padding: '10px 10px'}}>
+                <Box sx={{display: 'flex', flexDirection: 'column', padding: '0px 0px 10px 5px'}}>
                   <h3 style={styleLabel}>
-                    PENDING REQUEST{' '}
+                    PENDING ASSET REQUESTS{' '}
                     <span style={styleCount}>{listRequestPending?.length || 0}</span>
                   </h3>
-                  <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '15px'}}>
+                  <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
                     <InputSearch
                       width={250}
                       search={searchListWaiting}
                       handleSearch={(value) => handleSearch(value, 'pending')}
-                      placeholder='Search title, request by...'
+                      placeholder='Search...'
                     />
                   </Box>
                 </Box>
-                <Box>
+                <Box sx={{overflowX: 'auto', height: '90vh', padding: '5px'}}>
                   {loadingWaiting ? (
                     [...Array(2).keys()].map((value) => (
                       <SkeletonLoading
@@ -276,12 +276,12 @@ export default function RequestPage() {
               </Box>
             </Grid>
             <Grid xs={7}>
-              <Box sx={{padding: '10px 10px', overflowX: 'auto', height: '90vh'}}>
+              <Box sx={{padding: '10px 10px'}}>
                 <Box
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '10px',
+                    padding: '0px 10px 5px 10px',
                   }}
                 >
                   <h3 style={styleLabel}>
@@ -292,7 +292,7 @@ export default function RequestPage() {
                       width={250}
                       search={search}
                       handleSearch={handleSearch}
-                      placeholder='Search title, request by...'
+                      placeholder='Search...'
                     />
                     <FormControl sx={{minWidth: 120, marginLeft: '15px'}}>
                       <InputLabel id='demo-simple-select-label'>Status</InputLabel>

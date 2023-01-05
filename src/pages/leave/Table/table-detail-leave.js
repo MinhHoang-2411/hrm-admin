@@ -7,7 +7,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {formatTimeStampToDate} from 'utils/index';
-import Empty from 'components/Empty';
 
 const headCells = [
   {
@@ -74,7 +73,7 @@ export default function TableDetailLeave({data}) {
             ) : (
               <TableRow>
                 <TableCell colSpan={3} scope='full' align='center'>
-                  <Empty />
+                  <h4 style={{color: '#738bab'}}>There is currently no data available</h4>
                 </TableCell>
               </TableRow>
             )}

@@ -89,7 +89,7 @@ const AuthLogin = () => {
                     name='username'
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder='Enter email address'
+                    placeholder='Enter username'
                     fullWidth
                     error={Boolean(touched.username && errors.username)}
                   />
@@ -152,7 +152,7 @@ const AuthLogin = () => {
                         size='small'
                       />
                     }
-                    label={<Typography variant='h6'>Keep me sign in</Typography>}
+                    label={<Typography variant='h6'>Remember me</Typography>}
                   />
                   <Link variant='h6' component={RouterLink} to='' color='text.primary'>
                     Forgot Password?

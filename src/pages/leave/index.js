@@ -34,12 +34,11 @@ import {
   formatDateMaterialToTimeStamp,
   formatTimeStampToDate,
 } from 'utils/index';
-import DateRangePickerValue from './DatePicker';
 import ModalLeaveDetail from './Modal/ModalLeaveDetail';
 import {STYLE_MODAL} from 'constants/style';
 
 const styleTitle = {
-  fontSize: '27px',
+  fontSize: '24px',
   fontWeight: 'bold',
   marginBottom: '10px',
   marginTop: '10px',
@@ -48,7 +47,7 @@ const styleTitle = {
   alignItems: 'center',
 };
 const styleName = {
-  fontSize: '16px',
+  fontSize: '14px',
   fontWeight: 'bold',
   cursor: 'pointer',
   textTransform: 'uppercase',
@@ -138,22 +137,18 @@ export default function LeavePage() {
           ? setParamsPending((prevState) => {
               const newState = {...prevState};
               if (value && value.trim() !== '') {
-                newState['title.contains'] = value.trim();
-                newState['applicantName.contains'] = value.trim();
+                newState['titleOrApplicantName.contains'] = value.trim();
               } else {
-                delete newState['title.contains'];
-                delete newState['applicantName.contains'];
+                delete newState['titleOrApplicantName.contains'];
               }
               return {...newState, page: 0};
             })
           : setParamsAll((prevState) => {
               const newState = {...prevState};
               if (value && value.trim() !== '') {
-                newState['title.contains'] = value.trim();
-                newState['applicantName.contains'] = value.trim();
+                newState['titleOrApplicantName.contains'] = value.trim();
               } else {
-                delete newState['title.contains'];
-                delete newState['applicantName.contains'];
+                delete newState['titleOrApplicantName.contains'];
               }
               return {...newState, page: 0};
             }),
@@ -171,18 +166,26 @@ export default function LeavePage() {
     if (type == 'pending') {
       setParamsPending((preState) => {
         const state = {...preState};
-        if (value === 'all') delete state[key];
+        if (value === 'all' || !value) delete state[key];
         else state[key] = value;
         return state;
       });
     } else {
       setParamsAll((preState) => {
         const state = {...preState};
-        if (value === 'all') delete state[key];
+        if (value === 'all' || !value) delete state[key];
         else state[key] = value;
         return state;
       });
     }
+  };
+
+  const handleFilterDate = (date, type) => {
+    const nextDate = date ? new Date(date) : null;
+    nextDate && nextDate.setDate(nextDate.getDate() + 1);
+
+    handleFilter('startDate.greaterThanOrEqual', formatDateMaterialToTimeStamp(date), type);
+    handleFilter('startDate.lessThan', formatDateMaterialToTimeStamp(nextDate), type);
   };
 
   const handleClose = () => {
@@ -197,7 +200,7 @@ export default function LeavePage() {
       data?.map((row, index) => (
         <Card
           key={index}
-          sx={{fontSize: '15px', marginBottom: '15px', cursor: 'pointer'}}
+          sx={{fontSize: '14px', marginBottom: '15px', cursor: 'pointer'}}
           onClick={() => {
             setOpen(true);
             setLeaveId(row?.id);
@@ -309,23 +312,18 @@ export default function LeavePage() {
           <Grid container spacing={2} columns={16}>
             <Grid item xs={9}>
               <Box sx={{padding: '10px 10px'}}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    paddingLeft: '10px',
-                  }}
-                >
+                <Box sx={{display: 'flex', flexDirection: 'column', paddingLeft: '5px'}}>
                   <h3 style={styleLabel}>
-                    PENDING LEAVE <span style={styleCount}>{listLeavePending?.length || 0}</span>
+                    PENDING LEAVE REQUESTS{' '}
+                    <span style={styleCount}>{listLeavePending?.length || 0}</span>
                   </h3>
-                  <Box sx={{display: 'flex', alignItems: 'flex-start', marginBottom: '15px'}}>
+                  <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
                     <Stack direction='row' alignItems='center'>
                       <InputSearch
                         width={'25 0px'}
                         search={searchListPending}
                         handleSearch={(value) => handleSearch(value, 'pending')}
-                        placeholder='Search title...'
+                        placeholder='Search...'
                       />
                       <FormControl sx={{minWidth: 120, marginLeft: '15px'}}>
                         <InputLabel id='demo-simple-select-label'>Leave Type</InputLabel>
@@ -345,10 +343,21 @@ export default function LeavePage() {
                         </Select>
                       </FormControl>
                     </Stack>
-                    <DateRangePickerValue params={paramsPending} handleFilter={handleFilter} />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label='Start Date'
+                        closeOnSelect={true}
+                        value={formatDateMaterial(paramsPending?.['startDate.greaterThanOrEqual'])}
+                        onChange={(newValue) => handleFilterDate(newValue, 'pending')}
+                        inputFormat='DD/MM/YYYY'
+                        renderInput={(params) => (
+                          <TextField sx={{marginLeft: '15px', width: '180px'}} {...params} />
+                        )}
+                      />
+                    </LocalizationProvider>
                   </Box>
                 </Box>
-                <Box>
+                <Box sx={{overflowX: 'auto', height: '90vh', padding: '5px'}}>
                   {loadingPending ? (
                     [...Array(2).keys()].map((value) => (
                       <SkeletonLoading
@@ -359,7 +368,13 @@ export default function LeavePage() {
                   ) : listLeavePending?.length ? (
                     renderList(listLeavePending)
                   ) : (
-                    <Empty />
+                    <Empty
+                      title={
+                        paramsPending['title.contains'] && paramsPending['title.contains'] !== ''
+                          ? 'No results matched your search'
+                          : 'There is currently no leave'
+                      }
+                    />
                   )}
                 </Box>
               </Box>
@@ -370,12 +385,12 @@ export default function LeavePage() {
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    paddingLeft: '10px',
-                    paddingBottom: '15px',
+                    padding: '0px 10px 5px 10px',
                   }}
                 >
                   <h3 style={styleLabel}>
-                    OTHER LEAVES <span style={styleCount}>{listOtherLeave?.length || 0}</span>
+                    OTHER LEAVE REQUESTS{' '}
+                    <span style={styleCount}>{listOtherLeave?.length || 0}</span>
                   </h3>
                   <Box sx={{display: 'flex', alignItems: 'center'}}>
                     <InputSearch
@@ -420,20 +435,27 @@ export default function LeavePage() {
                     </FormControl>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
-                        label='Date from'
-                        value={formatDateMaterial(paramsAll?.['startDate.equals'])}
-                        onChange={(newValue) => {
-                          handleFilter('startDate.equals', formatDateMaterialToTimeStamp(newValue));
-                        }}
+                        label='Start Date'
+                        value={formatDateMaterial(paramsAll?.['startDate.greaterThanOrEqual'])}
+                        onChange={(newValue) => handleFilterDate(newValue)}
                         inputFormat='DD/MM/YYYY'
                         renderInput={(params) => (
-                          <TextField sx={{marginLeft: '15px', width: '170px'}} {...params} />
+                          <TextField
+                            sx={{
+                              marginLeft: '15px',
+                              width: '170px',
+                              input: {
+                                paddingRight: '5px',
+                              },
+                            }}
+                            {...params}
+                          />
                         )}
                       />
                     </LocalizationProvider>
                   </Box>
                 </Box>
-                <Box sx={{overflowX: 'auto', height: '90vh'}}>
+                <Box sx={{overflowX: 'auto', height: '90vh', padding: '10px'}}>
                   {loading ? (
                     [...Array(2).keys()].map((value) => (
                       <SkeletonLoading
@@ -444,7 +466,13 @@ export default function LeavePage() {
                   ) : listOtherLeave?.length ? (
                     renderList(listOtherLeave)
                   ) : (
-                    <Empty />
+                    <Empty
+                      title={
+                        paramsAll['title.contains'] && paramsAll['title.contains'] !== ''
+                          ? 'No results matched your search'
+                          : 'There is currently no leave'
+                      }
+                    />
                   )}
                 </Box>
               </Box>
