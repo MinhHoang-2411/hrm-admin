@@ -129,7 +129,7 @@ export default function TableAccount({
           <TableCell
             align='left'
             sx={{cursor: 'pointer', color: 'primary.main', fontWeight: '600'}}
-            onClick={() => handleEdit(row.id)}
+            onClick={() => handleEdit(row?.id)}
           >
             {nameMatching(row?.firstName, row?.lastName)}
           </TableCell>

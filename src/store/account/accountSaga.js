@@ -88,8 +88,8 @@ function* handleGetById(action) {
 
 function* handleActivateOrDeactivate(action) {
   try {
-    const id = action.payload;
-    yield call(accountApi.activateOrDeactivate, id);
+    const {id, activated} = action.payload;
+    yield call(accountApi.activateOrDeactivate, id, activated);
 
     yield put(accountActions.activateOrDeactivateSuccess());
     yield put(
