@@ -42,37 +42,37 @@ export default function ModalCreateAccount({idAccount, typeOpenModal, handleClos
           <div style={{padding: '20px'}}>
             <Grid container>
               <Grid item xs={6}>
-                <FieldData label='First name' value={dataAccount?.firstName} />
+                <FieldData label='First name' value={dataAccount?.firstName || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Last name' value={dataAccount?.lastName} />
+                <FieldData label='Last name' value={dataAccount?.lastName || ''} />
               </Grid>
               <Grid item xs={6}>
                 <FieldData
                   label='Date of birth'
-                  value={formatTimeStampToDate(dataEmployee?.dateOfBirth)}
+                  value={formatTimeStampToDate(dataEmployee?.dateOfBirth || '')}
                 />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Phone number' value={dataEmployee?.phoneNumber} />
+                <FieldData label='Phone number' value={dataEmployee?.phoneNumber || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Gender' value={dataEmployee?.gender} />
+                <FieldData label='Gender' value={dataEmployee?.gender || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Address' value={dataEmployee?.address || ''} />
+                <FieldData label='Address' value={dataEmployee?.address?.streetAddress || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Department' value={dataEmployee?.department} />
+                <FieldData label='Department' value={dataEmployee?.department || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Position' value={dataEmployee?.position} />
+                <FieldData label='Position' value={dataEmployee?.position || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Team' value={dataEmployee?.team?.name} />
+                <FieldData label='Team' value={dataEmployee?.team?.name || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Branch' value={dataEmployee?.branch?.name} />
+                <FieldData label='Branch' value={dataEmployee?.branch?.name || ''} />
               </Grid>
               <Grid item xs={6}>
                 <FieldData label='Nation' value={dataEmployee?.nationality || 'none'} />
@@ -80,7 +80,7 @@ export default function ModalCreateAccount({idAccount, typeOpenModal, handleClos
               <Grid item xs={6}>
                 <FieldData
                   label='Join date'
-                  value={formatTimeStampToDate(dataEmployee?.joinedDate)}
+                  value={formatTimeStampToDate(dataEmployee?.joinedDate || '')}
                 />
               </Grid>
             </Grid>

@@ -17,9 +17,10 @@ const accountApi = {
     const url = `/employee-users/${id}`;
     return axiosClient.get(url);
   },
-  activateOrDeactivate(id) {
+  activateOrDeactivate(id, activated) {
     const url = `/employee-users/${id}`;
-    return axiosClient.post(url, {id});
+
+    return axiosClient.patch(url, {activated: !activated});
   },
 };
 

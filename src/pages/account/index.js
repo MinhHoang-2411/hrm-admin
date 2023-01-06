@@ -102,7 +102,7 @@ const AccountDefault = () => {
           <b>{nameMatching(data?.firstName, data?.lastName)}</b>?
         </span>
       ),
-      onAction: () => dispatch(accountActions.activateOrDeactivate(data?.id)),
+      onAction: () => dispatch(accountActions.activateOrDeactivate(data)),
     };
     dispatch(modalActions.showModal(params));
   };

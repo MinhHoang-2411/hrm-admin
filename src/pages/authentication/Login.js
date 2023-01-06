@@ -4,7 +4,7 @@ import {Grid, Stack, Typography} from '@mui/material';
 // project import
 import AuthLogin from './auth-forms/AuthLogin';
 import AuthWrapper from './AuthWrapper';
-import Logo from 'components/logo/Logo';
+import Logo from 'components/Logo/Logo';
 
 // ================================|| LOGIN ||================================ //
 
