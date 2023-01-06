@@ -78,7 +78,7 @@ function* handleGetById(action) {
   try {
     const id = action.payload;
     const params = {};
-    params['id.equals'] = id;
+    params['leaveId.equals'] = id;
     const reps = yield call(leaveApi.getById, id);
     const detail = yield call(leaveApi.getDetail, params);
 
