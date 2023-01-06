@@ -20,7 +20,7 @@ const styleCard = {
   display: 'flex',
   justifyContent: 'space-between',
   marginBottom: '30px',
-  width: '300px',
+  width: '100%',
   height: '175px',
 };
 

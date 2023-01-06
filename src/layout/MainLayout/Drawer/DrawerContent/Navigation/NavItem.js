@@ -24,7 +24,7 @@ const NavItem = ({item, level}) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const menu = useAppSelector((state) => state.menu);
-  const {drawerOpen, openItem, subMenu, countMenu} = menu;
+  const {drawerOpen, subMenu, countMenu} = menu;
   const {pathname} = useLocation();
 
   let itemTarget = '_self';
@@ -157,7 +157,7 @@ const NavItem = ({item, level}) => {
             color={item.chip.color}
             variant={item.chip.variant}
             size={item.chip.size}
-            label={item?.chip?.label || countMenu[item?.chip?.data]}
+            label={item?.chip?.label || countMenu[item?.chip?.data] || 0}
             avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
           />
         )}

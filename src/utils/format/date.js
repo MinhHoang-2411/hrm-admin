@@ -3,7 +3,7 @@ import moment from 'moment';
 function formatTimeStampToDate(date) {
   if (!date) return '';
   try {
-    return moment(date).format('DD/MM/YYYY');
+    return moment(date).utc().format('DD/MM/YYYY');
   } catch (e) {
     return date;
   }

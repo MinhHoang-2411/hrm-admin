@@ -17,7 +17,7 @@ function* handleFetchData(action) {
 function* handleGetListWaiting(action) {
   try {
     const params = action.payload;
-    params['status.equals'] = 'WAITING';
+    params['status.equals'] = 'PENDING';
     const response = yield call(assetRequestApi.getAll, params);
 
     yield put(assetRequestActions.getListWaitingSuccess(response));

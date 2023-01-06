@@ -95,10 +95,10 @@ const management = {
           type: 'item',
           url: '/asset-request',
           icon: icons.FundProjectionScreenOutlined,
-          chip: {
-            data: 'asset_request',
-            size: 'small',
-          },
+          // chip: {
+          //   data: 'asset_request',
+          //   size: 'small',
+          // },
         },
       ],
     },
