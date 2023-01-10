@@ -7,6 +7,7 @@ import {leaveActions} from './leaveSlice';
 function* handleFetchData(action) {
   try {
     const params = action.payload;
+    params['status.notEquals'] = 'CONFIRMED';
     const response = yield call(leaveApi.getAll, params);
 
     yield put(leaveActions.fetchDataSuccess(response));
@@ -29,6 +30,7 @@ function* handleLoadMorePending(action) {
 function* handleLoadMore(action) {
   try {
     const params = action.payload;
+    params['status.notEquals'] = 'CONFIRMED';
     const response = yield call(leaveApi.getAll, params);
 
     yield put(leaveActions.loadMoreSuccess(response));

@@ -24,7 +24,7 @@ function* handleGetCount(payload) {
     const response = yield call(leaveApi.getAll, params);
     yield put(
       menuActions.getCountMenuSuccess({
-        leave: response?.data?.length || 0,
+        leave: response?.headers?.['x-total-count'] || 0,
         asset_request: 0,
       })
     );

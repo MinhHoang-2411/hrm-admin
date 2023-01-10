@@ -31,6 +31,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {leaveActions} from 'store/leave/leaveSlice';
 import {modalActions} from 'store/modal/modalSlice';
 import {
+  fetchMoreCondition,
   formatDateMaterial,
   formatDateMaterialToTimeStamp,
   formatTimeStampToDate,
@@ -85,8 +86,7 @@ export default function LeavePage() {
   const [search, setSearch] = useState('');
   const [searchListPending, setSearchListPending] = useState('');
   const {listData: listLeave} = useGetAllList(paramsAll, leaveActions, 'leave');
-  const listOtherLeave = listLeave?.filter((item) => item?.status !== 'CONFIRMED');
-  //test new state
+
   const {
     listDataPending: listLeavePending,
     loadMorePending,
@@ -124,10 +124,6 @@ export default function LeavePage() {
     return (
       <Chip label={status} sx={{fontWeight: 'bold', backgroundColor: color, color: '#ffff'}} />
     );
-  };
-
-  const fetchMoreCondition = (page, pagination, params) => {
-    return page + 1 < pagination?.totalCount / params.size;
   };
 
   const handleAction = (data, text, action) => {
@@ -174,24 +170,28 @@ export default function LeavePage() {
     if (type == 'pending') setSearchListPending(value);
     else setSearch(value);
     debounceSearch(value, type);
+    setPage(0);
+    setPagePending(0);
   };
 
   const handleFilter = (key, value, type) => {
     if (type == 'pending') {
       setParamsPending((preState) => {
-        const state = {...preState};
+        const state = {...preState, page: 0};
         if (value === 'all' || !value) delete state[key];
         else state[key] = value;
         return state;
       });
     } else {
       setParamsAll((preState) => {
-        const state = {...preState};
+        const state = {...preState, page: 0};
         if (value === 'all' || !value) delete state[key];
         else state[key] = value;
         return state;
       });
     }
+    setPage(0);
+    setPagePending(0);
   };
 
   const handleFilterDate = (date, type) => {
@@ -342,7 +342,7 @@ export default function LeavePage() {
                 <Box sx={{display: 'flex', flexDirection: 'column', paddingLeft: '5px'}}>
                   <h3 style={styleLabel}>
                     PENDING LEAVE REQUESTS{' '}
-                    <span style={styleCount}>{listLeavePending?.length || 0}</span>
+                    <span style={styleCount}>{paginationPending?.totalCount || 0}</span>
                   </h3>
                   <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
                     <Stack direction='row' alignItems='center'>
@@ -428,7 +428,7 @@ export default function LeavePage() {
                 >
                   <h3 style={styleLabel}>
                     OTHER LEAVE REQUESTS{' '}
-                    <span style={styleCount}>{listOtherLeave?.length || 0}</span>
+                    <span style={styleCount}>{pagination?.totalCount || 0}</span>
                   </h3>
                   <Box sx={{display: 'flex', alignItems: 'center'}}>
                     <InputSearch
@@ -512,7 +512,7 @@ export default function LeavePage() {
                         sx={{marginBottom: '15px', minHeight: '270px'}}
                       />
                     ))
-                  ) : listOtherLeave?.length ? (
+                  ) : listLeave?.length ? (
                     renderList(listLeave)
                   ) : (
                     <Empty
