@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
 import Empty from 'components/Empty';
@@ -71,23 +72,32 @@ const styleCount = {
 export default function LeavePage() {
   const dispatch = useAppDispatch();
   const [paramsAll, setParamsAll] = useState({
+    size: 10,
     page: 0,
-    size: 20,
   });
+
   const [paramsPending, setParamsPending] = useState({
+    size: 10,
     page: 0,
-    size: 20,
   });
+  const [page, setPage] = useState(0);
+  const [pagePending, setPagePending] = useState(0);
   const [search, setSearch] = useState('');
   const [searchListPending, setSearchListPending] = useState('');
   const {listData: listLeave} = useGetAllList(paramsAll, leaveActions, 'leave');
   const listOtherLeave = listLeave?.filter((item) => item?.status !== 'CONFIRMED');
+  //test new state
   const {
     listDataPending: listLeavePending,
+    loadMorePending,
+    loadMore,
     reloadList,
     loadingPending,
     loading,
+    pagination,
+    paginationPending,
   } = useAppSelector((state) => state.leave);
+
   const isLeavePending = (status) => status == 'CONFIRMED';
   const [open, setOpen] = useState(false);
   const [leaveId, setLeaveId] = useState(null);
@@ -114,6 +124,10 @@ export default function LeavePage() {
     return (
       <Chip label={status} sx={{fontWeight: 'bold', backgroundColor: color, color: '#ffff'}} />
     );
+  };
+
+  const fetchMoreCondition = (page, pagination, params) => {
+    return page + 1 < pagination?.totalCount / params.size;
   };
 
   const handleAction = (data, text, action) => {
@@ -296,6 +310,19 @@ export default function LeavePage() {
     [listLeave, listLeavePending]
   );
 
+  const handleFetchMorePendingLeave = () => {
+    if (fetchMoreCondition(pagePending, paginationPending, paramsPending)) {
+      dispatch(leaveActions.loadMorePending({...paramsPending, page: pagePending + 1}));
+      setPagePending(pagePending + 1);
+    }
+  };
+
+  const handleFetchMoreLeave = () => {
+    if (fetchMoreCondition(page, pagination, paramsAll))
+      dispatch(leaveActions.loadMore({...paramsAll, page: page + 1}));
+    setPage(page + 1);
+  };
+
   useEffect(() => {
     dispatch(leaveActions.getListPending(paramsPending));
   }, [paramsPending, reloadList]);
@@ -357,7 +384,18 @@ export default function LeavePage() {
                     </LocalizationProvider>
                   </Box>
                 </Box>
-                <Box sx={{overflowX: 'auto', height: '90vh', padding: '5px'}}>
+                <InfiniteScroll
+                  loader={
+                    loadMorePending ? (
+                      <SkeletonLoading sx={{marginBottom: '15px', minHeight: '270px'}} />
+                    ) : null
+                  }
+                  height='100vh'
+                  hasMore={fetchMoreCondition(pagePending, paginationPending, paramsPending)}
+                  dataLength={listLeavePending.length}
+                  next={handleFetchMorePendingLeave}
+                  scrollThreshold='1px'
+                >
                   {loadingPending ? (
                     [...Array(2).keys()].map((value) => (
                       <SkeletonLoading
@@ -376,7 +414,7 @@ export default function LeavePage() {
                       }
                     />
                   )}
-                </Box>
+                </InfiniteScroll>
               </Box>
             </Grid>
             <Grid item xs={7}>
@@ -455,7 +493,18 @@ export default function LeavePage() {
                     </LocalizationProvider>
                   </Box>
                 </Box>
-                <Box sx={{overflowX: 'auto', height: '90vh', padding: '10px'}}>
+                <InfiniteScroll
+                  loader={
+                    loadMore ? (
+                      <SkeletonLoading sx={{marginBottom: '15px', minHeight: '270px'}} />
+                    ) : null
+                  }
+                  height='100vh'
+                  hasMore={fetchMoreCondition(page, pagination, paramsAll)}
+                  dataLength={listLeave.length}
+                  next={handleFetchMoreLeave}
+                  scrollThreshold='1px'
+                >
                   {loading ? (
                     [...Array(2).keys()].map((value) => (
                       <SkeletonLoading
@@ -464,7 +513,7 @@ export default function LeavePage() {
                       />
                     ))
                   ) : listOtherLeave?.length ? (
-                    renderList(listOtherLeave)
+                    renderList(listLeave)
                   ) : (
                     <Empty
                       title={
@@ -474,7 +523,7 @@ export default function LeavePage() {
                       }
                     />
                   )}
-                </Box>
+                </InfiniteScroll>
               </Box>
             </Grid>
           </Grid>

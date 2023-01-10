@@ -33,6 +33,7 @@
     "react-draggable": "^4.4.5",
     "react-dropzone": "^14.2.3",
     "react-element-to-jsx-string": "^15.0.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^5.3.4",
     "react-number-format": "^4.9.4",
     "react-perfect-scrollbar": "^1.5.8",

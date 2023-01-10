@@ -14,6 +14,28 @@ function* handleFetchData(action) {
     yield put(leaveActions.fetchDataFalse('An error occurred, please try again'));
   }
 }
+function* handleLoadMorePending(action) {
+  try {
+    const params = action.payload;
+    params['status.equals'] = 'CONFIRMED';
+    const response = yield call(leaveApi.getAll, params);
+
+    yield put(leaveActions.loadMorePendingSuccess(response));
+  } catch (error) {
+    yield put(leaveActions.loadMorePendingFalse('An error occurred, please try again'));
+  }
+}
+
+function* handleLoadMore(action) {
+  try {
+    const params = action.payload;
+    const response = yield call(leaveApi.getAll, params);
+
+    yield put(leaveActions.loadMoreSuccess(response));
+  } catch (error) {
+    yield put(leaveActions.loadMorePendingFalse('An error occurred, please try again'));
+  }
+}
 
 function* handleGetListPending(action) {
   try {
@@ -101,6 +123,8 @@ function* leaveFlow() {
     takeLatest(leaveActions.changeStatus.type, handleChangeStatus),
     takeLatest(leaveActions.remove.type, handleRemove),
     takeLatest(leaveActions.getById.type, handleGetById),
+    takeLatest(leaveActions.loadMorePending.type, handleLoadMorePending),
+    takeLatest(leaveActions.loadMore.type, handleLoadMore),
   ]);
 }
 

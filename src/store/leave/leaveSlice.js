@@ -3,6 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   loading: false,
   loadingPending: false,
+  loadMore: false,
+  loadMorePending: false,
   loadingChangeStatus: false,
   loadingRemove: false,
   loadingDetail: false,
@@ -99,6 +101,32 @@ const leaveSlice = createSlice({
     },
     clearData(state, action) {
       state.dataLeave = null;
+    },
+
+    //Load more pending
+    loadMorePending(state, action) {
+      state.loadMorePending = true;
+    },
+    loadMorePendingSuccess(state, action) {
+      state.listDataPending = [...state.listDataPending, ...action.payload.data];
+      state.loadMorePending = false;
+    },
+    loadMorePendingFalse(state, action) {
+      state.loadMorePending = false;
+      console.error(action.payload);
+    },
+
+    //Load more
+    loadMore(state, action) {
+      state.loadMore = true;
+    },
+    loadMoreSuccess(state, action) {
+      state.listData = [...state.listData, ...action.payload.data];
+      state.loadMore = false;
+    },
+    loadMoreFalse(state, action) {
+      state.loadMore = false;
+      console.error(action.payload);
     },
   },
 });
