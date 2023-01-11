@@ -19,6 +19,7 @@ export function InputSearch({search, handleSearch, placeholder = 'Search...', wi
         placeholder={placeholder}
         value={search}
         onChange={(e) => handleSearch(e.target.value)}
+        sx={{height: '41px'}}
       />
     </FormControl>
   );

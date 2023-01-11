@@ -15,7 +15,7 @@ function* handleLogin(action) {
     yield put(authActions.loginFailed(error));
     yield put(
       alertActions.showAlert({
-        text: 'Username or Password is not correct, please try again!',
+        text: 'The username or password you entered did not match our records. Please try again.',
         type: 'error',
       })
     );

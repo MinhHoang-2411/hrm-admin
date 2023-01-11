@@ -103,6 +103,7 @@ function* handleGetById(action) {
     const id = action.payload;
     const params = {};
     params['leaveId.equals'] = id;
+    params['sort'] = 'leaveDate,ASC';
     const reps = yield call(leaveApi.getById, id);
     const detail = yield call(leaveApi.getDetail, params);
 

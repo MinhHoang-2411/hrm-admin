@@ -1,4 +1,4 @@
-import {CloseCircleOutlined, CheckOutlined} from '@ant-design/icons';
+import {CloseOutlined, CheckOutlined} from '@ant-design/icons';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,7 +9,7 @@ import {useAppDispatch} from 'app/hooks';
 import {modalActions} from 'store/modal/modalSlice';
 
 const titleModal = {
-  fontSize: '22px',
+  fontSize: '20px',
   fontWeight: 'bold',
   padding: '10px 24px !important',
   borderBottom: '1px solid #ccc',
@@ -18,8 +18,7 @@ const contentModal = {
   paddingTop: '30px !important',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-  minWidth: '400px',
+  justifyContent: 'left',
 };
 const footerModal = {
   padding: '20px 24px !important',
@@ -52,7 +51,7 @@ export default function ConfirmModal(prop) {
       <DialogActions sx={footerModal}>
         <Button
           variant='outlined'
-          startIcon={<CloseCircleOutlined style={{fontSize: '18px'}} />}
+          startIcon={<CloseOutlined style={{fontSize: '16px'}} />}
           onClick={handleClose}
         >
           Cancel

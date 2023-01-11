@@ -5,6 +5,8 @@ import {leaveActions} from 'store/leave/leaveSlice';
 import {formatTimeStampToDate} from 'utils/index';
 import TableDetailLeave from '../Table/table-detail-leave';
 import {useAppDispatch, useAppSelector} from './../../../app/hooks';
+import ErrorIcon from '../../../assets/images/emptyData/error.png';
+import Stack from '@mui/material/Stack';
 
 const styleTitle = {
   fontSize: '20px',
@@ -35,67 +37,116 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
           <Box sx={styleTitle}>Leave Detail</Box>
           <Divider />
           <Box sx={{padding: '20px'}}>
-            <Box sx={{display: 'flex', marginBottom: '20px'}}>
-              <Grid container spacing={2} columns={12}>
-                <Grid item xs={3}>
-                  <b>Title:</b>
-                </Grid>
-                <Grid item xs={9}>
-                  {dataLeave?.title}
-                </Grid>
-                <Grid item xs={3}>
-                  <b>Applicant:</b>
-                </Grid>
-                <Grid item xs={9}>
-                  {dataLeave?.applicantName}
-                </Grid>
-                <Grid item xs={3}>
-                  <b>Time submitted:</b>
-                </Grid>
-                <Grid item xs={9}>
-                  {formatTimeStampToDate(dataLeave?.createdDate)}
-                </Grid>
+            {dataLeave ? (
+              <>
+                <Box sx={{display: 'flex', marginBottom: '20px'}}>
+                  <Grid container spacing={2} columns={12}>
+                    <Grid item xs={2.5}>
+                      <b>Title:</b>
+                    </Grid>
+                    <Grid item xs={9}>
+                      {dataLeave?.title}
+                    </Grid>
+                    <Grid item xs={2.5}>
+                      <b>Creator:</b>
+                    </Grid>
+                    <Grid item xs={3.5}>
+                      {dataLeave?.creatorName}
+                    </Grid>
+                    <Grid item xs={2}>
+                      <b>Person on leave:</b>
+                    </Grid>
+                    <Grid item xs={4}>
+                      {dataLeave?.personOnLeave}
+                    </Grid>
+                    {dataLeave?.status !== 'CANCELED' && (
+                      <>
+                        <Grid item xs={2.5}>
+                          <b>Confirmed by:</b>
+                        </Grid>
+                        <Grid item xs={3.5}>
+                          {dataLeave?.confirmerName}
+                        </Grid>
+                      </>
+                    )}
+                    {['CONFIRMED', 'WAITING'].includes(dataLeave?.status) && (
+                      <>
+                        <Grid item xs={6}></Grid>
+                      </>
+                    )}
+                    {dataLeave?.status == 'APPROVED' && (
+                      <>
+                        <Grid item xs={2}>
+                          <b>Approved by:</b>
+                        </Grid>
+                        <Grid item xs={4}>
+                          {dataLeave?.approverName}
+                        </Grid>
+                      </>
+                    )}
+                    {dataLeave?.status == 'REJECTED' && (
+                      <>
+                        <Grid item xs={2}>
+                          <b>Rejected by:</b>
+                        </Grid>
+                        <Grid item xs={4}>
+                          {dataLeave?.rejectorName}
+                        </Grid>
+                      </>
+                    )}
+                    <Grid item xs={2.5}>
+                      <b>Submitted time:</b>
+                    </Grid>
+                    <Grid item xs={3.5}>
+                      {formatTimeStampToDate(dataLeave?.createdDate)}
+                    </Grid>
 
-                <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={3}>
-                  <b>Date From:</b>
-                </Grid>
-                <Grid item xs={3}>
-                  {formatTimeStampToDate(dataLeave?.startDate)}
-                </Grid>
-                <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={3}>
-                  <b>Date To:</b>
-                </Grid>
-                <Grid item xs={3}>
-                  {formatTimeStampToDate(dataLeave?.endDate)}
-                </Grid>
+                    <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={2}>
+                      <b>Duration:</b>
+                    </Grid>
+                    <Grid item xs={4}>
+                      {formatTimeStampToDate(dataLeave?.startDate)} -{' '}
+                      {formatTimeStampToDate(dataLeave?.endDate)}
+                    </Grid>
 
-                <Grid item xs={3}>
-                  <b>Reason:</b>
-                </Grid>
-                <Grid item xs={9}>
-                  {dataLeave?.reason}
-                </Grid>
+                    <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={2.5}>
+                      <b>Leave type:</b>
+                    </Grid>
+                    <Grid item xs={3.5}>
+                      <Chip
+                        sx={{fontWeight: 'bold'}}
+                        variant='outlined'
+                        label={dataLeave?.type}
+                        color='primary'
+                      />
+                    </Grid>
+                    <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={2}>
+                      <b>Status:</b>
+                    </Grid>
+                    <Grid item xs={4}>
+                      {showStatusLeave(dataLeave?.status)}
+                    </Grid>
 
-                <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={3}>
-                  <b>Type leave:</b>
-                </Grid>
-                <Grid item xs={3}>
-                  <Chip
-                    sx={{fontWeight: 'bold'}}
-                    variant='outlined'
-                    label={dataLeave?.type}
-                    color='primary'
-                  />
-                </Grid>
-                <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={3}>
-                  <b>Status:</b>
-                </Grid>
-                <Grid item xs={3}>
-                  {showStatusLeave(dataLeave?.status)}
-                </Grid>
-              </Grid>
-            </Box>
-            <TableDetailLeave data={dataLeave?.detail} />
+                    <Grid item xs={2.5}>
+                      <b>Reason:</b>
+                    </Grid>
+                    <Grid item xs={9.5}>
+                      {dataLeave?.reason}
+                    </Grid>
+                  </Grid>
+                </Box>
+                <TableDetailLeave data={dataLeave?.detail} leaveType={dataLeave?.type} />
+              </>
+            ) : (
+              <Stack
+                justifyContent='center'
+                alignItems='center'
+                sx={{width: '100%', margin: '10px'}}
+              >
+                <img src={ErrorIcon} alt='empty data' width='150' />
+                <h4 style={{color: '#738bab'}}>An error occurred, please try again!</h4>
+              </Stack>
+            )}
           </Box>
           <Divider />
           <Box sx={{padding: '20px', marginLeft: 'auto'}}>

@@ -28,6 +28,7 @@ import {optionsSelect} from 'components/select/index';
 import {modalActions} from 'store/modal/modalSlice';
 import {nameMatching} from 'utils/format/name';
 import {BtnAction, STYLE_MODAL} from 'constants/style';
+import {DEPARTMENTS} from 'constants/index';
 
 const BoxPagination = styled(Box)(({theme}) => ({
   padding: '20px 0px',
@@ -194,6 +195,24 @@ const EmployeeDefault = () => {
               >
                 <MenuItem value={'all'}>All</MenuItem>
                 {optionsSelect(listTeam)}
+              </Select>
+            </FormControl>
+            <FormControl sx={{minWidth: 120, marginLeft: '15px'}}>
+              <InputLabel id='demo-simple-select-label'>Department</InputLabel>
+              <Select
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={params.department}
+                onChange={(e) => handleFilter('department.equals', e.target.value)}
+                label='Department'
+              >
+                <MenuItem value={'all'}>All</MenuItem>
+                {Array.isArray(Object.keys(DEPARTMENTS)) &&
+                  Object.keys(DEPARTMENTS)?.map((item, index) => (
+                    <MenuItem key={index} value={item}>
+                      {DEPARTMENTS[item]}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Box>
