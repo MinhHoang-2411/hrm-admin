@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
-import {DEPARTMENTS, POSITION} from 'constants/index';
+import {DEPARTMENTS, LIST_AUTHORITIES, POSITION} from 'constants/index';
 import {Form, Formik} from 'formik';
 import {useEffect, useState} from 'react';
 import Avatar from 'react-avatar';
@@ -44,7 +44,7 @@ export default function ModalCreateAsset({
           id: null,
         },
         dateOfBirth: formatDateMaterialToTimeStamp(values?.dateOfBirth),
-        phoneNumber: String(values.phoneNumber),
+        phoneNumber: phoneNumber,
         department: values.department,
         position: values.position,
         team: {
@@ -70,16 +70,18 @@ export default function ModalCreateAsset({
       };
       const userParams = {
         login: values?.login,
-        firstname: values?.firstname,
-        lastname: values?.lastname,
+        firstName: values?.firstName,
+        lastName: values?.lastName,
         email: values?.email,
         activated: true,
         langKey: 'en',
-        authorities: ['ROLE_USER'],
+        authorities: [values?.authorities],
+        imageUrl: avatarBase64 || null,
       };
       if (typeOpenModal == 'edit' && idEmployee) dispatch(employeeActions.edit(params));
       else {
         delete params.user;
+        delete params.id;
         dispatch(employeeActions.create({params, userParams}));
       }
     } catch (error) {
@@ -117,6 +119,7 @@ export default function ModalCreateAsset({
             address: dataEmployee?.address?.city || '',
             joinedDate: formatDateMaterial(dataEmployee?.joinedDate) || '',
             login: dataEmployee?.user?.login || '',
+            authorities: dataEmployee?.user?.authorities || 'ROLE_USER',
           }}
           validationSchema={CreateEmployeeSchema(typeOpenModal)}
           onSubmit={onCreateAsset}
@@ -127,7 +130,9 @@ export default function ModalCreateAsset({
                 <div className='group-avatar-member'>
                   <div className='div-avatar-member'>
                     <span className='label-modal-create'>
-                      {typeOpenModal == 'create' ? 'Add new asset' : 'Update asset information'}
+                      {typeOpenModal == 'create'
+                        ? 'Add new employee'
+                        : 'Update employee information'}
                     </span>
                     <div className='upload-img'>
                       <div className='item-center container-avatar'>
@@ -143,7 +148,7 @@ export default function ModalCreateAsset({
                             maxInitials={3}
                             round={true}
                             size={135}
-                            color={`#ee392a`}
+                            color={`#1890ff`}
                             fgColor={`#fff`}
                           />
                         )}
@@ -270,11 +275,12 @@ export default function ModalCreateAsset({
                                 value={values.department}
                                 onChange={(e) => setFieldValue('department', e.target.value)}
                               >
-                                {DEPARTMENTS?.map((item, index) => (
-                                  <MenuItem key={index} value={item}>
-                                    {item}
-                                  </MenuItem>
-                                ))}
+                                {Array.isArray(Object.keys(DEPARTMENTS)) &&
+                                  Object.keys(DEPARTMENTS)?.map((item, index) => (
+                                    <MenuItem key={index} value={item}>
+                                      {DEPARTMENTS[item]}
+                                    </MenuItem>
+                                  ))}
                               </Select>
                             </FormControl>
                           </Grid>
@@ -353,7 +359,7 @@ export default function ModalCreateAsset({
                             <TextField
                               sx={{width: '192px'}}
                               id='date'
-                              label='Join Date'
+                              label='Joining Date'
                               type='date'
                               name='joinedDate'
                               defaultValue={values.joinedDate}
@@ -376,7 +382,7 @@ export default function ModalCreateAsset({
                               <TextField
                                 name='login'
                                 type='string'
-                                label='Login'
+                                label='Username*'
                                 defaultValue={values.login}
                                 onChange={handleChange}
                               />
@@ -390,6 +396,23 @@ export default function ModalCreateAsset({
                                 error={touched.email && Boolean(errors.email)}
                                 helperText={touched.email && errors.email}
                               />
+                            </Grid>
+                            <Grid item xs={4}>
+                              <FormControl sx={{width: '192px'}}>
+                                <InputLabel id='sex-select-label'>Authorities</InputLabel>
+                                <Select
+                                  labelId='sex-select-label'
+                                  id='demo-simple-select'
+                                  value={values?.authorities}
+                                  onChange={(e) => setFieldValue('authorities', e.target.value)}
+                                >
+                                  {LIST_AUTHORITIES?.map((item, index) => (
+                                    <MenuItem key={index} value={item?.name}>
+                                      {item?.title}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
                             </Grid>
                           </Grid>
                         </Box>

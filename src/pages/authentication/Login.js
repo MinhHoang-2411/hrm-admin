@@ -12,7 +12,7 @@ const Login = () => (
   <AuthWrapper>
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Grid justifyContent='center' display='flex' marginBottom='30px'>
+        <Grid justifyContent='center' display='flex' marginBottom='10px'>
           <Logo />
         </Grid>
         <Stack
@@ -21,7 +21,6 @@ const Login = () => (
           alignItems='baseline'
           sx={{mb: {xs: -0.5, sm: 0.5}}}
         >
-          <Typography variant='h3'>Login</Typography>
           {/* <Typography
             component={Link}
             to='/register'

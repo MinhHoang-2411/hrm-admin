@@ -17,6 +17,7 @@ import {nameMatching} from 'utils/format/name';
 import {formatTimeStampToDate} from 'utils/index';
 import Empty from 'components/Empty';
 import TableLoading from 'components/table/table-loading';
+import {DEPARTMENTS} from 'constants/index';
 
 const headCells = [
   {
@@ -185,7 +186,7 @@ export default function TableEmployee({
           <TableCell align='left'>{row?.user?.email}</TableCell>
           <TableCell align='left'>{row?.address?.city}</TableCell>
           <TableCell align='left'>{formatTimeStampToDate(row?.joinedDate)}</TableCell>
-          <TableCell align='left'>{row?.department}</TableCell>
+          <TableCell align='left'>{DEPARTMENTS[row?.department]}</TableCell>
           <TableCell align='left'>{row?.position}</TableCell>
           <TableCell align='left'>{row?.branch?.name}</TableCell>
           <TableCell align='left'>{row?.team?.name}</TableCell>

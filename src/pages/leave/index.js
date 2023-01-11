@@ -1,4 +1,4 @@
-import {CheckOutlined, CloseOutlined, EyeOutlined, EyeInvisibleOutlined} from '@ant-design/icons';
+import {CheckOutlined, CloseOutlined, EyeInvisibleOutlined, EyeOutlined} from '@ant-design/icons';
 import {
   Box,
   Button,
@@ -6,41 +6,37 @@ import {
   Chip,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
-  Select,
-  IconButton,
-  Tooltip,
   Modal,
+  Select,
   Stack,
-  TextField,
+  Tooltip,
 } from '@mui/material';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
+import DuoDatePicker from 'components/date-picker/DatePicker';
 import Empty from 'components/Empty';
 import {InputSearch} from 'components/filter/input-search';
 import MainCard from 'components/MainCard';
 import SkeletonLoading from 'components/SkeletonLoading';
 import {STATUS_LEAVE, TYPE_LEAVE} from 'constants/index';
+import {STYLE_MODAL} from 'constants/style';
 import useGetAllList from 'hooks/useGetAllList';
 import _ from 'lodash';
 import {useCallback, useEffect, useState} from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import {leaveActions} from 'store/leave/leaveSlice';
 import {modalActions} from 'store/modal/modalSlice';
 import {
   fetchMoreCondition,
-  formatDateMaterial,
   formatDateMaterialToTimeStamp,
   formatTimeStampToDate,
 } from 'utils/index';
 import ModalLeaveDetail from './Modal/ModalLeaveDetail';
-import {STYLE_MODAL} from 'constants/style';
 
 const styleTitle = {
-  fontSize: '24px',
+  fontSize: '20px',
   fontWeight: 'bold',
   marginBottom: '10px',
   marginTop: '10px',
@@ -49,7 +45,6 @@ const styleTitle = {
   alignItems: 'center',
 };
 const styleName = {
-  fontSize: '14px',
   fontWeight: 'bold',
   cursor: 'pointer',
   textTransform: 'uppercase',
@@ -75,11 +70,13 @@ export default function LeavePage() {
   const [paramsAll, setParamsAll] = useState({
     size: 10,
     page: 0,
+    sort: 'lastModifiedDate,DESC',
   });
 
   const [paramsPending, setParamsPending] = useState({
     size: 10,
     page: 0,
+    sort: 'lastModifiedDate,DESC',
   });
   const [page, setPage] = useState(0);
   const [pagePending, setPagePending] = useState(0);
@@ -147,18 +144,18 @@ export default function LeavePage() {
           ? setParamsPending((prevState) => {
               const newState = {...prevState};
               if (value && value.trim() !== '') {
-                newState['titleOrApplicantName.contains'] = value.trim();
+                newState['titleOrPersonOnLeave.contains'] = value.trim();
               } else {
-                delete newState['titleOrApplicantName.contains'];
+                delete newState['titleOrPersonOnLeave.contains'];
               }
               return {...newState, page: 0};
             })
           : setParamsAll((prevState) => {
               const newState = {...prevState};
               if (value && value.trim() !== '') {
-                newState['titleOrApplicantName.contains'] = value.trim();
+                newState['titleOrPersonOnLeave.contains'] = value.trim();
               } else {
-                delete newState['titleOrApplicantName.contains'];
+                delete newState['titleOrPersonOnLeave.contains'];
               }
               return {...newState, page: 0};
             }),
@@ -194,12 +191,15 @@ export default function LeavePage() {
     setPagePending(0);
   };
 
-  const handleFilterDate = (date, type) => {
-    const nextDate = date ? new Date(date) : null;
-    nextDate && nextDate.setDate(nextDate.getDate() + 1);
+  const handleFilterDate = (date, type, time) => {
+    if (time == 'startDate') {
+      handleFilter('startDate.greaterThanOrEqual', formatDateMaterialToTimeStamp(date), type);
+    } else if (time == 'endDate') {
+      const nextDate = date ? new Date(date) : null;
+      nextDate && nextDate.setDate(nextDate.getDate() + 1);
 
-    handleFilter('startDate.greaterThanOrEqual', formatDateMaterialToTimeStamp(date), type);
-    handleFilter('startDate.lessThan', formatDateMaterialToTimeStamp(nextDate), type);
+      handleFilter('endDate.lessThan', formatDateMaterialToTimeStamp(nextDate), type);
+    }
   };
 
   const handleClose = () => {
@@ -222,7 +222,7 @@ export default function LeavePage() {
         >
           <Box sx={{display: 'flex', flexDirection: 'column', padding: '10px 30px'}}>
             <Box sx={styleTitle}>
-              {row?.title}
+              <Box sx={styleName}>{row?.personOnLeave}</Box>
               <Tooltip title='Hide'>
                 <IconButton
                   sx={{fontSize: '25px'}}
@@ -237,10 +237,10 @@ export default function LeavePage() {
             <Box sx={{display: 'flex', marginBottom: '20px'}}>
               <Grid container spacing={2} columns={12}>
                 <Grid item xs={6}>
-                  <Box sx={styleName}>{row?.applicantName}</Box>
+                  <span style={{fontWeight: 'bold'}}>Title:</span>&nbsp; {row?.title}
                 </Grid>
                 <Grid item xs={6}>
-                  <span style={{fontWeight: 'bold'}}>Time submitted:</span>&nbsp;{' '}
+                  <span style={{fontWeight: 'bold'}}>Submitted time:</span>&nbsp;{' '}
                   {formatTimeStampToDate(row?.createdDate)}
                 </Grid>
               </Grid>
@@ -325,6 +325,8 @@ export default function LeavePage() {
 
   useEffect(() => {
     dispatch(leaveActions.getListPending(paramsPending));
+    setPage(0);
+    setPagePending(0);
   }, [paramsPending, reloadList]);
 
   return (
@@ -332,7 +334,7 @@ export default function LeavePage() {
       <MainCard sx={{mt: 2}} content={false}>
         <Box
           sx={{
-            padding: '20px 20px',
+            padding: '5px 20px',
             display: 'flex-column',
           }}
         >
@@ -344,16 +346,18 @@ export default function LeavePage() {
                     PENDING LEAVE REQUESTS{' '}
                     <span style={styleCount}>{paginationPending?.totalCount || 0}</span>
                   </h3>
-                  <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
+                  <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: '10px'}}>
                     <Stack direction='row' alignItems='center'>
                       <InputSearch
-                        width={'25 0px'}
+                        width={'470px'}
                         search={searchListPending}
                         handleSearch={(value) => handleSearch(value, 'pending')}
                         placeholder='Search...'
                       />
-                      <FormControl sx={{minWidth: 120, marginLeft: '15px'}}>
-                        <InputLabel id='demo-simple-select-label'>Leave Type</InputLabel>
+                    </Stack>
+                    <Box>
+                      <FormControl sx={{minWidth: 150, marginRight: '10px', marginTop: '10px'}}>
+                        <InputLabel id='demo-simple-select-label'>Leave type</InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
@@ -369,19 +373,12 @@ export default function LeavePage() {
                           ))}
                         </Select>
                       </FormControl>
-                    </Stack>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        label='Start Date'
-                        closeOnSelect={true}
-                        value={formatDateMaterial(paramsPending?.['startDate.greaterThanOrEqual'])}
-                        onChange={(newValue) => handleFilterDate(newValue, 'pending')}
-                        inputFormat='DD/MM/YYYY'
-                        renderInput={(params) => (
-                          <TextField sx={{marginLeft: '15px', width: '180px'}} {...params} />
-                        )}
+                      <DuoDatePicker
+                        params={paramsPending}
+                        handleFilter={handleFilterDate}
+                        type='pending'
                       />
-                    </LocalizationProvider>
+                    </Box>
                   </Box>
                 </Box>
                 <InfiniteScroll
@@ -408,9 +405,10 @@ export default function LeavePage() {
                   ) : (
                     <Empty
                       title={
-                        paramsPending['title.contains'] && paramsPending['title.contains'] !== ''
+                        paramsPending['titleOrPersonOnLeave.contains'] &&
+                        paramsPending['titleOrPersonOnLeave.contains'] !== ''
                           ? 'No results matched your search'
-                          : 'There is currently no leave'
+                          : 'There are currently no pending leave requests'
                       }
                     />
                   )}
@@ -430,67 +428,56 @@ export default function LeavePage() {
                     OTHER LEAVE REQUESTS{' '}
                     <span style={styleCount}>{pagination?.totalCount || 0}</span>
                   </h3>
-                  <Box sx={{display: 'flex', alignItems: 'center'}}>
-                    <InputSearch
-                      width={200}
-                      search={search}
-                      handleSearch={handleSearch}
-                      placeholder='Search...'
-                    />
-                    <FormControl sx={{minWidth: 120, marginLeft: '15px'}}>
-                      <InputLabel id='demo-simple-select-label'>Leave type</InputLabel>
-                      <Select
-                        labelId='demo-simple-select-label'
-                        id='demo-simple-select'
-                        value={paramsAll?.['type.equals']}
-                        onChange={(e) => handleFilter('type.equals', e.target.value)}
-                        label='Leave type'
-                      >
-                        <MenuItem value={'all'}>ALL</MenuItem>
-                        {TYPE_LEAVE?.map((item, index) => (
-                          <MenuItem key={index} value={item}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl sx={{minWidth: 120, marginLeft: '15px'}}>
-                      <InputLabel id='demo-simple-select-label'>Status</InputLabel>
-                      <Select
-                        labelId='demo-simple-select-label'
-                        id='demo-simple-select'
-                        value={paramsAll?.['status.equals']}
-                        onChange={(e) => handleFilter('status.equals', e.target.value)}
-                        label='Status'
-                      >
-                        <MenuItem value={'all'}>ALL</MenuItem>
-                        {STATUS_LEAVE?.map((item, index) => (
-                          <MenuItem key={index} value={item}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        label='Start Date'
-                        value={formatDateMaterial(paramsAll?.['startDate.greaterThanOrEqual'])}
-                        onChange={(newValue) => handleFilterDate(newValue)}
-                        inputFormat='DD/MM/YYYY'
-                        renderInput={(params) => (
-                          <TextField
-                            sx={{
-                              marginLeft: '15px',
-                              width: '170px',
-                              input: {
-                                paddingRight: '5px',
-                              },
-                            }}
-                            {...params}
-                          />
-                        )}
+                  <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                    <Box>
+                      <InputSearch
+                        width={490}
+                        search={search}
+                        handleSearch={handleSearch}
+                        placeholder='Search...'
                       />
-                    </LocalizationProvider>
+                    </Box>
+                    <Box>
+                      <FormControl sx={{minWidth: 120, marginRight: '10px', marginTop: '10px'}}>
+                        <InputLabel id='demo-simple-select-label'>Leave type</InputLabel>
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          value={paramsAll?.['type.equals']}
+                          onChange={(e) => handleFilter('type.equals', e.target.value)}
+                          label='Leave type'
+                        >
+                          <MenuItem value={'all'}>ALL</MenuItem>
+                          {TYPE_LEAVE?.map((item, index) => (
+                            <MenuItem key={index} value={item}>
+                              {item}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <FormControl sx={{minWidth: 120, marginRight: '10px', marginTop: '10px'}}>
+                        <InputLabel id='demo-simple-select-label'>Status</InputLabel>
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          value={paramsAll?.['status.equals']}
+                          onChange={(e) => handleFilter('status.equals', e.target.value)}
+                          label='Status'
+                        >
+                          <MenuItem value={'all'}>ALL</MenuItem>
+                          {STATUS_LEAVE?.map((item, index) => (
+                            <MenuItem key={index} value={item}>
+                              {item}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <DuoDatePicker
+                        params={paramsAll}
+                        handleFilter={handleFilterDate}
+                        width='110px'
+                      />
+                    </Box>
                   </Box>
                 </Box>
                 <InfiniteScroll
@@ -517,9 +504,10 @@ export default function LeavePage() {
                   ) : (
                     <Empty
                       title={
-                        paramsAll['title.contains'] && paramsAll['title.contains'] !== ''
+                        paramsAll['titleOrPersonOnLeave.contains'] &&
+                        paramsAll['titleOrPersonOnLeave.contains'] !== ''
                           ? 'No results matched your search'
-                          : 'There is currently no leave'
+                          : 'There are currently no other leave requests'
                       }
                     />
                   )}
@@ -536,7 +524,7 @@ export default function LeavePage() {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box sx={STYLE_MODAL}>
+        <Box sx={{...STYLE_MODAL, width: 800}}>
           <ModalLeaveDetail
             leaveId={leaveId}
             handleClose={handleClose}

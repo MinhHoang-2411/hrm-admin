@@ -55,8 +55,8 @@ const AuthLogin = () => {
           submit: null,
         }}
         validationSchema={Yup.object().shape({
-          username: Yup.string().max(255).required('Username is required'),
-          password: Yup.string().max(255).required('Password is required'),
+          username: Yup.string().max(50).required('Please enter Username'),
+          password: Yup.string().max(60).required('Please enter Password'),
         })}
         onSubmit={async (values, {setErrors, setStatus, setSubmitting}) => {
           try {
@@ -81,7 +81,7 @@ const AuthLogin = () => {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor='email-login'>User Name</InputLabel>
+                  <InputLabel htmlFor='email-login'>Username</InputLabel>
                   <OutlinedInput
                     id='email-login'
                     type='text'
@@ -89,7 +89,7 @@ const AuthLogin = () => {
                     name='username'
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder='Enter username'
+                    placeholder='Enter your Username'
                     fullWidth
                     error={Boolean(touched.username && errors.username)}
                   />
@@ -125,7 +125,7 @@ const AuthLogin = () => {
                         </IconButton>
                       </InputAdornment>
                     }
-                    placeholder='Enter password'
+                    placeholder='Enter your Password'
                   />
                   {touched.password && errors.password && (
                     <FormHelperText error id='standard-weight-helper-text-password-login'>

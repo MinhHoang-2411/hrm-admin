@@ -7,6 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {formatTimeStampToDate} from 'utils/index';
+import {RowTableEmpty} from 'components/table/table-empty';
+import {TYPE_DETAIL_LEAVE} from 'constants/index';
 
 const headCells = [
   {
@@ -29,7 +31,7 @@ const headCells = [
   },
 ];
 
-export default function TableDetailLeave({data}) {
+export default function TableDetailLeave({data, leaveType}) {
   const renderList = useCallback(
     () =>
       Array.isArray(data) &&
@@ -42,7 +44,7 @@ export default function TableDetailLeave({data}) {
           key={row.id}
         >
           <TableCell align='left'>{formatTimeStampToDate(row?.leaveDate)}</TableCell>
-          <TableCell align='left'>{row?.dateType}</TableCell>
+          <TableCell align='left'>{TYPE_DETAIL_LEAVE[row?.dateType]}</TableCell>
           <TableCell align='left'>{row.note}</TableCell>
         </TableRow>
       )),
@@ -71,11 +73,10 @@ export default function TableDetailLeave({data}) {
             {data?.length ? (
               renderList()
             ) : (
-              <TableRow>
-                <TableCell colSpan={3} scope='full' align='center'>
-                  <h4 style={{color: '#738bab'}}>There is currently no data available</h4>
-                </TableCell>
-              </TableRow>
+              <RowTableEmpty
+                col={3}
+                title={leaveType == 'MATERNITY' ? 'There is no detail for Maternity type' : null}
+              />
             )}
           </TableBody>
         </Table>

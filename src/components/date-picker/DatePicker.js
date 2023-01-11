@@ -1,46 +1,55 @@
-import {useState} from 'react';
 import TextField from '@mui/material/TextField';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {formatDateMaterial, formatDateMaterialToTimeStamp} from 'utils/index';
+import {formatDateMaterial} from 'utils/index';
 
-export default function BasicDatePicker({params, handleFilter}) {
-  const [fromError, setFromError] = useState(null);
-  const [toError, setError] = useState(null);
+const convertDateTime = (date) => {
+  const endDate = date ? new Date(date) : null;
+  endDate && endDate.setDate(endDate.getDate() - 1);
+  return formatDateMaterial(endDate);
+};
+
+export default function DuoDatePicker({params, handleFilter, width = '150px', type = null}) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         label='From'
-        value={formatDateMaterial(params?.['startDate.equals'])}
-        onChange={(newValue) => {
-          handleFilter('startDate.equals', formatDateMaterialToTimeStamp(newValue), 'pending');
-        }}
-        inputFormat='DD/MM/YYYY'
-        onError={(newError) => setFromError(newError)}
+        closeOnSelect={true}
+        value={formatDateMaterial(params?.['startDate.greaterThanOrEqual'])}
+        onChange={(newValue) => handleFilter(newValue, type, 'startDate')}
+        inputFormat='DD/MM'
         renderInput={(params) => (
           <TextField
-            sx={{marginLeft: '15px', width: '180px'}}
+            sx={{
+              width: width,
+              marginTop: '10px',
+              marginRight: '10px',
+              input: {
+                paddingRight: '5px',
+              },
+            }}
             {...params}
-            helperText={fromError ? 'Invalid Date' : ''}
           />
         )}
       />
 
       <DatePicker
         label='To'
-        value={formatDateMaterial(params?.['endDate.equals'])}
-        onChange={(newValue) => {
-          handleFilter('endDate.equals', formatDateMaterialToTimeStamp(newValue), 'pending');
-        }}
-        inputFormat='DD/MM/YYYY'
-        onError={(newError) => setError(newError)}
-        minDate={params?.dateFrom}
+        closeOnSelect={true}
+        value={convertDateTime(params?.['endDate.lessThan'])}
+        onChange={(newValue) => handleFilter(newValue, type, 'endDate')}
+        inputFormat='DD/MM'
         renderInput={(params) => (
           <TextField
-            sx={{marginLeft: '15px', width: '180px'}}
+            sx={{
+              width: width,
+              marginTop: '10px',
+              input: {
+                paddingRight: '5px',
+              },
+            }}
             {...params}
-            helperText={toError ? 'Invalid Date' : ''}
           />
         )}
       />
