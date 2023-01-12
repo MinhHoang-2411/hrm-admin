@@ -69,6 +69,7 @@ const leaveSlice = createSlice({
     changeStatusSuccess(state, action) {
       state.loadingChangeStatus = false;
       state.reloadList = !state.reloadList;
+      state.reloadListPending = !state.reloadListPending;
     },
     changeStatusFalse(state, action) {
       state.loadingChangeStatus = false;

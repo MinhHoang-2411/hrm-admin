@@ -133,6 +133,17 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                     <Grid item xs={9.5}>
                       {dataLeave?.reason}
                     </Grid>
+
+                    {dataLeave?.rejectReason ? (
+                      <>
+                        <Grid item xs={2.5}>
+                          <b>Reject reason:</b>
+                        </Grid>
+                        <Grid item xs={9.5}>
+                          {dataLeave?.rejectReason}
+                        </Grid>
+                      </>
+                    ) : null}
                   </Grid>
                 </Box>
                 <TableDetailLeave data={dataLeave?.detail} leaveType={dataLeave?.type} />
