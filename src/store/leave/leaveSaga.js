@@ -60,7 +60,7 @@ function* handleChangeStatus(action) {
     yield put(menuActions.minusCountMenu('leave'));
     yield put(
       alertActions.showAlert({
-        text: `Leave has been ${params?.status}`,
+        text: `${params?.status == 'APPROVED' ? 'Approve' : 'Reject'} the leave successfully`,
         type: 'success',
       })
     );

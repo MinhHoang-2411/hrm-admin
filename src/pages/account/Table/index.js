@@ -17,6 +17,7 @@ import {OrderTableHead} from 'components/table/table-head';
 import {nameMatching} from 'utils/format/name';
 import Empty from 'components/Empty';
 import TableLoading from 'components/table/table-loading';
+import {checkAllCondition, handleCheckAll} from 'utils/helper/handleCheckAll';
 
 const headCells = [
   {
@@ -84,11 +85,7 @@ export default function TableAccount({
     setListChecked(tmpList);
   };
 
-  const isCheckAll = data?.length > 0 && listChecked?.length === data?.length;
-  const handleCheckAll = () => {
-    if (isCheckAll) setListChecked([]);
-    else setListChecked(data?.map((item) => item?.id));
-  };
+  const isCheckAll = checkAllCondition(data, listChecked);
 
   const handleEdit = (id) => {
     setIdAccount(id);
@@ -185,7 +182,9 @@ export default function TableAccount({
             headCells={headCells}
             order={order}
             orderBy={orderBy}
-            handleCheckAll={handleCheckAll}
+            handleCheckAll={() => {
+              handleCheckAll(data, listChecked, setListChecked);
+            }}
             checked={isCheckAll}
           />
 

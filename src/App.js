@@ -5,6 +5,7 @@ import ScrollTop from 'components/ScrollTop';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'components/modal/index';
+import './assets/style/globalCss.scss';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL  ||============================== //
 

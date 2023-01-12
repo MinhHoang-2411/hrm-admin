@@ -46,7 +46,9 @@ export default function ConfirmModal(prop) {
     >
       <DialogTitle sx={titleModal}>{title}</DialogTitle>
       <DialogContent sx={contentModal}>
-        <DialogContentText sx={{color: '#000', fontSize: '16px'}}>{content}</DialogContentText>
+        <DialogContentText sx={{color: '#000', fontSize: '16px', width: '100%'}}>
+          {content}
+        </DialogContentText>
       </DialogContent>
       <DialogActions sx={footerModal}>
         <Button

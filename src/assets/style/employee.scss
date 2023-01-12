@@ -74,11 +74,18 @@
 }
 
 .group-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #ccc;
-    padding: 20px;
+  position: sticky;
+  position: -webkit-sticky;
+  z-index: 999;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ccc;
+  padding: 20px;
 }
 
 .label-name-member {

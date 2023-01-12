@@ -34,6 +34,7 @@ import {
   formatTimeStampToDate,
 } from 'utils/index';
 import ModalLeaveDetail from './Modal/ModalLeaveDetail';
+import ModalLeaveReason from './Modal/ModalLeaveReason';
 
 const styleTitle = {
   fontSize: '20px',
@@ -79,6 +80,7 @@ export default function LeavePage() {
     sort: 'lastModifiedDate,DESC',
   });
   const [page, setPage] = useState(0);
+
   const [pagePending, setPagePending] = useState(0);
   const [search, setSearch] = useState('');
   const [searchListPending, setSearchListPending] = useState('');
@@ -89,6 +91,7 @@ export default function LeavePage() {
     loadMorePending,
     loadMore,
     reloadList,
+    reloadListPending,
     loadingPending,
     loading,
     pagination,
@@ -124,15 +127,28 @@ export default function LeavePage() {
   };
 
   const handleAction = (data, text, action) => {
+    let rejectReason = null;
     const params = {
       type: 'modalConfirm',
       title: 'Confirm',
       content: (
-        <span>
-          Do you want to <b>{text}</b> this leave request?
-        </span>
+        <>
+          <span>
+            Are you sure to <b>{text}</b> this leave request?
+          </span>
+          {action === 'REJECTED' && (
+            <ModalLeaveReason setRejectReason={(value) => (rejectReason = value)} />
+          )}
+        </>
       ),
-      onAction: () => dispatch(leaveActions.changeStatus({id: data?.id, status: action})),
+      onAction: () => {
+        if (action === 'REJECTED') {
+          dispatch(leaveActions.changeStatus({id: data?.id, status: action, rejectReason}));
+          setReJectReason('');
+        } else {
+          dispatch(leaveActions.changeStatus({id: data?.id, status: action}));
+        }
+      },
     };
     dispatch(modalActions.showModal(params));
   };
@@ -167,8 +183,6 @@ export default function LeavePage() {
     if (type == 'pending') setSearchListPending(value);
     else setSearch(value);
     debounceSearch(value, type);
-    setPage(0);
-    setPagePending(0);
   };
 
   const handleFilter = (key, value, type) => {
@@ -187,8 +201,6 @@ export default function LeavePage() {
         return state;
       });
     }
-    setPage(0);
-    setPagePending(0);
   };
 
   const handleFilterDate = (date, type, time) => {
@@ -277,6 +289,11 @@ export default function LeavePage() {
             <Box sx={{display: 'flex', marginBottom: '20px'}}>
               <span style={{fontWeight: 'bold'}}>Reason:</span>&nbsp; {row?.reason}
             </Box>
+            {row?.rejectReason ? (
+              <Box sx={{display: 'flex', marginBottom: '20px'}}>
+                <span style={{fontWeight: 'bold'}}>Reject Reason:</span>&nbsp; {row?.rejectReason}
+              </Box>
+            ) : null}
             {isLeavePending(row?.status) && (
               <Box sx={{margin: '10px 10px 12px 0px'}}>
                 <Button
@@ -324,10 +341,13 @@ export default function LeavePage() {
   };
 
   useEffect(() => {
-    dispatch(leaveActions.getListPending(paramsPending));
     setPage(0);
+  }, [reloadList, paramsAll]);
+
+  useEffect(() => {
+    dispatch(leaveActions.getListPending(paramsPending));
     setPagePending(0);
-  }, [paramsPending, reloadList]);
+  }, [reloadListPending, paramsPending]);
 
   return (
     <>

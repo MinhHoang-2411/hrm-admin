@@ -17,6 +17,7 @@ import {nameMatching} from 'utils/format/name';
 import {formatTimeStampToDate} from 'utils/index';
 import Empty from 'components/Empty';
 import TableLoading from 'components/table/table-loading';
+import {checkAllCondition, handleCheckAll} from 'utils/helper/handleCheckAll';
 import {DEPARTMENTS} from 'constants/index';
 
 const headCells = [
@@ -127,7 +128,7 @@ export default function TableEmployee({
   const [selected] = useState([]);
   const [listChecked, setListChecked] = useState([]);
 
-  const isCheckAll = data?.length > 0 && listChecked?.length === data?.length;
+  const isCheckAll = checkAllCondition(data, listChecked);
 
   const handleChecked = (e) => {
     const id = Number(e.target.value);
@@ -136,11 +137,6 @@ export default function TableEmployee({
     if (index > -1) tmpList.splice(index, 1);
     else tmpList.push(id);
     setListChecked(tmpList);
-  };
-
-  const handleCheckAll = () => {
-    if (isCheckAll) setListChecked([]);
-    else setListChecked(data?.map((item) => item?.id));
   };
 
   const handleEdit = (id) => {
@@ -227,7 +223,7 @@ export default function TableEmployee({
             headCells={headCells}
             order={order}
             orderBy={orderBy}
-            handleCheckAll={handleCheckAll}
+            handleCheckAll={() => handleCheckAll(data, listChecked, setListChecked)}
             checked={isCheckAll}
           />
 
