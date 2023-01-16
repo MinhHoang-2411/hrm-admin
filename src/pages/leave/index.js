@@ -144,7 +144,6 @@ export default function LeavePage() {
       onAction: () => {
         if (action === 'REJECTED') {
           dispatch(leaveActions.changeStatus({id: data?.id, status: action, rejectReason}));
-          setReJectReason('');
         } else {
           dispatch(leaveActions.changeStatus({id: data?.id, status: action}));
         }

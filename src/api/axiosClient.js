@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getAuth} from 'utils/auth/index';
+import {getAuth, handleLogout} from 'utils/auth/index';
 
 const URL_API_ADMIN = process.env.REACT_APP_API_URL_AMDIN;
 
@@ -40,6 +40,9 @@ axiosClient.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    if (error?.response?.status == 401 || error?.response?.status == 403) {
+      handleLogout();
+    }
     return Promise.reject(error);
   }
 );

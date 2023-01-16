@@ -1,9 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {INFO_USER_LOCAL_STORAGE_KEY} from 'constants/auth';
 
 const initialState = {
   isLoggedIn: false, // logged
   logging: false, // loading
-  currentUser: undefined, // info user if login success
+  dataUser: JSON.parse(localStorage.getItem(INFO_USER_LOCAL_STORAGE_KEY)) || {},
 };
 
 const authSlice = createSlice({
@@ -16,10 +17,12 @@ const authSlice = createSlice({
     loginSuccess(state, action) {
       state.isLoggedIn = true;
       state.logging = false;
-      state.currentUser = action.payload;
     },
     loginFailed(state, action) {
       state.logging = false;
+    },
+    getDataUser(state, action) {
+      state.dataUser = action.payload;
     },
 
     logout(state, action) {

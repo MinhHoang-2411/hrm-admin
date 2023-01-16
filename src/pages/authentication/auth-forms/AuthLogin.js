@@ -66,6 +66,7 @@ const AuthLogin = () => {
               authActions.login({
                 username: values.username,
                 password: values.password,
+                rememberMe: checked,
                 onNavigate: () => navigate('/'),
               })
             );
