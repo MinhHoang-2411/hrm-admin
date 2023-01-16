@@ -90,7 +90,7 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                           <b>Rejected by:</b>
                         </Grid>
                         <Grid item xs={4}>
-                          {dataLeave?.rejectorName}
+                          {dataLeave?.rejecterName}
                         </Grid>
                       </>
                     )}

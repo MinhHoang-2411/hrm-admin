@@ -23,6 +23,10 @@ const employeeApi = {
       isDeleted: true,
     });
   },
+  getBasicInfo() {
+    const url = `/employees/basic-info`;
+    return axiosClient.get(url);
+  },
 };
 
 export default employeeApi;

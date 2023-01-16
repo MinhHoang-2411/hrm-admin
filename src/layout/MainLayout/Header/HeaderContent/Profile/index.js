@@ -28,7 +28,7 @@ import SettingTab from './SettingTab';
 // assets
 import avatar1 from 'assets/images/users/avatar-1.png';
 import {LogoutOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
-import {useAppDispatch} from 'app/hooks';
+import {useAppDispatch, useAppSelector} from 'app/hooks';
 import {authActions} from 'store/auth/authSlice';
 import {useNavigate} from 'react-router-dom';
 
@@ -66,6 +66,7 @@ const Profile = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
+  const dataProfile = useAppSelector((state) => state.auth.dataUser);
 
   const handleLogout = async () => {
     dispatch(
@@ -113,7 +114,7 @@ const Profile = () => {
       >
         <Stack direction='row' spacing={2} alignItems='center' sx={{p: 0.5}}>
           <Avatar alt='profile user' src={avatar1} sx={{width: 32, height: 32}} />
-          <Typography variant='subtitle1'>John Doe</Typography>
+          <Typography variant='subtitle1'>{dataProfile?.user?.firstName}</Typography>
         </Stack>
       </ButtonBase>
       <Popper
@@ -140,9 +141,8 @@ const Profile = () => {
               <Paper
                 sx={{
                   boxShadow: theme.customShadows.z1,
-                  width: 290,
-                  minWidth: 240,
-                  maxWidth: 290,
+                  minWidth: 290,
+                  maxWidth: 400,
                   [theme.breakpoints.down('md')]: {
                     maxWidth: 250,
                   },
@@ -156,14 +156,14 @@ const Profile = () => {
                           <Stack direction='row' spacing={1.25} alignItems='center'>
                             <Avatar alt='profile user' src={avatar1} sx={{width: 32, height: 32}} />
                             <Stack>
-                              <Typography variant='h6'>John Doe</Typography>
+                              <Typography variant='h6'>{dataProfile?.user?.fullName}</Typography>
                               <Typography variant='body2' color='textSecondary'>
-                                UI/UX Designer
+                                {dataProfile?.position}
                               </Typography>
                             </Stack>
                           </Stack>
                         </Grid>
-                        <Grid item>
+                        <Grid item sx={{ml: 1}}>
                           <IconButton size='large' color='secondary' onClick={handleLogout}>
                             <LogoutOutlined />
                           </IconButton>

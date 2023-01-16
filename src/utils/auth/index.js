@@ -1,4 +1,5 @@
-const AUTH_LOCAL_STORAGE_KEY = 'access_token';
+import {AUTH_LOCAL_STORAGE_KEY, INFO_USER_LOCAL_STORAGE_KEY} from 'constants/auth';
+
 const getAuth = () => {
   if (!localStorage) {
     return;
@@ -20,4 +21,10 @@ const getAuth = () => {
   }
 };
 
-export {getAuth};
+const handleLogout = () => {
+  window.location.href = '/login';
+  localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY);
+  localStorage.removeItem(INFO_USER_LOCAL_STORAGE_KEY);
+};
+
+export {getAuth, handleLogout};

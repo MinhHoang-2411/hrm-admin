@@ -1,0 +1,4 @@
+const AUTH_LOCAL_STORAGE_KEY = 'access_token';
+const INFO_USER_LOCAL_STORAGE_KEY = 'info_user';
+
+export {AUTH_LOCAL_STORAGE_KEY, INFO_USER_LOCAL_STORAGE_KEY};
