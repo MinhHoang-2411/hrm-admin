@@ -1,4 +1,5 @@
 import {useRoutes} from 'react-router-dom';
+import ErrorRoutes from './ErrorRoutes';
 
 // project import
 import LoginRoutes from './LoginRoutes';
@@ -9,5 +10,5 @@ import MainRoutes from './MainRoutes';
 export default function ThemeRoutes() {
   const isLoggedIn = Boolean(localStorage.getItem('access_token'));
   const switchRoutes = isLoggedIn ? [MainRoutes] : [LoginRoutes];
-  return useRoutes(switchRoutes);
+  return useRoutes([...switchRoutes, ErrorRoutes]);
 }

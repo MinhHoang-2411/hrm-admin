@@ -1,4 +1,5 @@
 import {AUTH_LOCAL_STORAGE_KEY, INFO_USER_LOCAL_STORAGE_KEY} from 'constants/auth';
+import history from 'routes/history';
 
 const getAuth = () => {
   if (!localStorage) {
@@ -22,9 +23,11 @@ const getAuth = () => {
 };
 
 const handleLogout = () => {
-  window.location.href = '/login';
-  localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY);
-  localStorage.removeItem(INFO_USER_LOCAL_STORAGE_KEY);
+  if (window.location.pathname !== '/login') {
+    history.replace('/login');
+    localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY);
+    localStorage.removeItem(INFO_USER_LOCAL_STORAGE_KEY);
+  }
 };
 
 export {getAuth, handleLogout};
