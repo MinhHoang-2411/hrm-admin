@@ -1,6 +1,6 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
-import {BrowserRouter} from 'react-router-dom';
+import {unstable_HistoryRouter as HistoryRouter} from 'react-router-dom';
 
 // scroll bar
 import 'simplebar/src/simplebar.css';
@@ -14,6 +14,7 @@ import 'assets/third-party/apex-chart.css';
 import {store} from 'app/store';
 import {Provider} from 'react-redux';
 import App from './App';
+import history from 'routes/history';
 
 // ==============================|| MAIN - REACT DOM RENDER  ||============================== //
 
@@ -22,9 +23,9 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <HistoryRouter history={history}>
         <App />
-      </BrowserRouter>
+      </HistoryRouter>
     </Provider>
   </StrictMode>
 );
