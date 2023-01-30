@@ -2,7 +2,7 @@ import {Box, Button, Chip, Divider, Grid} from '@mui/material';
 import {useEffect} from 'react';
 import {ThreeDots} from 'react-loader-spinner';
 import {leaveActions} from 'store/leave/leaveSlice';
-import {formatTimeStampToDate} from 'utils/index';
+import {formatTimeStampGetTime, formatTimeStampToDate} from 'utils/index';
 import TableDetailLeave from '../Table/table-detail-leave';
 import {useAppDispatch, useAppSelector} from './../../../app/hooks';
 import ErrorIcon from '../../../assets/images/emptyData/error.png';
@@ -59,7 +59,7 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                     <Grid item xs={4}>
                       {dataLeave?.personOnLeave}
                     </Grid>
-                    {dataLeave?.status !== 'CANCELED' && (
+                    {dataLeave?.status !== 'canceled' && (
                       <>
                         <Grid item xs={2.5}>
                           <b>Confirmed by:</b>
@@ -99,6 +99,8 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                     </Grid>
                     <Grid item xs={3.5}>
                       {formatTimeStampToDate(dataLeave?.createdDate)}
+                      &ensp;
+                      {formatTimeStampGetTime(dataLeave?.createdDate)}
                     </Grid>
 
                     <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={2}>
@@ -116,7 +118,7 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                       <Chip
                         sx={{fontWeight: 'bold'}}
                         variant='outlined'
-                        label={dataLeave?.type}
+                        label={dataLeave?.type?.toLowerCase()}
                         color='primary'
                       />
                     </Grid>
@@ -124,7 +126,7 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                       <b>Status:</b>
                     </Grid>
                     <Grid item xs={4}>
-                      {showStatusLeave(dataLeave?.status)}
+                      {showStatusLeave(dataLeave?.status?.toLowerCase())}
                     </Grid>
 
                     <Grid item xs={2.5}>

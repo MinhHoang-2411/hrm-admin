@@ -445,7 +445,7 @@ export default function ModalCreateAsset({
                   startIcon={<CloseOutlined />}
                   onClick={() => handleClose()}
                 >
-                  Cancel
+                  Close
                 </Button>
                 <Button
                   variant='contained'

@@ -10,7 +10,7 @@ import {formatTimeStampToDate} from 'utils/index';
 import '../../../assets/style/employee.scss';
 import FieldData from './FieldData';
 
-export default function ModalCreateAccount({idAccount, typeOpenModal, handleClose}) {
+export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal, handleClose}) {
   const dispatch = useAppDispatch();
 
   //DATA
@@ -20,7 +20,7 @@ export default function ModalCreateAccount({idAccount, typeOpenModal, handleClos
 
   useEffect(() => {
     if (typeOpenModal == 'edit' && idAccount) {
-      dispatch(employeeActions.getById(1));
+      dispatch(employeeActions.getById(idEmployee));
       dispatch(accountActions.getById(idAccount));
     }
   }, [idAccount]);
@@ -95,7 +95,7 @@ export default function ModalCreateAccount({idAccount, typeOpenModal, handleClos
               onClick={() => handleClose()}
               sx={{marginLeft: 'auto'}}
             >
-              Cancel
+              Close
             </Button>
           </div>
           <Divider />

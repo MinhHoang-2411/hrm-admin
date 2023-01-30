@@ -175,7 +175,6 @@ const EmployeeDefault = () => {
           >
             <FormControl sx={{width: {xs: '100%', md: 200}}}>
               <OutlinedInput
-                size='small'
                 id='header-search'
                 startAdornment={
                   <InputAdornment position='start' sx={{mr: -0.5}}>

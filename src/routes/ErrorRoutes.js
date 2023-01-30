@@ -8,6 +8,7 @@ import {Navigate} from 'react-router-dom';
 // render - dashboard
 const ErrorPage500 = Loadable(lazy(() => import('pages/error-page/500')));
 const ErrorPage404 = Loadable(lazy(() => import('pages/error-page/404')));
+const UnderConstructionPage = Loadable(lazy(() => import('pages/under-construction/index')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -26,6 +27,14 @@ const ErrorRoutes = {
     {
       path: '/500',
       element: <ErrorPage500 />,
+    },
+    {
+      path: '/policy',
+      element: <UnderConstructionPage />,
+    },
+    {
+      path: '/support',
+      element: <UnderConstructionPage />,
     },
   ],
 };

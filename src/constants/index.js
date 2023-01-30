@@ -28,7 +28,7 @@ const TYPE_LEAVE = ['Annual', 'Casual', 'Remote', 'Maternity'];
 const STATUS_ASSET_REQUEST = ['Pending', 'Processing', 'Received', 'Rejected', 'Canceled'];
 const STATUS_ACCOUNT_USER = [
   {id: 1, name: 'Activated'},
-  {id: 2, name: 'Unactivated'},
+  {id: 2, name: 'Deactivated'},
 ];
 const LIST_AUTHORITIES = [
   {title: 'User', name: 'ROLE_USER'},
