@@ -12,6 +12,8 @@ import {skillSaga} from 'store/skill/skillSaga';
 import {teamSaga} from 'store/team/teamSaga';
 import {userSaga} from 'store/user/userSaga';
 import {accountSaga} from 'store/account/accountSaga';
+import {departmentsSaga} from 'store/departments/departmentsSaga';
+import {positionsSaga} from 'store/positions/positionsSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -28,5 +30,7 @@ export default function* rootSaga() {
     accountSaga(),
     leaveSaga(),
     skillSaga(),
+    departmentsSaga(),
+    positionsSaga(),
   ]);
 }

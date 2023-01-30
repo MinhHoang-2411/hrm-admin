@@ -11,7 +11,9 @@ import {
   TextField,
 } from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
-import {DEPARTMENTS, LIST_AUTHORITIES, POSITION} from 'constants/index';
+import user from 'assets/images/users/user.png';
+import {optionsSelect} from 'components/select/index';
+import {LIST_AUTHORITIES} from 'constants/index';
 import {Form, Formik} from 'formik';
 import {useEffect, useState} from 'react';
 import Avatar from 'react-avatar';
@@ -27,13 +29,15 @@ export default function ModalCreateAsset({
   typeOpenModal,
   listTeam,
   listBranches,
+  listPositions,
+  listDepartments,
   handleClose,
 }) {
   const dispatch = useAppDispatch();
   const dataEmployee = useAppSelector((state) => state.employee.dataEmployee);
   const isLoading = useAppSelector((state) => state.employee.loadingEdit);
   const {getRootProps, getInputProps, imagePreview, avatarBase64} = useUploadImg();
-  const [phoneNumber, setPhoneNumber] = useState(dataEmployee?.phoneNumber || '');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const NUMBER_REGEX = /^[0-9]+$/;
 
   const onCreateAsset = async (values) => {
@@ -54,16 +58,15 @@ export default function ModalCreateAsset({
           id: values.branchId,
         },
         nationality: values.nationality,
-        gender: values.gender == 0 ? 'MALE' : 'FEMALE',
+        gender: values.gender,
         address: {
+          id: dataEmployee?.address?.id,
           streetAddress: values?.address,
         },
         joinedDate: formatDateMaterialToTimeStamp(values?.joinedDate),
         user: {
-          id: dataEmployee?.user?.id,
           firstName: values?.firstName || dataEmployee?.user?.firstName,
           lastName: values?.lastName || dataEmployee?.user?.lastName,
-          login: values?.login || dataEmployee?.user?.login,
           email: values?.email || dataEmployee?.user?.email,
           imageUrl: avatarBase64 || dataEmployee?.user?.imageUrl,
         },
@@ -82,6 +85,7 @@ export default function ModalCreateAsset({
       else {
         delete params.user;
         delete params.id;
+        delete params.address.id;
         dispatch(employeeActions.create({params, userParams}));
       }
     } catch (error) {
@@ -94,6 +98,9 @@ export default function ModalCreateAsset({
   useEffect(() => {
     if (typeOpenModal == 'edit' && idEmployee) dispatch(employeeActions.getById(idEmployee));
   }, [idEmployee]);
+  useEffect(() => {
+    if (dataEmployee?.phoneNumber) setPhoneNumber(dataEmployee?.phoneNumber);
+  }, [dataEmployee?.phoneNumber]);
 
   return (
     <>
@@ -108,7 +115,7 @@ export default function ModalCreateAsset({
             lastName: dataEmployee?.user?.lastName || '',
             avatar: dataEmployee?.user?.imageUrl || '',
             dateOfBirth: formatDateMaterial(dataEmployee?.dateOfBirth) || '',
-            phoneNumber: phoneNumber,
+            phoneNumber: dataEmployee?.phoneNumber || phoneNumber || '',
             email: dataEmployee?.user?.email || '',
             gender: dataEmployee?.gender,
             department: dataEmployee?.department,
@@ -116,7 +123,7 @@ export default function ModalCreateAsset({
             teamId: dataEmployee?.team?.id,
             branchId: dataEmployee?.branch?.id,
             nationality: dataEmployee?.nationality,
-            address: dataEmployee?.address?.city || '',
+            address: dataEmployee?.address?.streetAddress || '',
             joinedDate: formatDateMaterial(dataEmployee?.joinedDate) || '',
             login: dataEmployee?.user?.login || '',
             authorities: dataEmployee?.user?.authorities || 'ROLE_USER',
@@ -144,7 +151,7 @@ export default function ModalCreateAsset({
                           ></Avatar>
                         ) : (
                           <Avatar
-                            name={values?.full_name ? values?.full_name : `Avatar`}
+                            src={user}
                             maxInitials={3}
                             round={true}
                             size={135}
@@ -152,7 +159,7 @@ export default function ModalCreateAsset({
                             fgColor={`#fff`}
                           />
                         )}
-                        <Button
+                        {/* <Button
                           sx={{marginTop: '10px', width: '90px'}}
                           variant='outlined'
                           size='small'
@@ -160,7 +167,7 @@ export default function ModalCreateAsset({
                           {...getRootProps()}
                         >
                           Upload
-                        </Button>
+                        </Button> */}
                         <input {...getInputProps()} />
                       </div>
                       <div className='d-flex main-info'>
@@ -220,7 +227,7 @@ export default function ModalCreateAsset({
                               type='string'
                               pattern='[0-9]*'
                               id='phone-required'
-                              label='Phone Number'
+                              label='Phone Number*'
                               value={phoneNumber}
                               onChange={(event) => {
                                 const value = event.target.value;
@@ -228,6 +235,7 @@ export default function ModalCreateAsset({
                                   return;
                                 }
                                 setPhoneNumber(value);
+                                setFieldValue('phoneNumber', value);
                               }}
                               error={touched.phoneNumber && Boolean(errors.phoneNumber)}
                               helperText={touched.phoneNumber && errors.phoneNumber}
@@ -238,7 +246,7 @@ export default function ModalCreateAsset({
                               sx={{width: '192px'}}
                               error={touched.gender && errors.gender}
                             >
-                              <InputLabel id='demo-simple-select-error-label'>Gender*</InputLabel>
+                              <InputLabel id='demo-simple-select-error-label'>Gender</InputLabel>
                               <Select
                                 labelId='sex-select-label'
                                 id='demo-simple-select-error'
@@ -267,43 +275,47 @@ export default function ModalCreateAsset({
                       <Box sx={{width: '100%', marginTop: '40px'}}>
                         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                           <Grid item xs={4}>
-                            <FormControl sx={{width: '192px'}}>
-                              <InputLabel id='sex-select-label'>Department</InputLabel>
+                            <FormControl
+                              sx={{width: '192px'}}
+                              error={touched.department && errors.department}
+                            >
+                              <InputLabel id='sex-select-label'>Department*</InputLabel>
                               <Select
                                 labelId='sex-select-label'
                                 id='demo-simple-select'
                                 value={values.department}
                                 onChange={(e) => setFieldValue('department', e.target.value)}
                               >
-                                {Array.isArray(Object.keys(DEPARTMENTS)) &&
-                                  Object.keys(DEPARTMENTS)?.map((item, index) => (
-                                    <MenuItem key={index} value={item}>
-                                      {DEPARTMENTS[item]}
-                                    </MenuItem>
-                                  ))}
+                                {optionsSelect(listDepartments)}
                               </Select>
+                              <FormHelperText>
+                                {touched.department && errors.department}
+                              </FormHelperText>
                             </FormControl>
                           </Grid>
                           <Grid item xs={4}>
-                            <FormControl sx={{width: '192px'}}>
-                              <InputLabel id='sex-select-label'>Position</InputLabel>
+                            <FormControl
+                              sx={{width: '192px'}}
+                              error={touched.position && errors.position}
+                            >
+                              <InputLabel id='sex-select-label'>Position*</InputLabel>
                               <Select
                                 labelId='sex-select-label'
                                 id='demo-simple-select'
                                 value={values.position}
                                 onChange={(e) => setFieldValue('position', e.target.value)}
                               >
-                                {POSITION?.map((item, index) => (
-                                  <MenuItem key={index} value={item}>
-                                    {item}
-                                  </MenuItem>
-                                ))}
+                                {optionsSelect(listPositions)}
                               </Select>
+                              <FormHelperText>{touched.position && errors.position}</FormHelperText>
                             </FormControl>
                           </Grid>
                           <Grid item xs={4}>
-                            <FormControl sx={{width: '192px'}}>
-                              <InputLabel id='sex-select-label'>Team</InputLabel>
+                            <FormControl
+                              sx={{width: '192px'}}
+                              error={touched.teamId && errors.teamId}
+                            >
+                              <InputLabel id='sex-select-label'>Team*</InputLabel>
                               <Select
                                 labelId='sex-select-label'
                                 id='demo-simple-select'
@@ -316,6 +328,7 @@ export default function ModalCreateAsset({
                                   </MenuItem>
                                 ))}
                               </Select>
+                              <FormHelperText>{touched.teamId && errors.teamId}</FormHelperText>
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -349,6 +362,7 @@ export default function ModalCreateAsset({
                               name='nationality'
                               type='string'
                               label='Nation'
+                              onChange={handleChange}
                               defaultValue={values.nationality}
                               error={touched.nationality && Boolean(errors.nationality)}
                               helperText={touched.nationality && errors.nationality}
@@ -385,6 +399,8 @@ export default function ModalCreateAsset({
                                 label='Username*'
                                 defaultValue={values.login}
                                 onChange={handleChange}
+                                error={touched.login && Boolean(errors.login)}
+                                helperText={touched.login && errors.login}
                               />
                             </Grid>
                             <Grid item xs={4}>

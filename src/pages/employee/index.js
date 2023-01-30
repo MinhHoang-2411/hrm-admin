@@ -29,6 +29,8 @@ import {modalActions} from 'store/modal/modalSlice';
 import {nameMatching} from 'utils/format/name';
 import {BtnAction, STYLE_MODAL} from 'constants/style';
 import {DEPARTMENTS} from 'constants/index';
+import {departmentsActions} from './../../store/departments/departmentsSlice';
+import {positionsActions} from 'store/positions/positionsSlice';
 
 const BoxPagination = styled(Box)(({theme}) => ({
   padding: '20px 0px',
@@ -42,8 +44,8 @@ const EmployeeDefault = () => {
   const [params, setParams] = useState({
     size: 10,
     page: 0,
-    sort: '',
     order: 'asc',
+    sort: 'lastModifiedDate,DESC',
     branch: undefined,
     team: undefined,
   });
@@ -59,8 +61,23 @@ const EmployeeDefault = () => {
     pagination,
     loading,
   } = useGetAllList(params, employeeActions, 'employee');
-  const {listData: listTeam} = useGetAllList(null, teamActions, 'team');
-  const {listData: listBranches} = useGetAllList(null, branchesActions, 'branches');
+  const listTeam = useGetAllList(null, teamActions, 'team')?.listData.map((item) => {
+    return {
+      ...item,
+      name: `${item.name[0]}${item.name.substring(1).replace('_', ' ').toLowerCase()}`,
+    };
+  });
+  const listBranches = useGetAllList(null, branchesActions, 'branches')?.listData.map((item) => {
+    return {...item, name: `${item.name[0]}${item.name.substring(1).toLowerCase()}`};
+  });
+  const listDepartment = useGetAllList(null, departmentsActions, 'departments')?.listData.map(
+    (item) => {
+      return {id: item, name: `${item[0]}${item.substring(1).replace('_', ' ').toLowerCase()}`};
+    }
+  );
+  const listPositions = useGetAllList(null, positionsActions, 'positions')?.listData.map((item) => {
+    return {id: item, name: `${item[0]}${item.substring(1).replace('_', ' ').toLowerCase()}`};
+  });
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -123,14 +140,17 @@ const EmployeeDefault = () => {
   const groupBtnAction = () => {
     return (
       <Box>
-        <BtnAction>
+        {/* <BtnAction>
           <DeleteFilled />
           &nbsp; Delete
         </BtnAction>
         <BtnAction>
           <ExportOutlined />
           &nbsp; Export
-        </BtnAction>
+        </BtnAction> */}
+        <h4 style={{padding: '10px', wordBreak: 'break-word', margin: 0}}>
+          This function is currently in progress. Thank you!
+        </h4>
       </Box>
     );
   };
@@ -197,7 +217,7 @@ const EmployeeDefault = () => {
                 {optionsSelect(listTeam)}
               </Select>
             </FormControl>
-            <FormControl sx={{minWidth: 120, marginLeft: '15px'}}>
+            <FormControl sx={{minWidth: 175, marginLeft: '15px'}}>
               <InputLabel id='demo-simple-select-label'>Department</InputLabel>
               <Select
                 labelId='demo-simple-select-label'
@@ -207,12 +227,7 @@ const EmployeeDefault = () => {
                 label='Department'
               >
                 <MenuItem value={'all'}>All</MenuItem>
-                {Array.isArray(Object.keys(DEPARTMENTS)) &&
-                  Object.keys(DEPARTMENTS)?.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      {DEPARTMENTS[item]}
-                    </MenuItem>
-                  ))}
+                {optionsSelect(listDepartment)}
               </Select>
             </FormControl>
           </Box>
@@ -263,6 +278,8 @@ const EmployeeDefault = () => {
             typeOpenModal={typeOpenModal}
             listTeam={listTeam}
             listBranches={listBranches}
+            listDepartments={listDepartment}
+            listPositions={listPositions}
             handleClose={handleClose}
           />
         </Box>

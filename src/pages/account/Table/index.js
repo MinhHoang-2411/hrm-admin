@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react';
 
 // material-ui
-import {StopOutlined, SyncOutlined} from '@ant-design/icons';
+import {StopOutlined, SyncOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import {
   Box,
   Checkbox,
