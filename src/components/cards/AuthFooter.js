@@ -27,17 +27,7 @@ const AuthFooter = () => {
             variant='subtitle2'
             color='secondary'
             component={Link}
-            href='https://material-ui.com/store/contributors/codedthemes/'
-            target='_blank'
-            underline='hover'
-          >
-            MUI Templates
-          </Typography>
-          <Typography
-            variant='subtitle2'
-            color='secondary'
-            component={Link}
-            href='https://codedthemes.com'
+            href='/policy'
             target='_blank'
             underline='hover'
           >
@@ -47,7 +37,7 @@ const AuthFooter = () => {
             variant='subtitle2'
             color='secondary'
             component={Link}
-            href='https://codedthemes.support-hub.io/'
+            href='/support'
             target='_blank'
             underline='hover'
           >

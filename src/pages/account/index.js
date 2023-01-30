@@ -39,10 +39,11 @@ const AccountDefault = () => {
   const [params, setParams] = useState({
     size: 10,
     page: 0,
+    sort: 'lastModifiedDate,DESC',
   });
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
   const [idAccount, setIdAccount] = useState(null);
+  const [idEmployee, setIdEmployee] = useState(null);
   const [open, setOpen] = useState(false);
   const [typeOpenModal, setTypeOpenModal] = useState('');
 
@@ -87,6 +88,7 @@ const AccountDefault = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setIdAccount(null);
+    setIdEmployee(null);
     setTypeOpenModal('');
     dispatch(accountActions.clearData());
     setOpen(false);
@@ -108,20 +110,21 @@ const AccountDefault = () => {
   };
 
   const handlePagination = (e, value) => {
-    setPage(value);
+    setParams((prevState) => {
+      return {...prevState, page: Number(value - 1)};
+    });
   };
 
   const groupBtnAction = () => {
     return (
       <Box>
-        <BtnAction>
-          <DeleteFilled />
-          &nbsp; Delete
-        </BtnAction>
-        <BtnAction>
+        {/* <BtnAction>
           <ExportOutlined />
           &nbsp; Export
-        </BtnAction>
+        </BtnAction> */}
+        <h4 style={{padding: '10px', wordBreak: 'break-word', margin: 0}}>
+          This function is currently in progress. Thank you!
+        </h4>
       </Box>
     );
   };
@@ -145,7 +148,6 @@ const AccountDefault = () => {
           >
             <FormControl sx={{width: {xs: '100%', md: 200}}}>
               <OutlinedInput
-                size='small'
                 id='header-search'
                 startAdornment={
                   <InputAdornment position='start' sx={{mr: -0.5}}>
@@ -170,26 +172,27 @@ const AccountDefault = () => {
                 label='Team'
                 onChange={(e) => handleFilter('activated.equals', e?.target?.value)}
               >
-                <MenuItem value={'all'}>ALL</MenuItem>
+                <MenuItem value={'all'}>All</MenuItem>
                 {optionsSelect(STATUS_ACCOUNT_USER)}
               </Select>
             </FormControl>
           </Box>
           <Box>
             <DropdownBtn title='Multiple Action' content={groupBtnAction()} />
-            <Button
+            {/* <Button
               variant='contained'
               startIcon={<PlusCircleOutlined />}
               sx={{textTransform: 'capitalize', marginLeft: '8px'}}
             >
               Add new Account
-            </Button>
+            </Button> */}
           </Box>
         </Box>
         {/* Start Table */}
         <TableAccount
           data={listAccount}
           setIdAccount={setIdAccount}
+          setIdEmployee={setIdEmployee}
           handleOpen={handleOpen}
           setTypeOpenModal={setTypeOpenModal}
           handleActivateOrDeactivateAccount={handleActivateOrDeactivateAccount}
@@ -200,7 +203,7 @@ const AccountDefault = () => {
           <BoxPagination>
             <Pagination
               count={totalPagePagination(pagination)}
-              page={page}
+              page={pagination?.page + 1 || 1}
               onChange={handlePagination}
             />
           </BoxPagination>
@@ -215,6 +218,7 @@ const AccountDefault = () => {
         <Box sx={STYLE_MODAL}>
           <ModalCreateAccount
             idAccount={idAccount}
+            idEmployee={idEmployee}
             typeOpenModal={typeOpenModal}
             handleClose={handleClose}
           />

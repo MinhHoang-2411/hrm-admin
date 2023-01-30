@@ -19,6 +19,7 @@ import Empty from 'components/Empty';
 import TableLoading from 'components/table/table-loading';
 import {checkAllCondition, handleCheckAll} from 'utils/helper/handleCheckAll';
 import {DEPARTMENTS} from 'constants/index';
+import user from 'assets/images/users/user.png';
 
 const headCells = [
   {
@@ -171,7 +172,7 @@ export default function TableEmployee({
             />
           </TableCell>
           <TableCell align='left'>
-            <Avatar alt={row?.fullName} src={row?.avatar} sx={{width: 40, height: 40}} />
+            <Avatar alt={row?.fullName} src={row?.avatar || user} sx={{width: 40, height: 40}} />
           </TableCell>
           <TableCell align='left'>
             {nameMatching(row?.user?.firstName, row?.user?.lastName)}
@@ -180,7 +181,7 @@ export default function TableEmployee({
           <TableCell align='left'>{row?.gender}</TableCell>
           <TableCell align='left'>{row?.phoneNumber}</TableCell>
           <TableCell align='left'>{row?.user?.email}</TableCell>
-          <TableCell align='left'>{row?.address?.city}</TableCell>
+          <TableCell align='left'>{row?.address?.streetAddress}</TableCell>
           <TableCell align='left'>{formatTimeStampToDate(row?.joinedDate)}</TableCell>
           <TableCell align='left'>{DEPARTMENTS[row?.department]}</TableCell>
           <TableCell align='left'>{row?.position}</TableCell>
@@ -191,7 +192,7 @@ export default function TableEmployee({
               <FilePdfOutlined style={{color: '#1890ff'}} />
             </IconButton>
           </TableCell>
-          <TableCell>
+          <TableCell align='left'>
             <Box>
               <IconButton aria-label='edit' onClick={() => handleEdit(row?.id)}>
                 <EditFilled />

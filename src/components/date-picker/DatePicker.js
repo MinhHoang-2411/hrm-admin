@@ -37,6 +37,7 @@ export default function DuoDatePicker({params, handleFilter, width = '150px', ty
       <DatePicker
         label='To'
         closeOnSelect={true}
+        minDate={formatDateMaterial(params?.['startDate.greaterThanOrEqual'])}
         value={convertDateTime(params?.['endDate.lessThan'])}
         onChange={(newValue) => handleFilter(newValue, type, 'endDate')}
         inputFormat='DD/MM'

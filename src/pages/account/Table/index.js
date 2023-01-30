@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react';
 
 // material-ui
-import {StopOutlined, SyncOutlined} from '@ant-design/icons';
+import {StopOutlined, SyncOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import {
   Box,
   Checkbox,
@@ -63,6 +63,7 @@ const headCells = [
 export default function TableAccount({
   data,
   setIdAccount,
+  setIdEmployee,
   setTypeOpenModal,
   handleOpen,
   handleActivateOrDeactivateAccount,
@@ -87,8 +88,9 @@ export default function TableAccount({
 
   const isCheckAll = checkAllCondition(data, listChecked);
 
-  const handleEdit = (id) => {
+  const handleEdit = (id, employeeId) => {
     setIdAccount(id);
+    setIdEmployee(employeeId);
     setTypeOpenModal('edit');
     handleOpen();
   };
@@ -126,12 +128,12 @@ export default function TableAccount({
           <TableCell
             align='left'
             sx={{cursor: 'pointer', color: 'primary.main', fontWeight: '600'}}
-            onClick={() => handleEdit(row?.id)}
+            onClick={() => handleEdit(row?.id, row?.employeeId)}
           >
             {nameMatching(row?.firstName, row?.lastName)}
           </TableCell>
           <TableCell align='left'>{row?.email}</TableCell>
-          <TableCell align='left'>{row?.activated ? 'ACTIVATED' : null}</TableCell>
+          <TableCell align='left'>{row?.activated ? 'ACTIVATED' : 'DEACTIVATED'}</TableCell>
           <TableCell align='center'>
             <Box>
               <Tooltip
@@ -148,7 +150,7 @@ export default function TableAccount({
                   {row?.activated ? <StopOutlined /> : <CheckCircleOutlined />}
                 </IconButton>
               </Tooltip>
-              <Tooltip title='Reset password'>
+              {/* <Tooltip title='Reset password'>
                 <IconButton
                   aria-label='reset pwd'
                   onClick={() => {
@@ -157,7 +159,7 @@ export default function TableAccount({
                 >
                   <SyncOutlined />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
             </Box>
           </TableCell>
         </TableRow>

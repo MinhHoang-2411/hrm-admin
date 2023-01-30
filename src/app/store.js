@@ -15,6 +15,8 @@ import userReducer from 'store/user/userSlice';
 import accountReducer from 'store/account/accountSlice';
 import rootSaga from './rootSaga';
 import assetRequestReducer from 'store/asset-request/assetRequestSlice';
+import positionsReducer from 'store/positions/positionsSlice';
+import departmentsReducer from 'store/departments/departmentsSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
@@ -24,6 +26,8 @@ export const store = configureStore({
     employee: employeeReducer,
     team: teamReducer,
     branches: branchesReducer,
+    positions: positionsReducer,
+    departments: departmentsReducer,
     asset: assetReducer,
     assetRequest: assetRequestReducer,
     candidate: candidateReducer,

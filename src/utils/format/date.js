@@ -9,6 +9,15 @@ function formatTimeStampToDate(date) {
   }
 }
 
+function formatTimeStampGetTime(date) {
+  if (!date) return '';
+  try {
+    return moment(date).utc().format('LT');
+  } catch (e) {
+    return date;
+  }
+}
+
 function formatDateMaterial(date) {
   // timeStamp -> time of mui
   if (!date) return null;
@@ -29,4 +38,9 @@ function formatDateMaterialToTimeStamp(date) {
   }
 }
 
-export {formatDateMaterial, formatDateMaterialToTimeStamp, formatTimeStampToDate};
+export {
+  formatDateMaterial,
+  formatDateMaterialToTimeStamp,
+  formatTimeStampToDate,
+  formatTimeStampGetTime,
+};

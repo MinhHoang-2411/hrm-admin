@@ -105,19 +105,19 @@ export default function LeavePage() {
   const showStatusLeave = (status) => {
     let color = '';
     switch (status) {
-      case 'CONFIRMED':
+      case 'confirmed':
         color = '#6666ff';
         break;
-      case 'APPROVED':
+      case 'approved':
         color = '#04AA6D';
         break;
-      case 'REJECTED':
+      case 'rejected':
         color = '#ff4d4f';
         break;
-      case 'CANCELED':
+      case 'canceled':
         color = '#b3b3b3';
         break;
-      case 'WAITING':
+      case 'waiting':
         color = '#ff8000';
         break;
     }
@@ -263,13 +263,13 @@ export default function LeavePage() {
                   <Chip
                     sx={{fontWeight: 'bold'}}
                     variant='outlined'
-                    label={row?.type}
+                    label={row?.type?.toLowerCase()}
                     color='primary'
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <span style={{fontWeight: 'bold'}}>Status:</span>&nbsp;{' '}
-                  {showStatusLeave(row?.status)}
+                  {showStatusLeave(row?.status?.toLowerCase())}
                 </Grid>
               </Grid>
             </Box>
@@ -290,7 +290,10 @@ export default function LeavePage() {
             </Box>
             {row?.rejectReason ? (
               <Box sx={{display: 'flex', marginBottom: '20px'}}>
-                <span style={{fontWeight: 'bold'}}>Reject Reason:</span>&nbsp; {row?.rejectReason}
+                <span>
+                  <b>Reject Reason: </b>
+                  {row?.rejectReason}
+                </span>
               </Box>
             ) : null}
             {isLeavePending(row?.status) && (
@@ -384,9 +387,9 @@ export default function LeavePage() {
                           onChange={(e) => handleFilter('type.equals', e.target.value, 'pending')}
                           label='Leave type'
                         >
-                          <MenuItem value={'all'}>ALL</MenuItem>
+                          <MenuItem value={'all'}>All</MenuItem>
                           {TYPE_LEAVE?.map((item, index) => (
-                            <MenuItem key={index} value={item}>
+                            <MenuItem key={index} value={item?.toUpperCase()}>
                               {item}
                             </MenuItem>
                           ))}
@@ -466,9 +469,9 @@ export default function LeavePage() {
                           onChange={(e) => handleFilter('type.equals', e.target.value)}
                           label='Leave type'
                         >
-                          <MenuItem value={'all'}>ALL</MenuItem>
+                          <MenuItem value={'all'}>All</MenuItem>
                           {TYPE_LEAVE?.map((item, index) => (
-                            <MenuItem key={index} value={item}>
+                            <MenuItem key={index} value={item?.toUpperCase()}>
                               {item}
                             </MenuItem>
                           ))}
@@ -483,9 +486,9 @@ export default function LeavePage() {
                           onChange={(e) => handleFilter('status.equals', e.target.value)}
                           label='Status'
                         >
-                          <MenuItem value={'all'}>ALL</MenuItem>
+                          <MenuItem value={'all'}>All</MenuItem>
                           {STATUS_LEAVE?.map((item, index) => (
-                            <MenuItem key={index} value={item}>
+                            <MenuItem key={index} value={item?.toUpperCase()}>
                               {item}
                             </MenuItem>
                           ))}

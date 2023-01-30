@@ -17,10 +17,10 @@ const accountApi = {
     const url = `/employee-users/${id}`;
     return axiosClient.get(url);
   },
-  activateOrDeactivate(id, activated) {
-    const url = `/employee-users/${id}`;
+  activateOrDeactivate(data) {
+    const url = `/employee-users/${data.id}`;
 
-    return axiosClient.patch(url, {activated: !activated});
+    return axiosClient.put(url, {...data, activated: !data.activated});
   },
 };
 
