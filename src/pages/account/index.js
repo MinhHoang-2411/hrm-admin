@@ -41,7 +41,6 @@ const AccountDefault = () => {
     page: 0,
   });
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
   const [idAccount, setIdAccount] = useState(null);
   const [open, setOpen] = useState(false);
   const [typeOpenModal, setTypeOpenModal] = useState('');
@@ -108,16 +107,14 @@ const AccountDefault = () => {
   };
 
   const handlePagination = (e, value) => {
-    setPage(value);
+    setParams((prevState) => {
+      return {...prevState, page: Number(value - 1)};
+    });
   };
 
   const groupBtnAction = () => {
     return (
       <Box>
-        <BtnAction>
-          <DeleteFilled />
-          &nbsp; Delete
-        </BtnAction>
         <BtnAction>
           <ExportOutlined />
           &nbsp; Export
@@ -177,13 +174,13 @@ const AccountDefault = () => {
           </Box>
           <Box>
             <DropdownBtn title='Multiple Action' content={groupBtnAction()} />
-            <Button
+            {/* <Button
               variant='contained'
               startIcon={<PlusCircleOutlined />}
               sx={{textTransform: 'capitalize', marginLeft: '8px'}}
             >
               Add new Account
-            </Button>
+            </Button> */}
           </Box>
         </Box>
         {/* Start Table */}
@@ -200,7 +197,7 @@ const AccountDefault = () => {
           <BoxPagination>
             <Pagination
               count={totalPagePagination(pagination)}
-              page={page}
+              page={pagination?.page + 1 || 1}
               onChange={handlePagination}
             />
           </BoxPagination>

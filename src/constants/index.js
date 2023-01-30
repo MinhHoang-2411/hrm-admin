@@ -1,26 +1,38 @@
 const DEPARTMENTS = {
-  ADMIN: 'ADMIN',
+  ADMIN: 'Admin',
   IT: 'IT',
-  DEVELOPER: 'DEVELOPER',
-  SALE_MARKETING: 'SALE MARKETING',
-  QUALITY_ASSURANCE: 'QUALITY ASSURANCE',
-  QUALITY_CONTROL: 'QUALITY CONTROL',
-  HUMAN_RESOURCE: 'HUMAN RESOURCE',
-  ACCOUNTING_FINANCE: 'ACCOUNTING FINANCE',
+  DEVELOPER: 'Developer',
+  SALE_MARKETING: 'Sale Marketing',
+  QUALITY_ASSURANCE: 'Quality Assurance',
+  QUALITY_CONTROL: 'Quality Control',
+  HUMAN_RESOURCE: 'Human Resource',
+  ACCOUNTING_FINANCE: 'Accounting Finance',
 };
-const POSITION = ['LEADER', 'MEMBER', 'ADMIN'];
-const STATUS_CANDIDATE = ['PASS', 'FAILED', 'WAIT CONFIRMATION', 'REJECT'];
-const STATUS_ASSET = ['FREE', 'BEING USED', 'UNDER REPAIR', 'BROKEN', 'NEW'];
-const STATUS_LEAVE = ['APPROVED', 'REJECTED', 'WAITING', 'CANCELED'];
-const TYPE_LEAVE = ['ANNUAL', 'CASUAL', 'REMOTE', 'MATERNITY'];
-const STATUS_ASSET_REQUEST = ['PENDING', 'PROCESSING', 'RECEIVED', 'REJECTED', 'CANCELED'];
+const POSITION = [
+  'Leader',
+  'Member',
+  'Engineer',
+  'Assistant',
+  'Manager',
+  'CEO',
+  'CFO',
+  'CIO',
+  'CMO',
+  'COO',
+  'Internship',
+];
+const STATUS_CANDIDATE = ['Pass', 'Failed', 'Wait Confirmation', 'Reject'];
+const STATUS_ASSET = ['Free', 'Being Used', 'Under Repair', 'Broken', 'New'];
+const STATUS_LEAVE = ['Approved', 'Rejected', 'Waiting', 'Canceled'];
+const TYPE_LEAVE = ['Annual', 'Casual', 'Remote', 'Maternity'];
+const STATUS_ASSET_REQUEST = ['Pending', 'Processing', 'Received', 'Rejected', 'Canceled'];
 const STATUS_ACCOUNT_USER = [
-  {id: 1, name: 'ACTIVATED'},
-  {id: 2, name: 'UNACTIVATED'},
+  {id: 1, name: 'Activated'},
+  {id: 2, name: 'Unactivated'},
 ];
 const LIST_AUTHORITIES = [
-  {title: 'USER', name: 'ROLE_USER'},
-  {title: 'ADMIN', name: 'ROLE_ADMIN'},
+  {title: 'User', name: 'ROLE_USER'},
+  {title: 'Admin', name: 'ROLE_ADMIN'},
 ];
 const TYPE_DETAIL_LEAVE = {
   ALL_DAY: 'All day',
