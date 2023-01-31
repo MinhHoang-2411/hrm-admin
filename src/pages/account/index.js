@@ -20,6 +20,7 @@ import {STATUS_ACCOUNT_USER} from 'constants/index';
 import {BtnAction, STYLE_MODAL} from 'constants/style';
 import {useCallback, useState} from 'react';
 import {accountActions} from 'store/account/accountSlice';
+import {employeeActions} from 'store/employee/employeeSlice';
 import {modalActions} from 'store/modal/modalSlice';
 import {totalPagePagination} from 'utils';
 import {nameMatching} from 'utils/format/name';
@@ -91,6 +92,8 @@ const AccountDefault = () => {
     setIdEmployee(null);
     setTypeOpenModal('');
     dispatch(accountActions.clearData());
+    dispatch(employeeActions.clearData());
+
     setOpen(false);
   };
 

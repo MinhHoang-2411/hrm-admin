@@ -5,7 +5,7 @@ import {useEffect} from 'react';
 import {ThreeDots} from 'react-loader-spinner';
 import {accountActions} from 'store/account/accountSlice';
 import {employeeActions} from 'store/employee/employeeSlice';
-import {formatTimeStampToDate} from 'utils/index';
+import {formatTimeStampGetTime, formatTimeStampToDate} from 'utils/index';
 
 import '../../../assets/style/employee.scss';
 import FieldData from './FieldData';
@@ -75,12 +75,24 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
                 <FieldData label='Branch' value={dataEmployee?.branch?.name || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Nation' value={dataEmployee?.nationality || 'none'} />
+                <FieldData label='Nation' value={dataEmployee?.nationality || ''} />
               </Grid>
               <Grid item xs={6}>
                 <FieldData
                   label='Join date'
                   value={formatTimeStampToDate(dataEmployee?.joinedDate || '')}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FieldData
+                  label='Create Date'
+                  value={
+                    <span>
+                      {formatTimeStampToDate(dataEmployee?.createdDate)}
+                      &ensp;
+                      {formatTimeStampGetTime(dataEmployee?.createdDate)}
+                    </span>
+                  }
                 />
               </Grid>
             </Grid>

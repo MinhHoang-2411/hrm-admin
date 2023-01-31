@@ -31,6 +31,7 @@ import {modalActions} from 'store/modal/modalSlice';
 import {
   fetchMoreCondition,
   formatDateMaterialToTimeStamp,
+  formatTimeStampGetTime,
   formatTimeStampToDate,
 } from 'utils/index';
 import ModalLeaveDetail from './Modal/ModalLeaveDetail';
@@ -122,7 +123,15 @@ export default function LeavePage() {
         break;
     }
     return (
-      <Chip label={status} sx={{fontWeight: 'bold', backgroundColor: color, color: '#ffff'}} />
+      <Chip
+        label={status}
+        sx={{
+          fontWeight: 'bold',
+          backgroundColor: color,
+          color: '#ffff',
+          textTransform: 'capitalize',
+        }}
+      />
     );
   };
 
@@ -253,6 +262,8 @@ export default function LeavePage() {
                 <Grid item xs={6}>
                   <span style={{fontWeight: 'bold'}}>Submitted time:</span>&nbsp;{' '}
                   {formatTimeStampToDate(row?.createdDate)}
+                  &ensp;
+                  {formatTimeStampGetTime(row?.createdDate)}
                 </Grid>
               </Grid>
             </Box>
@@ -261,15 +272,15 @@ export default function LeavePage() {
                 <Grid item xs={6}>
                   <span style={{fontWeight: 'bold'}}>Leave type:</span>&nbsp;{' '}
                   <Chip
-                    sx={{fontWeight: 'bold'}}
+                    sx={{fontWeight: 'bold', textTransform: 'capitalize'}}
                     variant='outlined'
                     label={row?.type?.toLowerCase()}
                     color='primary'
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <span style={{fontWeight: 'bold'}}>Status:</span>&nbsp;{' '}
-                  {showStatusLeave(row?.status?.toLowerCase())}
+                  <span style={{fontWeight: 'bold'}}>Status:</span>
+                  &nbsp; {showStatusLeave(row?.status?.toLowerCase())}
                 </Grid>
               </Grid>
             </Box>

@@ -38,13 +38,19 @@ const headCells = [
     id: 'fullName',
     align: 'left',
     disablePadding: true,
-    label: 'Full Name',
+    label: 'Employee',
   },
   {
     id: 'email',
     align: 'left',
     disablePadding: false,
     label: 'Email',
+  },
+  {
+    id: 'created-date',
+    align: 'left',
+    disablePadding: true,
+    label: 'Created Date',
   },
   {
     id: 'status',
@@ -133,6 +139,7 @@ export default function TableAccount({
             {nameMatching(row?.firstName, row?.lastName)}
           </TableCell>
           <TableCell align='left'>{row?.email}</TableCell>
+          <TableCell align='left'>{row?.createdDate}</TableCell>
           <TableCell align='left'>{row?.activated ? 'ACTIVATED' : 'DEACTIVATED'}</TableCell>
           <TableCell align='center'>
             <Box>

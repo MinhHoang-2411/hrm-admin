@@ -1,26 +1,3 @@
-const DEPARTMENTS = {
-  ADMIN: 'Admin',
-  IT: 'IT',
-  DEVELOPER: 'Developer',
-  SALE_MARKETING: 'Sale Marketing',
-  QUALITY_ASSURANCE: 'Quality Assurance',
-  QUALITY_CONTROL: 'Quality Control',
-  HUMAN_RESOURCE: 'Human Resource',
-  ACCOUNTING_FINANCE: 'Accounting Finance',
-};
-const POSITION = [
-  'Leader',
-  'Member',
-  'Engineer',
-  'Assistant',
-  'Manager',
-  'CEO',
-  'CFO',
-  'CIO',
-  'CMO',
-  'COO',
-  'Internship',
-];
 const STATUS_CANDIDATE = ['Pass', 'Failed', 'Wait Confirmation', 'Reject'];
 const STATUS_ASSET = ['Free', 'Being Used', 'Under Repair', 'Broken', 'New'];
 const STATUS_LEAVE = ['Approved', 'Rejected', 'Waiting', 'Canceled'];
@@ -41,8 +18,6 @@ const TYPE_DETAIL_LEAVE = {
 };
 
 export {
-  DEPARTMENTS,
-  POSITION,
   STATUS_CANDIDATE,
   STATUS_ASSET,
   STATUS_LEAVE,
