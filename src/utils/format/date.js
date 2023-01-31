@@ -12,7 +12,7 @@ function formatTimeStampToDate(date) {
 function formatTimeStampGetTime(date) {
   if (!date) return '';
   try {
-    return moment(date).utc().format('LT');
+    return moment(date).format('HH:mm');
   } catch (e) {
     return date;
   }

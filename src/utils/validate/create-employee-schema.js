@@ -31,7 +31,10 @@ export const CreateEmployeeSchema = (type) => {
     department: Yup.string()
       .nullable('Please select Department.')
       .required('Please select Department.'),
-    nationality: Yup.string().max(20, 'Please enter no more than 20 characters').trim(),
+    nationality: Yup.string()
+      .max(20, 'Please enter no more than 20 characters')
+      .trim()
+      .nullable('Please select Department.'),
     teamId: Yup.number().nullable('Please select Team.').required('Please select Team.'),
     position: Yup.string().nullable('Please select Position.').required('Please select Position.'),
     branchId: Yup.number().nullable('Please select Branch.').required('Please select Branch.'),

@@ -38,7 +38,7 @@ function* handleCreate(action) {
     yield put(employeeActions.createFalse('An error occurred, please try again'));
     yield put(
       alertActions.showAlert({
-        text: 'An error occurred, please try again',
+        text: error?.response?.data?.title || 'An error occurred, please try again',
         type: 'error',
       })
     );
@@ -79,7 +79,7 @@ function* handleGetById(action) {
     yield put(employeeActions.getByIdFalse('An error occurred, please try again'));
     yield put(
       alertActions.showAlert({
-        text: 'An error occurred, please try again',
+        text: `This account's employee information could not be obtained, please try again`,
         type: 'error',
       })
     );

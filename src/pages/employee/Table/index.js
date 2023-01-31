@@ -12,13 +12,15 @@ import {
   TableContainer,
   TableRow,
 } from '@mui/material';
+import useGetAllList from 'hooks/useGetAllList';
+import {departmentsActions} from 'store/departments/departmentsSlice';
+import {positionsActions} from 'store/positions/positionsSlice';
 import {OrderTableHead} from 'components/table/table-head';
 import {nameMatching} from 'utils/format/name';
 import {formatTimeStampToDate} from 'utils/index';
 import Empty from 'components/Empty';
 import TableLoading from 'components/table/table-loading';
 import {checkAllCondition, handleCheckAll} from 'utils/helper/handleCheckAll';
-import {DEPARTMENTS} from 'constants/index';
 import user from 'assets/images/users/user.png';
 
 const headCells = [
@@ -128,6 +130,8 @@ export default function TableEmployee({
   const [orderBy] = useState('trackingNo');
   const [selected] = useState([]);
   const [listChecked, setListChecked] = useState([]);
+  const listDepartment = useGetAllList(null, departmentsActions, 'departments')?.listData;
+  const listPositions = useGetAllList(null, positionsActions, 'positions')?.listData;
 
   const isCheckAll = checkAllCondition(data, listChecked);
 
@@ -178,15 +182,15 @@ export default function TableEmployee({
             {nameMatching(row?.user?.firstName, row?.user?.lastName)}
           </TableCell>
           <TableCell align='left'>{formatTimeStampToDate(row?.dateOfBirth)}</TableCell>
-          <TableCell align='left'>{row?.gender}</TableCell>
+          <TableCell align='left'>{row?.gender == 'MALE' ? 'Male' : 'Female'}</TableCell>
           <TableCell align='left'>{row?.phoneNumber}</TableCell>
           <TableCell align='left'>{row?.user?.email}</TableCell>
           <TableCell align='left'>{row?.address?.streetAddress}</TableCell>
           <TableCell align='left'>{formatTimeStampToDate(row?.joinedDate)}</TableCell>
-          <TableCell align='left'>{DEPARTMENTS[row?.department]}</TableCell>
-          <TableCell align='left'>{row?.position}</TableCell>
+          <TableCell align='left'>{listDepartment[row?.department]}</TableCell>
+          <TableCell align='left'>{listPositions[row?.position]}</TableCell>
           <TableCell align='left'>{row?.branch?.name}</TableCell>
-          <TableCell align='left'>{row?.team?.name}</TableCell>
+          <TableCell align='left'>{row?.team?.name?.replace('_', ' ')}</TableCell>
           <TableCell align='left'>
             <IconButton aria-label='edit' onClick={() => window.open(row?.resumeUrl)}>
               <FilePdfOutlined style={{color: '#1890ff'}} />

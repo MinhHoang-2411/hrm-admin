@@ -116,7 +116,7 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                     </Grid>
                     <Grid item xs={3.5}>
                       <Chip
-                        sx={{fontWeight: 'bold'}}
+                        sx={{fontWeight: 'bold', textTransform: 'capitalize'}}
                         variant='outlined'
                         label={dataLeave?.type?.toLowerCase()}
                         color='primary'

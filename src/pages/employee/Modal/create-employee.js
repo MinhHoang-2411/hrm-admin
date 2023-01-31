@@ -35,6 +35,7 @@ export default function ModalCreateAsset({
 }) {
   const dispatch = useAppDispatch();
   const dataEmployee = useAppSelector((state) => state.employee.dataEmployee);
+  const createOrEditSuccess = useAppSelector((state) => state.employee.createOrEditSuccess);
   const isLoading = useAppSelector((state) => state.employee.loadingEdit);
   const {getRootProps, getInputProps, imagePreview, avatarBase64} = useUploadImg();
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -90,8 +91,6 @@ export default function ModalCreateAsset({
       }
     } catch (error) {
       console.error({error});
-    } finally {
-      handleClose();
     }
   };
 
@@ -101,6 +100,9 @@ export default function ModalCreateAsset({
   useEffect(() => {
     if (dataEmployee?.phoneNumber) setPhoneNumber(dataEmployee?.phoneNumber);
   }, [dataEmployee?.phoneNumber]);
+  useEffect(() => {
+    if (createOrEditSuccess) handleClose();
+  }, [createOrEditSuccess]);
 
   return (
     <>
@@ -250,7 +252,7 @@ export default function ModalCreateAsset({
                               <Select
                                 labelId='sex-select-label'
                                 id='demo-simple-select-error'
-                                value={values.gender}
+                                value={values?.gender || 'MALE'}
                                 onChange={(e) => setFieldValue('gender', e.target.value)}
                               >
                                 <MenuItem value='MALE'>MALE</MenuItem>
@@ -394,6 +396,9 @@ export default function ModalCreateAsset({
                           <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                             <Grid item xs={4}>
                               <TextField
+                                InputProps={{
+                                  readOnly: typeOpenModal == 'edit',
+                                }}
                                 name='login'
                                 type='string'
                                 label='Username*'

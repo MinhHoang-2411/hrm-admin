@@ -64,26 +64,35 @@ const EmployeeDefault = () => {
   const listTeam = useGetAllList(null, teamActions, 'team')?.listData.map((item) => {
     return {
       ...item,
-      name: `${item.name[0]}${item.name.substring(1).replace('_', ' ').toLowerCase()}`,
+      name: `${item.name[0]}${item.name.substring(1).replace('_', ' ')}`,
     };
   });
   const listBranches = useGetAllList(null, branchesActions, 'branches')?.listData.map((item) => {
-    return {...item, name: `${item.name[0]}${item.name.substring(1).toLowerCase()}`};
+    return {...item, name: `${item.name[0]}${item.name.substring(1)}`};
   });
-  const listDepartment = useGetAllList(null, departmentsActions, 'departments')?.listData.map(
-    (item) => {
-      return {id: item, name: `${item[0]}${item.substring(1).replace('_', ' ').toLowerCase()}`};
-    }
-  );
-  const listPositions = useGetAllList(null, positionsActions, 'positions')?.listData.map((item) => {
-    return {id: item, name: `${item[0]}${item.substring(1).replace('_', ' ').toLowerCase()}`};
+  const originListDepartment = useGetAllList(null, departmentsActions, 'departments')?.listData;
+
+  const listDepartment = Object.keys(originListDepartment).map((item) => {
+    return {
+      id: item,
+      name: originListDepartment[item],
+    };
+  });
+
+  const originListPositions = useGetAllList(null, positionsActions, 'positions')?.listData;
+
+  const listPositions = Object.keys(originListPositions).map((item) => {
+    return {
+      id: item,
+      name: originListPositions[item],
+    };
   });
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => {
+  const handleClose = async () => {
+    await dispatch(employeeActions.clearData());
     setIdEmployee(null);
     setTypeOpenModal('');
-    dispatch(employeeActions.clearData());
     setOpen(false);
   };
 
@@ -130,7 +139,7 @@ const EmployeeDefault = () => {
 
   const handleFilter = (key, value) => {
     setParams((preState) => {
-      const state = {...preState};
+      const state = {...preState, page: 0};
       if (value === 'all') delete state[key];
       else state[key] = value;
       return state;
