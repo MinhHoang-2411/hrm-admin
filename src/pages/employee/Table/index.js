@@ -47,7 +47,7 @@ const headCells = [
     id: 'dataOfBirth',
     align: 'left',
     disablePadding: false,
-    label: 'Date of birth',
+    label: 'Date of Birth',
   },
   {
     id: 'gender',
@@ -77,7 +77,7 @@ const headCells = [
     id: 'joinedDate',
     align: 'left',
     disablePadding: false,
-    label: 'Joined Date',
+    label: 'Joining Date',
   },
   {
     id: 'department',

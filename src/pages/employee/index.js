@@ -61,32 +61,41 @@ const EmployeeDefault = () => {
     pagination,
     loading,
   } = useGetAllList(params, employeeActions, 'employee');
-  const listTeam = useGetAllList(null, teamActions, 'team')?.listData.map((item) => {
-    return {
-      ...item,
-      name: `${item.name[0]}${item.name.substring(1).replace('_', ' ')}`,
-    };
-  });
-  const listBranches = useGetAllList(null, branchesActions, 'branches')?.listData.map((item) => {
-    return {...item, name: `${item.name[0]}${item.name.substring(1)}`};
-  });
-  const originListDepartment = useGetAllList(null, departmentsActions, 'departments')?.listData;
 
-  const listDepartment = Object.keys(originListDepartment).map((item) => {
-    return {
-      id: item,
-      name: originListDepartment[item],
-    };
-  });
+  const listTeam = useGetAllList(null, teamActions, 'team')
+    ?.listData.map((item) => {
+      return {
+        ...item,
+        name: `${item.name[0]}${item.name.substring(1).replace('_', ' ')}`,
+      };
+    })
+    .sort((a, b) => a?.name?.localeCompare(b?.name));
+
+  const listBranches = useGetAllList(null, branchesActions, 'branches')
+    ?.listData.map((item) => {
+      return {...item, name: `${item.name[0]}${item.name.substring(1)}`};
+    })
+    .sort((a, b) => a?.name?.localeCompare(b?.name));
+
+  const originListDepartment = useGetAllList(null, departmentsActions, 'departments')?.listData;
+  const listDepartment = Object.keys(originListDepartment)
+    .map((item) => {
+      return {
+        id: item,
+        name: originListDepartment[item],
+      };
+    })
+    .sort((a, b) => a?.name?.localeCompare(b?.name));
 
   const originListPositions = useGetAllList(null, positionsActions, 'positions')?.listData;
-
-  const listPositions = Object.keys(originListPositions).map((item) => {
-    return {
-      id: item,
-      name: originListPositions[item],
-    };
-  });
+  const listPositions = Object.keys(originListPositions)
+    .map((item) => {
+      return {
+        id: item,
+        name: originListPositions[item],
+      };
+    })
+    .sort((a, b) => a?.name?.localeCompare(b?.name));
 
   const handleOpen = () => setOpen(true);
   const handleClose = async () => {
@@ -250,7 +259,7 @@ const EmployeeDefault = () => {
                 setTypeOpenModal('create');
               }}
             >
-              Add new Employee
+              Add New Employee
             </Button>
           </Box>
         </Box>

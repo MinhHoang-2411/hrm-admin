@@ -10,7 +10,6 @@ const initialState = {
   dataEmployee: null,
   pagination: undefined,
   openModal: false,
-  createOrEditSuccess: false,
 };
 
 const employeeSlice = createSlice({
@@ -44,12 +43,10 @@ const employeeSlice = createSlice({
     createSuccess(state, action) {
       state.loadingCreate = false;
       state.reloadList = !state.reloadList;
-      state.createOrEditSuccess = true;
     },
     createFalse(state, action) {
       state.loadingCreate = false;
       console.error(action.payload);
-      state.createOrEditSuccess = false;
     },
 
     // Get data by Id
@@ -75,12 +72,10 @@ const employeeSlice = createSlice({
     editSuccess(state, action) {
       state.loadingEdit = false;
       state.reloadList = !state.reloadList;
-      state.createOrEditSuccess = true;
     },
     editFalse(state, action) {
       state.loadingEdit = false;
       console.error(action.payload);
-      state.createOrEditSuccess = false;
     },
 
     //Remove

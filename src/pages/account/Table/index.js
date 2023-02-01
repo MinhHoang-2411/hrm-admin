@@ -18,6 +18,7 @@ import {nameMatching} from 'utils/format/name';
 import Empty from 'components/Empty';
 import TableLoading from 'components/table/table-loading';
 import {checkAllCondition, handleCheckAll} from 'utils/helper/handleCheckAll';
+import {formatTimeStampToDate, formatTimeStampGetTime} from 'utils/index';
 
 const headCells = [
   {
@@ -32,7 +33,7 @@ const headCells = [
     id: 'username',
     align: 'left',
     disablePadding: false,
-    label: 'User name',
+    label: 'Username',
   },
   {
     id: 'fullName',
@@ -139,8 +140,11 @@ export default function TableAccount({
             {nameMatching(row?.firstName, row?.lastName)}
           </TableCell>
           <TableCell align='left'>{row?.email}</TableCell>
-          <TableCell align='left'>{row?.createdDate}</TableCell>
-          <TableCell align='left'>{row?.activated ? 'ACTIVATED' : 'DEACTIVATED'}</TableCell>
+          <TableCell align='left'>
+            {formatTimeStampToDate(row?.createdDate)}&ensp;
+            {formatTimeStampGetTime(row?.createdDate)}
+          </TableCell>
+          <TableCell align='left'>{row?.activated ? 'Activated' : 'Deactivated'}</TableCell>
           <TableCell align='center'>
             <Box>
               <Tooltip
