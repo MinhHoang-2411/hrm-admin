@@ -35,7 +35,6 @@ export default function ModalCreateAsset({
 }) {
   const dispatch = useAppDispatch();
   const dataEmployee = useAppSelector((state) => state.employee.dataEmployee);
-  const createOrEditSuccess = useAppSelector((state) => state.employee.createOrEditSuccess);
   const isLoading = useAppSelector((state) => state.employee.loadingEdit);
   const {getRootProps, getInputProps, imagePreview, avatarBase64} = useUploadImg();
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -82,12 +81,13 @@ export default function ModalCreateAsset({
         authorities: [values?.authorities],
         imageUrl: avatarBase64 || null,
       };
-      if (typeOpenModal == 'edit' && idEmployee) dispatch(employeeActions.edit(params));
+      if (typeOpenModal == 'edit' && idEmployee)
+        dispatch(employeeActions.edit({params, handleClose: () => handleClose()}));
       else {
         delete params.user;
         delete params.id;
         delete params.address.id;
-        dispatch(employeeActions.create({params, userParams}));
+        dispatch(employeeActions.create({params, userParams, handleClose: () => handleClose()}));
       }
     } catch (error) {
       console.error({error});
@@ -100,9 +100,6 @@ export default function ModalCreateAsset({
   useEffect(() => {
     if (dataEmployee?.phoneNumber) setPhoneNumber(dataEmployee?.phoneNumber);
   }, [dataEmployee?.phoneNumber]);
-  useEffect(() => {
-    if (createOrEditSuccess) handleClose();
-  }, [createOrEditSuccess]);
 
   return (
     <>
@@ -119,7 +116,7 @@ export default function ModalCreateAsset({
             dateOfBirth: formatDateMaterial(dataEmployee?.dateOfBirth) || '',
             phoneNumber: dataEmployee?.phoneNumber || phoneNumber || '',
             email: dataEmployee?.user?.email || '',
-            gender: dataEmployee?.gender,
+            gender: dataEmployee?.gender || 'MALE',
             department: dataEmployee?.department,
             position: dataEmployee?.position,
             teamId: dataEmployee?.team?.id,
@@ -140,8 +137,8 @@ export default function ModalCreateAsset({
                   <div className='div-avatar-member'>
                     <span className='label-modal-create'>
                       {typeOpenModal == 'create'
-                        ? 'Add new employee'
-                        : 'Update employee information'}
+                        ? 'Add New Employee'
+                        : 'Update Employee Information'}
                     </span>
                     <div className='upload-img'>
                       <div className='item-center container-avatar'>
@@ -219,7 +216,7 @@ export default function ModalCreateAsset({
                 </div>
                 <div className='group-info-member'>
                   <div className='div-info-member'>
-                    <span className='label-modal-create'>Personal information</span>
+                    <span className='label-modal-create'>Personal Information</span>
                     <div className='group-input-member'>
                       <Box sx={{width: '100%', marginTop: '15px'}}>
                         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
@@ -252,11 +249,12 @@ export default function ModalCreateAsset({
                               <Select
                                 labelId='sex-select-label'
                                 id='demo-simple-select-error'
-                                value={values?.gender || 'MALE'}
+                                value={values?.gender}
                                 onChange={(e) => setFieldValue('gender', e.target.value)}
                               >
-                                <MenuItem value='MALE'>MALE</MenuItem>
-                                <MenuItem value='FEMALE'>FEMALE</MenuItem>
+                                <MenuItem value='MALE'>Male</MenuItem>
+                                <MenuItem value='FEMALE'>Female</MenuItem>
+                                <MenuItem value='UNKNOW'>Unknown</MenuItem>
                               </Select>
                               <FormHelperText>{touched.gender && errors.gender}</FormHelperText>
                             </FormControl>
@@ -391,7 +389,7 @@ export default function ModalCreateAsset({
                       </Box>
 
                       <Box sx={{marginTop: '25px'}}>
-                        <span className='label-modal-create'>Account information</span>
+                        <span className='label-modal-create'>Account Information</span>
                         <Box sx={{width: '100%', marginTop: '15px'}}>
                           <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                             <Grid item xs={4}>

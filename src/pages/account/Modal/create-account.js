@@ -6,7 +6,9 @@ import {ThreeDots} from 'react-loader-spinner';
 import {accountActions} from 'store/account/accountSlice';
 import {employeeActions} from 'store/employee/employeeSlice';
 import {formatTimeStampGetTime, formatTimeStampToDate} from 'utils/index';
-
+import useGetAllList from 'hooks/useGetAllList';
+import {departmentsActions} from 'store/departments/departmentsSlice';
+import {positionsActions} from 'store/positions/positionsSlice';
 import '../../../assets/style/employee.scss';
 import FieldData from './FieldData';
 
@@ -17,6 +19,9 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
   const dataAccount = useAppSelector((state) => state.account.dataAccount);
   const dataEmployee = useAppSelector((state) => state.employee.dataEmployee);
   const isLoading = useAppSelector((state) => state.account.loadingEdit);
+
+  const originListDepartment = useGetAllList(null, departmentsActions, 'departments')?.listData;
+  const originListPositions = useGetAllList(null, positionsActions, 'positions')?.listData;
 
   useEffect(() => {
     if (typeOpenModal == 'edit' && idAccount) {
@@ -35,7 +40,7 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
         <>
           <div style={{padding: '15px'}}>
             <span style={{fontSize: '20px', fontWeight: 700, color: '#000'}}>
-              Employee Infomation
+              Account Information
             </span>
           </div>
           <Divider />
@@ -57,19 +62,34 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
                 <FieldData label='Phone number' value={dataEmployee?.phoneNumber || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Gender' value={dataEmployee?.gender || ''} />
+                <FieldData
+                  label='Gender'
+                  value={
+                    dataEmployee?.gender
+                      ? `${dataEmployee?.gender[0]}${dataEmployee?.gender
+                          .substring(1)
+                          .toLowerCase()}`
+                      : ''
+                  }
+                />
               </Grid>
               <Grid item xs={6}>
                 <FieldData label='Address' value={dataEmployee?.address?.streetAddress || ''} />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Department' value={dataEmployee?.department || ''} />
+                <FieldData
+                  label='Department'
+                  value={originListDepartment[dataEmployee?.department] || ''}
+                />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Position' value={dataEmployee?.position || ''} />
+                <FieldData
+                  label='Position'
+                  value={originListPositions[dataEmployee?.position] || ''}
+                />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Team' value={dataEmployee?.team?.name || ''} />
+                <FieldData label='Team' value={dataEmployee?.team?.name.replace('_', ' ') || ''} />
               </Grid>
               <Grid item xs={6}>
                 <FieldData label='Branch' value={dataEmployee?.branch?.name || ''} />
@@ -79,7 +99,7 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
               </Grid>
               <Grid item xs={6}>
                 <FieldData
-                  label='Join date'
+                  label='Joining date'
                   value={formatTimeStampToDate(dataEmployee?.joinedDate || '')}
                 />
               </Grid>

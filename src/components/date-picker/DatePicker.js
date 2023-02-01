@@ -41,7 +41,7 @@ export default function DuoDatePicker({params, handleFilter, width = '150px', ty
               },
             }}
             {...params}
-            helperText={invalidFromTime ? 'Please choose invalid Time' : null}
+            helperText={invalidFromTime ? 'Please choose valid Time' : null}
           />
         )}
       />
@@ -70,7 +70,7 @@ export default function DuoDatePicker({params, handleFilter, width = '150px', ty
               },
             }}
             {...params}
-            helperText={invalidToTime ? 'Please choose invalid Time' : null}
+            helperText={invalidToTime ? 'Please choose valid Time' : null}
           />
         )}
       />

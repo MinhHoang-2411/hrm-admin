@@ -34,6 +34,8 @@ function* handleCreate(action) {
         type: 'success',
       })
     );
+
+    action.payload?.handleClose?.();
   } catch (error) {
     yield put(employeeActions.createFalse('An error occurred, please try again'));
     yield put(
@@ -47,7 +49,7 @@ function* handleCreate(action) {
 
 function* handleEdit(action) {
   try {
-    const params = action.payload;
+    const params = action.payload.params;
     yield call(employeeApi.edit, params);
 
     yield put(employeeActions.editSuccess());
@@ -58,6 +60,8 @@ function* handleEdit(action) {
         type: 'success',
       })
     );
+
+    action.payload?.handleClose?.();
   } catch (error) {
     yield put(employeeActions.createFalse('An error occurred, please try again'));
     yield put(
