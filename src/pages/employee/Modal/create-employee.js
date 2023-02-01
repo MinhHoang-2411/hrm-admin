@@ -23,6 +23,7 @@ import {formatDateMaterial, formatDateMaterialToTimeStamp} from 'utils/index';
 import {CreateEmployeeSchema} from 'utils/validate/create-employee-schema';
 import '../../../assets/style/employee.scss';
 import useUploadImg from '../../../hooks/useUploadImg';
+import {currentDate} from 'utils/date/currentDate';
 
 export default function ModalCreateAsset({
   idEmployee,
@@ -435,6 +436,19 @@ export default function ModalCreateAsset({
                             </Grid>
                           </Grid>
                         </Box>
+                        {typeOpenModal !== 'edit' && (
+                          <span
+                            style={{
+                              color: '#999',
+                              marginTop: '4px',
+                              display: 'block',
+                              fontSize: '12px',
+                            }}
+                          >
+                            *Default password is "chainhausvn", please change after add new employee
+                            successfully
+                          </span>
+                        )}
                       </Box>
                     </div>
                   </div>
@@ -446,7 +460,10 @@ export default function ModalCreateAsset({
                   size='error'
                   className='button-submit-member'
                   startIcon={<CloseOutlined />}
-                  onClick={() => handleClose()}
+                  onClick={() => {
+                    handleClose();
+                    console.log({currentDate});
+                  }}
                 >
                   Close
                 </Button>

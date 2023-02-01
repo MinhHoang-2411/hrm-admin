@@ -140,10 +140,7 @@ export default function TableAccount({
             {nameMatching(row?.firstName, row?.lastName)}
           </TableCell>
           <TableCell align='left'>{row?.email}</TableCell>
-          <TableCell align='left'>
-            {formatTimeStampToDate(row?.createdDate)}&ensp;
-            {formatTimeStampGetTime(row?.createdDate)}
-          </TableCell>
+          <TableCell align='left'>{formatTimeStampToDate(row?.createdDate)}</TableCell>
           <TableCell align='left'>{row?.activated ? 'Activated' : 'Deactivated'}</TableCell>
           <TableCell align='center'>
             <Box>
