@@ -182,7 +182,10 @@ export default function TableEmployee({
             {nameMatching(row?.user?.firstName, row?.user?.lastName)}
           </TableCell>
           <TableCell align='left'>{formatTimeStampToDate(row?.dateOfBirth)}</TableCell>
-          <TableCell align='left'>{row?.gender == 'MALE' ? 'Male' : 'Female'}</TableCell>
+          <TableCell align='left'>{`${row.gender[0]}${row.gender
+            .substring(1)
+            .toLowerCase()
+            .replace('_', ' ')}`}</TableCell>
           <TableCell align='left'>{row?.phoneNumber}</TableCell>
           <TableCell align='left'>{row?.user?.email}</TableCell>
           <TableCell align='left'>{row?.address?.streetAddress}</TableCell>
