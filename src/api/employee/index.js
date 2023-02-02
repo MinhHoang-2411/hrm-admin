@@ -17,10 +17,10 @@ const employeeApi = {
     const url = `/employees/${id}`;
     return axiosClient.get(url);
   },
-  remove(id) {
-    const url = `/employees/${id}`;
-    return axiosClient.patch(url, {
-      isDeleted: true,
+  remove(params) {
+    const url = `/employees`;
+    return axiosClient.delete(url, {
+      data: params,
     });
   },
   getBasicInfo() {

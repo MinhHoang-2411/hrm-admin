@@ -1,6 +1,6 @@
 import employeeApi from 'api/employee/index';
-import userApi from 'api/user/index';
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects';
+import {accountActions} from 'store/account/accountSlice';
 import {alertActions} from 'store/alert/alertSlice';
 import {employeeActions} from './employeeSlice';
 
@@ -17,13 +17,7 @@ function* handleFetchData(action) {
 
 function* handleCreate(action) {
   try {
-    const paramsUser = action.payload.userParams;
-    const response = yield call(userApi.create, paramsUser);
-
-    const params = {
-      ...action.payload.params,
-      user: {...action.payload.params.user, id: response.data.id},
-    };
+    const params = action.payload.params;
     yield call(employeeApi.create, params);
 
     yield put(employeeActions.createSuccess());
@@ -92,8 +86,8 @@ function* handleGetById(action) {
 
 function* handleRemove(action) {
   try {
-    const id = action.payload;
-    yield call(employeeApi.remove, id);
+    const id = action.payload.id;
+    yield call(employeeApi.remove, [id]);
 
     yield put(employeeActions.removeSuccess());
     yield put(

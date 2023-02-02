@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Alert,
 } from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
 import user from 'assets/images/users/user.png';
@@ -23,6 +24,7 @@ import {formatDateMaterial, formatDateMaterialToTimeStamp} from 'utils/index';
 import {CreateEmployeeSchema} from 'utils/validate/create-employee-schema';
 import '../../../assets/style/employee.scss';
 import useUploadImg from '../../../hooks/useUploadImg';
+import {currentDate} from 'utils/date/currentDate';
 
 export default function ModalCreateAsset({
   idEmployee,
@@ -65,29 +67,23 @@ export default function ModalCreateAsset({
         },
         joinedDate: formatDateMaterialToTimeStamp(values?.joinedDate),
         user: {
-          firstName: values?.firstName || dataEmployee?.user?.firstName,
-          lastName: values?.lastName || dataEmployee?.user?.lastName,
-          email: values?.email || dataEmployee?.user?.email,
-          imageUrl: avatarBase64 || dataEmployee?.user?.imageUrl,
+          login: values?.login,
+          firstName: values?.firstName,
+          lastName: values?.lastName,
+          email: values?.email,
+          activated: true,
+          langKey: 'en',
+          authorities:
+            values?.authorities == 'ROLE_ADMIN' ? ['ROLE_ADMIN', 'ROLE_USER'] : ['ROLE_USER'],
+          imageUrl: avatarBase64 || null,
         },
       };
-      const userParams = {
-        login: values?.login,
-        firstName: values?.firstName,
-        lastName: values?.lastName,
-        email: values?.email,
-        activated: true,
-        langKey: 'en',
-        authorities: [values?.authorities],
-        imageUrl: avatarBase64 || null,
-      };
-      if (typeOpenModal == 'edit' && idEmployee)
+      if (typeOpenModal == 'edit' && idEmployee) {
         dispatch(employeeActions.edit({params, handleClose: () => handleClose()}));
-      else {
-        delete params.user;
+      } else {
         delete params.id;
         delete params.address.id;
-        dispatch(employeeActions.create({params, userParams, handleClose: () => handleClose()}));
+        dispatch(employeeActions.create({params, handleClose: () => handleClose()}));
       }
     } catch (error) {
       console.error({error});
@@ -125,7 +121,9 @@ export default function ModalCreateAsset({
             address: dataEmployee?.address?.streetAddress || '',
             joinedDate: formatDateMaterial(dataEmployee?.joinedDate) || '',
             login: dataEmployee?.user?.login || '',
-            authorities: dataEmployee?.user?.authorities || 'ROLE_USER',
+            authorities: dataEmployee?.user?.authorities?.includes('ROLE_ADMIN')
+              ? 'ROLE_ADMIN'
+              : 'ROLE_USER',
           }}
           validationSchema={CreateEmployeeSchema(typeOpenModal)}
           onSubmit={onCreateAsset}
@@ -198,7 +196,7 @@ export default function ModalCreateAsset({
                           <TextField
                             sx={{width: '250px'}}
                             id='date'
-                            label='Date of birth'
+                            label='Date of Birth'
                             type='date'
                             name='dateOfBirth'
                             defaultValue={values.dateOfBirth}
@@ -390,7 +388,7 @@ export default function ModalCreateAsset({
 
                       <Box sx={{marginTop: '25px'}}>
                         <span className='label-modal-create'>Account Information</span>
-                        <Box sx={{width: '100%', marginTop: '15px'}}>
+                        <Box sx={{width: '100%', marginTop: '15px', marginBottom: '15px'}}>
                           <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                             <Grid item xs={4}>
                               <TextField
@@ -435,6 +433,12 @@ export default function ModalCreateAsset({
                             </Grid>
                           </Grid>
                         </Box>
+                        {typeOpenModal !== 'edit' && (
+                          <Alert severity='info'>
+                            Default password is <b>chainhausvn</b>, please change it again after
+                            successful creation!
+                          </Alert>
+                        )}
                       </Box>
                     </div>
                   </div>
@@ -446,7 +450,9 @@ export default function ModalCreateAsset({
                   size='error'
                   className='button-submit-member'
                   startIcon={<CloseOutlined />}
-                  onClick={() => handleClose()}
+                  onClick={() => {
+                    handleClose();
+                  }}
                 >
                   Close
                 </Button>

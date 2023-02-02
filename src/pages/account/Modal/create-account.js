@@ -40,7 +40,7 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
         <>
           <div style={{padding: '15px'}}>
             <span style={{fontSize: '20px', fontWeight: 700, color: '#000'}}>
-              Account Information
+              Employee Information
             </span>
           </div>
           <Divider />
@@ -105,14 +105,8 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
               </Grid>
               <Grid item xs={12}>
                 <FieldData
-                  label='Create Date'
-                  value={
-                    <span>
-                      {formatTimeStampToDate(dataEmployee?.createdDate)}
-                      &ensp;
-                      {formatTimeStampGetTime(dataEmployee?.createdDate)}
-                    </span>
-                  }
+                  label='Created date'
+                  value={<span>{formatTimeStampToDate(dataEmployee?.createdDate)}</span>}
                 />
               </Grid>
             </Grid>
