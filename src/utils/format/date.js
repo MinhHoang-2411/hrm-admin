@@ -32,7 +32,7 @@ function formatDateMaterialToTimeStamp(date) {
   if (!date) return '';
   try {
     const dateFormat = new Date(date);
-    return moment(dateFormat).format().replace('+07:00', '.000') + 'Z';
+    return moment(dateFormat).format().replace('+07:00', '.000').replace('+06:42', '.000') + 'Z';
   } catch (e) {
     return date;
   }
