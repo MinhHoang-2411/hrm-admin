@@ -105,7 +105,7 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
               </Grid>
               <Grid item xs={12}>
                 <FieldData
-                  label='Created Date'
+                  label='Created date'
                   value={<span>{formatTimeStampToDate(dataEmployee?.createdDate)}</span>}
                 />
               </Grid>

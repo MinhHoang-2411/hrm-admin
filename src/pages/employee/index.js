@@ -141,7 +141,7 @@ const EmployeeDefault = () => {
           <b>{nameMatching(data?.user?.firstName, data?.user?.lastName)}</b>?
         </span>
       ),
-      onAction: () => dispatch(employeeActions.remove(data?.id)),
+      onAction: () => dispatch(employeeActions.remove({id: data?.id, user: data?.user})),
     };
     dispatch(modalActions.showModal(params));
   };
