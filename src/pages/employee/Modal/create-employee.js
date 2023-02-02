@@ -252,7 +252,7 @@ export default function ModalCreateAsset({
                               >
                                 <MenuItem value='MALE'>Male</MenuItem>
                                 <MenuItem value='FEMALE'>Female</MenuItem>
-                                <MenuItem value='UNKNOW'>Unknown</MenuItem>
+                                <MenuItem value='UNKNOWN'>Unknown</MenuItem>
                               </Select>
                               <FormHelperText>{touched.gender && errors.gender}</FormHelperText>
                             </FormControl>

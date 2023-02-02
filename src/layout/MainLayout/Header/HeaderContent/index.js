@@ -20,8 +20,8 @@ const HeaderContent = () => {
 
       <IconButton
         component={Link}
-        href='https://github.com/codedthemes/mantis-free-react-admin-template'
-        target='_blank'
+        href='/underconstruction'
+        // target='_blank'
         disableRipple
         color='secondary'
         title='Email'
