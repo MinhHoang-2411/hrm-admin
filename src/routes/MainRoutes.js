@@ -22,6 +22,7 @@ const CharityPage = Loadable(lazy(() => import('pages/charity/index')));
 const WorkRulePage = Loadable(lazy(() => import('pages/work-rule/index')));
 const PolicyPage = Loadable(lazy(() => import('pages/policy/index')));
 const SecurityPage = Loadable(lazy(() => import('pages/security/index')));
+const UnderConstructionPage = Loadable(lazy(() => import('pages/under-construction/index')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -97,6 +98,10 @@ const MainRoutes = {
     {
       path: '/security',
       element: <SecurityPage />,
+    },
+    {
+      path: '/underconstruction',
+      element: <UnderConstructionPage />,
     },
   ],
 };

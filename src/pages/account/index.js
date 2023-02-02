@@ -40,7 +40,7 @@ const AccountDefault = () => {
   const [params, setParams] = useState({
     size: 10,
     page: 0,
-    sort: 'lastModifiedDate,DESC',
+    sort: 'createdDate,DESC',
   });
   const [search, setSearch] = useState('');
   const [idAccount, setIdAccount] = useState(null);

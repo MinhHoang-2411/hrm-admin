@@ -234,7 +234,13 @@ export default function LeavePage() {
       data?.map((row, index) => (
         <Card
           key={index}
-          sx={{fontSize: '14px', marginBottom: '15px', cursor: 'pointer'}}
+          sx={{
+            fontSize: '14px',
+            marginBottom: '15px',
+            cursor: 'pointer',
+            border: '1px solid #ccc',
+            boxShadow: 'none',
+          }}
           onClick={() => {
             setOpen(true);
             setLeaveId(row?.id);
