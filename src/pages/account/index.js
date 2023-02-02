@@ -60,11 +60,9 @@ const AccountDefault = () => {
         setParams((prevState) => {
           const newState = {...prevState};
           if (value && value.trim() !== '') {
-            newState['login.contains'] = value.trim();
-            newState['firstName.contains'] = value.trim();
+            newState['fullNameOrEmailOrUsername.contains'] = value.trim();
           } else {
-            delete newState['login.contains'];
-            delete newState['firstName.contains'];
+            delete newState['fullNameOrEmailOrUsername.contains'];
           }
           return {...newState, page: 0};
         }),

@@ -42,7 +42,7 @@ export default function ModalCreateAsset({
   const [phoneNumber, setPhoneNumber] = useState('');
   const NUMBER_REGEX = /^[0-9]+$/;
 
-  const onCreateAsset = async (values) => {
+  const onCreateEmployee = async (values) => {
     try {
       const params = {
         id: idEmployee || null,
@@ -126,7 +126,7 @@ export default function ModalCreateAsset({
               : 'ROLE_USER',
           }}
           validationSchema={CreateEmployeeSchema(typeOpenModal)}
-          onSubmit={onCreateAsset}
+          onSubmit={onCreateEmployee}
         >
           {({errors, touched, values, setFieldValue, handleChange}) => (
             <Form>
