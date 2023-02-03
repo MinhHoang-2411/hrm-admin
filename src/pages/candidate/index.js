@@ -22,6 +22,7 @@ import {nameMatching} from 'utils/format/name';
 import useGetAllList from '../../hooks/useGetAllList';
 import ModalCreateCandidate from './Modal/create-candidate';
 import TableCandidate from './Table/index';
+import {handleUnderConstruction} from './../../utils/helper/handleUnderConstruction';
 
 const style = {
   position: 'absolute',
@@ -115,11 +116,11 @@ const CandidateDefault = () => {
   const groupBtnAction = () => {
     return (
       <Box>
-        <BtnAction>
+        <BtnAction onClick={() => handleUnderConstruction(dispatch)}>
           <DeleteFilled />
           &nbsp; Delete
         </BtnAction>
-        <BtnAction>
+        <BtnAction onClick={() => handleUnderConstruction(dispatch)}>
           <ExportOutlined />
           &nbsp; Export
         </BtnAction>

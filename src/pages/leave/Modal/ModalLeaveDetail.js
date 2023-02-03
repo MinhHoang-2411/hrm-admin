@@ -129,11 +129,13 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                       {showStatusLeave(dataLeave?.status?.toLowerCase())}
                     </Grid>
 
-                    <Grid item xs={2.5}>
-                      <b>Reason:</b>
-                    </Grid>
-                    <Grid item xs={9.5}>
-                      {dataLeave?.reason}
+                    <Grid item container xs={12}>
+                      <Grid item xs={2.5}>
+                        <b>Reason:</b>
+                      </Grid>
+                      <Grid item xs={9.5}>
+                        {dataLeave?.reason}
+                      </Grid>
                     </Grid>
 
                     {dataLeave?.rejectReason ? (

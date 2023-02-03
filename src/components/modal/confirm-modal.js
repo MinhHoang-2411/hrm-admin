@@ -51,17 +51,19 @@ export default function ConfirmModal(prop) {
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={footerModal}>
-        <Button
-          variant='outlined'
-          startIcon={<CloseOutlined style={{fontSize: '16px'}} />}
-          onClick={handleClose}
-        >
-          Cancel
-        </Button>
+        {type !== 'modalUnderConstruction' && (
+          <Button
+            variant='outlined'
+            startIcon={<CloseOutlined style={{fontSize: '16px'}} />}
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+        )}
         <Button
           variant='contained'
           startIcon={<CheckOutlined style={{fontSize: '16px'}} />}
-          onClick={handleSubmit}
+          onClick={type === 'modalConfirm' ? handleSubmit : handleClose}
         >
           {buttonText || 'OK'}
         </Button>

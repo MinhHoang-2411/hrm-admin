@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 // material-ui
 import {useTheme} from '@mui/material/styles';
@@ -18,10 +19,12 @@ import {
 
 const ProfileTab = ({handleLogout}) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
+    navigate('/underconstruction');
   };
 
   return (

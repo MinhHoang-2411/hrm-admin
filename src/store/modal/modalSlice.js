@@ -14,6 +14,7 @@ const initialState = {
   modalConfirm: defaultValue,
   modalError: defaultValue,
   modalWaring: defaultValue,
+  modalUnderConstruction: defaultValue,
 };
 
 const modalSlice = createSlice({
