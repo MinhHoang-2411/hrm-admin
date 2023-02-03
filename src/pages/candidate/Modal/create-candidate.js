@@ -19,6 +19,7 @@ import {candidateActions} from 'store/candidate/candidateSlice';
 import '../../../assets/style/employee.scss';
 import useUploadImg from '../../../hooks/useUploadImg';
 import {CreateCandidateSchema} from '../../../utils/validate/create-candidate-schema';
+import user from 'assets/images/users/user.png';
 
 export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
   const dispatch = useAppDispatch();
@@ -92,15 +93,15 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                           ></Avatar>
                         ) : (
                           <Avatar
-                            name={values?.firstName ? values?.firstName : `Avatar`}
+                            src={user}
                             maxInitials={3}
                             round={true}
                             size={135}
-                            color={`#ee392a`}
+                            color={`#1890ff`}
                             fgColor={`#fff`}
                           />
                         )}
-                        <Button
+                        {/* <Button
                           sx={{marginTop: '10px', width: '90px'}}
                           variant='outlined'
                           size='small'
@@ -108,7 +109,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                           {...getRootProps()}
                         >
                           Upload
-                        </Button>
+                        </Button> */}
                         <input {...getInputProps()} />
                       </div>
                       <div className='d-flex main-info'>
@@ -138,7 +139,9 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                         </div>
                         <div className=''>
                           <TextField
-                            disabled={typeOpenModal == 'edit'}
+                            InputProps={{
+                              readOnly: typeOpenModal == 'edit',
+                            }}
                             name='email'
                             label='Email*'
                             defaultValue={values.email}
@@ -233,10 +236,10 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                   startIcon={<CloseOutlined />}
                   onClick={() => handleClose()}
                 >
-                  Cancel
+                  Close
                 </Button>
                 <Button
-                  variant='outlined'
+                  variant='contained'
                   color='primary'
                   size='large'
                   type='submit'

@@ -35,6 +35,10 @@ const MainRoutes = {
       element: <Navigate to='/' />,
     },
     {
+      path: 'dashboard',
+      element: <Navigate to='/' />,
+    },
+    {
       path: '/',
       element: <DashboardDefault />,
     },

@@ -28,6 +28,7 @@ import useGetAllList from '../../hooks/useGetAllList';
 import ModalCreateAccount from './Modal/create-account';
 import TableAccount from './Table/index';
 import _ from 'lodash';
+import {handleUnderConstruction} from './../../utils/helper/handleUnderConstruction';
 
 const BoxPagination = styled(Box)(({theme}) => ({
   padding: '20px 0px',
@@ -119,13 +120,17 @@ const AccountDefault = () => {
   const groupBtnAction = () => {
     return (
       <Box>
-        {/* <BtnAction>
+        <BtnAction
+          onClick={() => {
+            handleUnderConstruction(dispatch);
+          }}
+        >
           <ExportOutlined />
           &nbsp; Export
-        </BtnAction> */}
-        <h4 style={{padding: '10px', wordBreak: 'break-word', margin: 0}}>
+        </BtnAction>
+        {/* <h4 style={{padding: '10px', wordBreak: 'break-word', margin: 0}}>
           This function is currently in progress. Thank you!
-        </h4>
+        </h4> */}
       </Box>
     );
   };

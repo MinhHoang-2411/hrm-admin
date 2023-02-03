@@ -31,6 +31,7 @@ import {BtnAction, STYLE_MODAL} from 'constants/style';
 import {DEPARTMENTS} from 'constants/index';
 import {departmentsActions} from './../../store/departments/departmentsSlice';
 import {positionsActions} from 'store/positions/positionsSlice';
+import {handleUnderConstruction} from './../../utils/helper/handleUnderConstruction';
 
 const BoxPagination = styled(Box)(({theme}) => ({
   padding: '20px 0px',
@@ -158,17 +159,17 @@ const EmployeeDefault = () => {
   const groupBtnAction = () => {
     return (
       <Box>
-        {/* <BtnAction>
+        <BtnAction onClick={() => handleUnderConstruction(dispatch)}>
           <DeleteFilled />
           &nbsp; Delete
         </BtnAction>
-        <BtnAction>
+        <BtnAction onClick={() => handleUnderConstruction(dispatch)}>
           <ExportOutlined />
           &nbsp; Export
-        </BtnAction> */}
-        <h4 style={{padding: '10px', wordBreak: 'break-word', margin: 0}}>
+        </BtnAction>
+        {/* <h4 style={{padding: '10px', wordBreak: 'break-word', margin: 0}}>
           This function is currently in progress. Thank you!
-        </h4>
+        </h4> */}
       </Box>
     );
   };

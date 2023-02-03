@@ -460,17 +460,17 @@ export default function LeavePage() {
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '0px 10px 5px 10px',
+                    paddingLeft: '5px',
                   }}
                 >
                   <h3 style={styleLabel}>
                     OTHER LEAVE REQUESTS{' '}
                     <span style={styleCount}>{pagination?.totalCount || 0}</span>
                   </h3>
-                  <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                  <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: '10px'}}>
                     <Box>
                       <InputSearch
-                        width={490}
+                        width={'470px'}
                         search={search}
                         handleSearch={handleSearch}
                         placeholder='Search...'
