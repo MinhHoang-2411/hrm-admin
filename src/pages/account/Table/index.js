@@ -158,7 +158,7 @@ export default function TableAccount({
                   {row?.activated ? <StopOutlined /> : <CheckCircleOutlined />}
                 </IconButton>
               </Tooltip>
-              {/* <Tooltip title='Reset password'>
+              <Tooltip title='Reset password'>
                 <IconButton
                   aria-label='reset pwd'
                   onClick={() => {
@@ -167,7 +167,7 @@ export default function TableAccount({
                 >
                   <SyncOutlined />
                 </IconButton>
-              </Tooltip> */}
+              </Tooltip>
             </Box>
           </TableCell>
         </TableRow>

@@ -216,7 +216,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                               >
                                 {STATUS_CANDIDATE?.map((item, index) => (
                                   <MenuItem key={index} value={item}>
-                                    {item}
+                                    {`${item[0]}${item.substring(1).toLowerCase()}`}
                                   </MenuItem>
                                 ))}
                               </Select>
