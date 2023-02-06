@@ -94,6 +94,7 @@ export default function LeavePage() {
     reloadList,
     reloadListPending,
     loadingPending,
+    loadingChangeStatus,
     loading,
     pagination,
     paginationPending,
@@ -239,17 +240,17 @@ export default function LeavePage() {
             marginBottom: '15px',
             cursor: 'pointer',
             border: '1px solid #ccc',
-            boxShadow: 'none',
           }}
           onClick={() => {
             setOpen(true);
             setLeaveId(row?.id);
+            console.log('createDate', row?.createdDate);
           }}
         >
           <Box sx={{display: 'flex', flexDirection: 'column', padding: '10px 30px'}}>
             <Box sx={styleTitle}>
               <Box sx={styleName}>{row?.personOnLeave}</Box>
-              <Tooltip title='Hide'>
+              {/* <Tooltip title='Hide'>
                 <IconButton
                   sx={{fontSize: '25px'}}
                   onClick={(e) => {
@@ -258,7 +259,7 @@ export default function LeavePage() {
                 >
                   {<EyeInvisibleOutlined /> || <EyeOutlined />}
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
             </Box>
             <Box sx={{display: 'flex', marginBottom: '20px'}}>
               <Grid container spacing={2} columns={12}>
@@ -432,7 +433,7 @@ export default function LeavePage() {
                   next={handleFetchMorePendingLeave}
                   scrollThreshold='1px'
                 >
-                  {loadingPending ? (
+                  {loadingPending || loadingChangeStatus ? (
                     [...Array(2).keys()].map((value) => (
                       <SkeletonLoading
                         key={value}
@@ -531,7 +532,7 @@ export default function LeavePage() {
                   next={handleFetchMoreLeave}
                   scrollThreshold='1px'
                 >
-                  {loading ? (
+                  {loading || loadingChangeStatus ? (
                     [...Array(2).keys()].map((value) => (
                       <SkeletonLoading
                         key={value}

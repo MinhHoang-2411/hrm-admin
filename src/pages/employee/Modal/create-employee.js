@@ -10,6 +10,9 @@ import {
   Select,
   TextField,
   Alert,
+  Popper,
+  Paper,
+  Stack,
 } from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
 import user from 'assets/images/users/user.png';
@@ -63,7 +66,11 @@ export default function ModalCreateAsset({
         gender: values.gender,
         address: {
           id: dataEmployee?.address?.id,
-          streetAddress: values?.address,
+          streetAddress: values?.streetAddress,
+          city: values?.city,
+          country: values?.country,
+          stateProvince: values?.stateProvince,
+          postalCode: values?.postalCode,
         },
         joinedDate: formatDateMaterialToTimeStamp(values?.joinedDate),
         user: {
@@ -77,12 +84,16 @@ export default function ModalCreateAsset({
             values?.authorities == 'ROLE_ADMIN' ? ['ROLE_ADMIN', 'ROLE_USER'] : ['ROLE_USER'],
           imageUrl: avatarBase64 || null,
         },
+        leaveDays: values.leaveDays,
+        employeeCode: values.employeeCode,
+        resumeUrl: values.resume,
       };
       if (typeOpenModal == 'edit' && idEmployee) {
         dispatch(employeeActions.edit({params, handleClose: () => handleClose()}));
       } else {
         delete params.id;
         delete params.address.id;
+        delete params.employeeCode;
         dispatch(employeeActions.create({params, handleClose: () => handleClose()}));
       }
     } catch (error) {
@@ -96,6 +107,17 @@ export default function ModalCreateAsset({
   useEffect(() => {
     if (dataEmployee?.phoneNumber) setPhoneNumber(dataEmployee?.phoneNumber);
   }, [dataEmployee?.phoneNumber]);
+
+  //test zone
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openAddressPopup, setOpenAddressPopup] = useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpenAddressPopup(true);
+  };
+
+  const id = open ? 'simple-popper' : undefined;
 
   return (
     <>
@@ -119,11 +141,19 @@ export default function ModalCreateAsset({
             branchId: dataEmployee?.branch?.id,
             nationality: dataEmployee?.nationality,
             address: dataEmployee?.address?.streetAddress || '',
+            streetAddress: dataEmployee?.address?.streetAddress || '',
+            city: dataEmployee?.address?.city || '',
+            country: dataEmployee?.address?.country || '',
+            stateProvince: dataEmployee?.address?.stateProvince || '',
+            postalCode: dataEmployee?.address?.postalCode || '',
             joinedDate: formatDateMaterial(dataEmployee?.joinedDate) || '',
             login: dataEmployee?.user?.login || '',
             authorities: dataEmployee?.user?.authorities?.includes('ROLE_ADMIN')
               ? 'ROLE_ADMIN'
               : 'ROLE_USER',
+            employeeCode: dataEmployee?.employeeCode || '',
+            leaveDays: dataEmployee?.leaveDays || 0,
+            resume: dataEmployee?.resumeUrl || '',
           }}
           validationSchema={CreateEmployeeSchema(typeOpenModal)}
           onSubmit={onCreateEmployee}
@@ -259,15 +289,83 @@ export default function ModalCreateAsset({
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              InputLabelProps={{shrink: values.address ? true : false}}
                               name='address'
                               label='Address*'
                               defaultValue={values.address}
-                              onChange={handleChange}
+                              value={values.address}
                               error={touched.address && Boolean(errors.address)}
                               helperText={touched.address && errors.address}
+                              onClick={handleClick}
                             />
                           </Grid>
                         </Grid>
+                        <Popper sx={{zIndex: '9999'}} open={openAddressPopup} anchorEl={anchorEl}>
+                          <Paper sx={{padding: '4px', marginTop: '2px'}}>
+                            <Stack spacing={1}>
+                              <TextField
+                                name='streetAddress'
+                                type='string'
+                                label='Street Address'
+                                onChange={handleChange}
+                                defaultValue={values.streetAddress}
+                                error={touched.streetAddress && Boolean(errors.streetAddress)}
+                                helperText={touched.streetAddress && errors.streetAddress}
+                              />
+                              <TextField
+                                name='city'
+                                type='string'
+                                label='City'
+                                onChange={handleChange}
+                                defaultValue={values.city}
+                                error={touched.city && Boolean(errors.city)}
+                                helperText={touched.city && errors.city}
+                              />
+                              <TextField
+                                name='stateProvince'
+                                type='string'
+                                label='Province/State'
+                                onChange={handleChange}
+                                defaultValue={values.stateProvince}
+                                error={touched.stateProvince && Boolean(errors.stateProvince)}
+                                helperText={touched.stateProvince && errors.stateProvince}
+                              />
+                              <TextField
+                                name='country'
+                                type='string'
+                                label='Country'
+                                onChange={handleChange}
+                                defaultValue={values.country}
+                                error={touched.country && Boolean(errors.country)}
+                                helperText={touched.country && errors.country}
+                              />
+                              <TextField
+                                name='postalCode'
+                                type='string'
+                                label='Postal Code'
+                                onChange={handleChange}
+                                defaultValue={values.postalCode}
+                                error={touched.postalCode && Boolean(errors.postalCode)}
+                                helperText={touched.postalCode && errors.postalCode}
+                              />
+                              <Button
+                                variant='contained'
+                                color='primary'
+                                size='small'
+                                onClick={() => {
+                                  setOpenAddressPopup(false);
+                                  setFieldValue('address', values.streetAddress);
+                                  console.log('address', values.streetAddress);
+                                }}
+                              >
+                                Ok
+                              </Button>
+                            </Stack>
+                          </Paper>
+                        </Popper>
                       </Box>
 
                       <Box sx={{width: '100%', marginTop: '40px'}}>
@@ -381,6 +479,47 @@ export default function ModalCreateAsset({
                               onChange={handleChange}
                               error={touched.joinedDate && Boolean(errors.joinedDate)}
                               helperText={touched.joinedDate && errors.joinedDate}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Box>
+                      <Box sx={{width: '100%', marginTop: '40px'}}>
+                        <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
+                          <Grid item xs={4}>
+                            <TextField
+                              name='leaveDays'
+                              type='number'
+                              label='Leave days'
+                              onChange={handleChange}
+                              defaultValue={values.leaveDays}
+                              error={touched.leaveDays && Boolean(errors.leaveDays)}
+                              helperText={touched.leaveDays && errors.leaveDays}
+                            />
+                          </Grid>
+                          {typeOpenModal == 'edit' && (
+                            <Grid item xs={4}>
+                              <TextField
+                                InputProps={{readOnly: true}}
+                                name='employeeCode'
+                                type='string'
+                                label='Employee code'
+                                onChange={handleChange}
+                                defaultValue={values.employeeCode}
+                                error={touched.employeeCode && Boolean(errors.employeeCode)}
+                                helperText={touched.employeeCode && errors.employeeCode}
+                              />
+                            </Grid>
+                          )}
+
+                          <Grid item xs={4}>
+                            <TextField
+                              name='resume'
+                              type='string'
+                              label='CV'
+                              onChange={handleChange}
+                              defaultValue={values.resume}
+                              error={touched.resume && Boolean(errors.resume)}
+                              helperText={touched.resume && errors.resume}
                             />
                           </Grid>
                         </Grid>

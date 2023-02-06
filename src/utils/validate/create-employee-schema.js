@@ -41,5 +41,9 @@ export const CreateEmployeeSchema = (type) => {
     branchId: Yup.number().nullable('Please select Branch.').required('Please select Branch.'),
     dateOfBirth: Yup.date().max(currentDate, 'Invalid Time'),
     joinedDate: Yup.date().max(currentDate, 'Invalid Time'),
+    resume: Yup.string().matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      'Please enter a valid url'
+    ),
   });
 };
