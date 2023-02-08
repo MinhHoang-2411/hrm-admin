@@ -184,7 +184,7 @@ const AccountDefault = () => {
             </FormControl>
           </Box>
           <Box>
-            <DropdownBtn title='Multiple Action' content={groupBtnAction()} />
+            <DropdownBtn title='Multiple Actions' content={groupBtnAction()} />
             {/* <Button
               variant='contained'
               startIcon={<PlusCircleOutlined />}

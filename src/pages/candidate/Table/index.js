@@ -17,6 +17,7 @@ import {OrderTableHead} from 'components/table/table-head';
 import {nameMatching} from 'utils/format/name';
 import Empty from 'components/Empty';
 import TableLoading from 'components/table/table-loading';
+import user from 'assets/images/users/user.png';
 
 const headCells = [
   {
@@ -138,7 +139,7 @@ export default function TableCandidate({
             />
           </TableCell>
           <TableCell align='left'>
-            <Avatar alt={row?.fullName} src={row?.imageUrl} sx={{width: 40, height: 40}} />
+            <Avatar alt={row?.fullName} src={row?.imageUrl || user} sx={{width: 40, height: 40}} />
           </TableCell>
           <TableCell align='left'>{nameMatching(row?.firstName, row?.lastName)}</TableCell>
           {/* <TableCell align='left'>{row?.phoneNumber}</TableCell> */}
@@ -149,7 +150,9 @@ export default function TableCandidate({
               <FilePdfOutlined style={{color: '#1890ff'}} />
             </IconButton>
           </TableCell>
-          <TableCell align='left'>{row?.status}</TableCell>
+          <TableCell align='left'>{`${row?.status[0]}${row?.status
+            .substring(1)
+            .toLowerCase()}`}</TableCell>
           <TableCell>
             <Box>
               <IconButton aria-label='delete' onClick={() => handleEdit(row?.id)}>

@@ -326,7 +326,7 @@ export default function LeavePage() {
                     handleAction(row, 'reject', 'REJECTED');
                   }}
                 >
-                  REJECT
+                  Reject
                 </Button>
                 <Button
                   variant='contained'
@@ -337,7 +337,7 @@ export default function LeavePage() {
                     handleAction(row, 'approve', 'APPROVED');
                   }}
                 >
-                  APPROVE
+                  Approve
                 </Button>
               </Box>
             )}

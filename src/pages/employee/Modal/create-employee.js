@@ -489,7 +489,7 @@ export default function ModalCreateAsset({
                             <TextField
                               name='leaveDays'
                               type='number'
-                              label='Leave days'
+                              label='Leave Days'
                               onChange={handleChange}
                               defaultValue={values.leaveDays}
                               error={touched.leaveDays && Boolean(errors.leaveDays)}
@@ -515,7 +515,7 @@ export default function ModalCreateAsset({
                             <TextField
                               name='resume'
                               type='string'
-                              label='CV'
+                              label='CV URL'
                               onChange={handleChange}
                               defaultValue={values.resume}
                               error={touched.resume && Boolean(errors.resume)}

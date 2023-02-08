@@ -21,7 +21,7 @@ export const CreateEmployeeSchema = (type) => {
       .email('Please enter correct Email format')
       .required('Please enter Email'),
     phoneNumber: Yup.string()
-      .max(15, 'Please enter no more than 15 characters')
+      .max(15, 'Please enter no more than 15 numbers')
       .trim()
       .nullable('Please enter Phone Number')
       .required('Please enter Phone Number'),
@@ -43,7 +43,7 @@ export const CreateEmployeeSchema = (type) => {
     joinedDate: Yup.date().max(currentDate, 'Invalid Time'),
     resume: Yup.string().matches(
       /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-      'Please enter a valid url'
+      'Please enter a valid URL'
     ),
   });
 };
