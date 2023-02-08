@@ -31,7 +31,7 @@ function* handleCreate(action) {
 
     action.payload?.handleClose?.();
   } catch (error) {
-    yield put(employeeActions.createFalse('An error occurred, please try again'));
+    yield put(employeeActions.createFalse(error));
     yield put(
       alertActions.showAlert({
         text: error?.response?.data?.title || 'An error occurred, please try again',
@@ -60,7 +60,7 @@ function* handleEdit(action) {
     yield put(employeeActions.createFalse('An error occurred, please try again'));
     yield put(
       alertActions.showAlert({
-        text: 'An error occurred, please try again',
+        text: error?.response?.data?.title || 'An error occurred, please try again',
         type: 'error',
       })
     );

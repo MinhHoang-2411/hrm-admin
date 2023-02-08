@@ -46,7 +46,7 @@ const employeeSlice = createSlice({
     },
     createFalse(state, action) {
       state.loadingCreate = false;
-      console.error(action.payload);
+      console.error({error: action.payload});
     },
 
     // Get data by Id

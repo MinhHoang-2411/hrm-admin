@@ -1,4 +1,4 @@
-const STATUS_CANDIDATE = ['PASSED', 'FAILED', 'NEW', 'PROCESSING'];
+const STATUS_CANDIDATE = ['NEW', 'PROCESSING', 'PASSED', 'FAILED'];
 const STATUS_ASSET = ['Free', 'Being Used', 'Under Repair', 'Broken', 'New'];
 const STATUS_LEAVE = ['Approved', 'Rejected', 'Waiting', 'Canceled'];
 const TYPE_LEAVE = ['Annual', 'Casual', 'Remote', 'Maternity'];

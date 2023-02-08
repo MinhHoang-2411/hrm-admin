@@ -49,7 +49,7 @@ const CandidateDefault = () => {
   const [params, setParams] = useState({
     size: 10,
     page: 0,
-    sort: '',
+    sort: 'lastModifiedDate,DESC',
     order: 'asc',
     branch: undefined,
     team: undefined,
@@ -85,8 +85,8 @@ const CandidateDefault = () => {
         setParams((prevState) => {
           const newState = {...prevState};
           if (value && value.trim() !== '') {
-            newState['firstName.contains'] = value.trim();
-          } else delete newState['firstName.contains'];
+            newState['name.contains'] = value.trim();
+          } else delete newState['name.contains'];
           return {...newState, page: 0};
         }),
       500
@@ -166,7 +166,7 @@ const CandidateDefault = () => {
             </FormControl>
           </Box>
           <Box>
-            <DropdownBtn title='Multiple Action' content={groupBtnAction()} />
+            <DropdownBtn title='Multiple Actions' content={groupBtnAction()} />
             <Button
               variant='contained'
               startIcon={<PlusCircleOutlined />}

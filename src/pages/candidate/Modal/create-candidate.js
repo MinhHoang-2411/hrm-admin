@@ -8,6 +8,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  FormHelperText,
 } from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
 import {STATUS_CANDIDATE} from 'constants/index';
@@ -26,7 +27,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
   const dataCandidate = useAppSelector((state) => state.candidate.dataCandidate);
   const isLoading = useAppSelector((state) => state.candidate.loadingEdit);
   const {getRootProps, getInputProps, imagePreview, avatarBase64} = useUploadImg();
-  const [phoneNumber, setPhoneNumber] = useState(dataCandidate?.phoneNumber || '');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const NUMBER_REGEX = /^[0-9]+$/;
 
   const onCreateCandidate = async (values) => {
@@ -41,18 +42,20 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
         resumeUrl: values.resumeUrl,
         status: values.status,
       };
-      if (typeOpenModal == 'edit') dispatch(candidateActions.edit({...params, id: id}));
-      else dispatch(candidateActions.create(params));
+      if (typeOpenModal == 'edit')
+        dispatch(candidateActions.edit({...params, id: id, handleClose: () => handleClose()}));
+      else dispatch(candidateActions.create({...params, handleClose: () => handleClose()}));
     } catch (error) {
       console.error({error});
-    } finally {
-      handleClose();
     }
   };
 
   useEffect(() => {
     if (typeOpenModal == 'edit' && id) dispatch(candidateActions.getById(id));
   }, [id]);
+  useEffect(() => {
+    if (dataCandidate?.phoneNumber) setPhoneNumber(dataCandidate?.phoneNumber);
+  }, [dataCandidate?.phoneNumber]);
 
   return (
     <>
@@ -66,11 +69,11 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
             firstName: dataCandidate?.firstName || '',
             lastName: dataCandidate?.lastName || '',
             imageUrl: dataCandidate?.imageUrl || '',
-            phoneNumber: phoneNumber,
+            phoneNumber: dataCandidate?.phoneNumber || phoneNumber || '',
             email: dataCandidate?.email || '',
             note: dataCandidate?.note || '',
             resumeUrl: dataCandidate?.resumeUrl || '',
-            status: dataCandidate?.status || '',
+            status: dataCandidate?.status,
           }}
           validationSchema={CreateCandidateSchema(typeOpenModal)}
           onSubmit={onCreateCandidate}
@@ -157,7 +160,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                 </div>
                 <div className='group-info-member'>
                   <div className='div-info-member'>
-                    <span className='label-modal-create'>Other information</span>
+                    <span className='label-modal-create'>Other Information</span>
                     <div className='group-input-member'>
                       <Box sx={{width: '100%', marginTop: '15px'}}>
                         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
@@ -167,7 +170,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                               type='string'
                               pattern='[0-9]*'
                               id='phone-required'
-                              label='Phone number'
+                              label='Phone Number*'
                               value={phoneNumber}
                               onChange={(event) => {
                                 const value = event.target.value;
@@ -175,6 +178,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                                   return;
                                 }
                                 setPhoneNumber(value);
+                                setFieldValue('phoneNumber', value);
                               }}
                               error={touched.phoneNumber && Boolean(errors.phoneNumber)}
                               helperText={touched.phoneNumber && errors.phoneNumber}
@@ -183,7 +187,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                           <Grid item xs={4}>
                             <TextField
                               name='resumeUrl'
-                              label='ResumeUrl'
+                              label='Resume URL*'
                               defaultValue={values.resumeUrl}
                               onChange={handleChange}
                               error={touched.resumeUrl && Boolean(errors.resumeUrl)}
@@ -206,8 +210,11 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                       <Box sx={{width: '100%', marginTop: '40px'}}>
                         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                           <Grid item xs={4}>
-                            <FormControl sx={{width: '192px'}}>
-                              <InputLabel id='sex-select-label'>Status</InputLabel>
+                            <FormControl
+                              sx={{width: '192px'}}
+                              error={touched.status && errors.status}
+                            >
+                              <InputLabel id='sex-select-label'>Status*</InputLabel>
                               <Select
                                 labelId='sex-select-label'
                                 id='demo-simple-select'
@@ -220,6 +227,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                                   </MenuItem>
                                 ))}
                               </Select>
+                              <FormHelperText>{touched.status && errors.status}</FormHelperText>
                             </FormControl>
                           </Grid>
                         </Grid>

@@ -27,11 +27,12 @@ function* handleCreate(action) {
         type: 'success',
       })
     );
+    action.payload?.handleClose?.();
   } catch (error) {
     yield put(candidateActions.createFalse('An error occurred, please try again'));
     yield put(
       alertActions.showAlert({
-        text: 'An error occurred, please try again',
+        text: error?.response?.data?.title || 'An error occurred, please try again',
         type: 'error',
       })
     );
@@ -47,10 +48,11 @@ function* handleEdit(action) {
 
     yield put(
       alertActions.showAlert({
-        text: 'Update successful candidates',
+        text: error?.response?.data?.title || 'Update successful candidates',
         type: 'success',
       })
     );
+    action.payload?.handleClose?.();
   } catch (error) {
     yield put(candidateActions.editFalse('An error occurred, please try again'));
     yield put(
