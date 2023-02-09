@@ -381,7 +381,7 @@ export default function LeavePage() {
           <Grid container spacing={2} columns={16}>
             <Grid item xs={9}>
               <Box sx={{padding: '10px 10px'}}>
-                <Box sx={{display: 'flex', flexDirection: 'column', paddingLeft: '5px'}}>
+                <Box sx={{display: 'flex', flexDirection: 'column'}}>
                   <h3 style={styleLabel}>
                     PENDING LEAVE REQUESTS{' '}
                     <span style={styleCount}>{paginationPending?.totalCount || 0}</span>
@@ -461,7 +461,7 @@ export default function LeavePage() {
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    paddingLeft: '5px',
+                    // paddingLeft: '5px',
                   }}
                 >
                   <h3 style={styleLabel}>

@@ -77,7 +77,7 @@ export default function ModalCreateAsset({
           login: values?.login,
           firstName: values?.firstName,
           lastName: values?.lastName,
-          email: values?.email,
+          email: values?.email.trim(),
           activated: true,
           langKey: 'en',
           authorities:

@@ -57,7 +57,7 @@ function* handleEdit(action) {
 
     action.payload?.handleClose?.();
   } catch (error) {
-    yield put(employeeActions.createFalse('An error occurred, please try again'));
+    yield put(employeeActions.editFalse('An error occurred, please try again'));
     yield put(
       alertActions.showAlert({
         text: error?.response?.data?.title || 'An error occurred, please try again',

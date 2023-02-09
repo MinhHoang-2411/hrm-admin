@@ -37,7 +37,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
         lastName: values.lastName,
         imageUrl: avatarBase64 || '',
         phoneNumber: phoneNumber,
-        email: values.email,
+        email: values.email.trim(),
         note: values.note,
         resumeUrl: values.resumeUrl,
         status: values.status,
