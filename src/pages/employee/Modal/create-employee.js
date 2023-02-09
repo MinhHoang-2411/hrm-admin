@@ -361,7 +361,7 @@ export default function ModalCreateAsset({
                                   console.log('address', values.streetAddress);
                                 }}
                               >
-                                Ok
+                                OK
                               </Button>
                             </Stack>
                           </Paper>
