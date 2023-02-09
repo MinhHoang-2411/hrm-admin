@@ -48,7 +48,7 @@ function* handleEdit(action) {
 
     yield put(
       alertActions.showAlert({
-        text: error?.response?.data?.title || 'Update successful candidates',
+        text: 'Update successful candidates',
         type: 'success',
       })
     );
@@ -57,7 +57,7 @@ function* handleEdit(action) {
     yield put(candidateActions.editFalse('An error occurred, please try again'));
     yield put(
       alertActions.showAlert({
-        text: 'An error occurred, please try again',
+        text: error?.response?.data?.title || 'An error occurred, please try again',
         type: 'error',
       })
     );
