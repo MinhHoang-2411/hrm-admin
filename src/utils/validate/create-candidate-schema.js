@@ -22,6 +22,8 @@ export const CreateCandidateSchema = (type) => {
       .required('Please enter Phone Number'),
     status: Yup.string().nullable('Please select Status').required('Please select Status'),
     note: Yup.string().max(255, 'Please enter no more than 255 characters'),
-    resumeUrl: Yup.string().url().required('Please enter Resume URL'),
+    resumeUrl: Yup.string()
+      .url('Please enter valid Resume URL')
+      .required('Please enter Resume URL'),
   });
 };
