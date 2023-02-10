@@ -56,6 +56,7 @@ const headCells = [
     align: 'left',
     disablePadding: false,
     label: 'Note',
+    width: '30%',
   },
   {
     id: 'resumeUrl',
@@ -177,7 +178,6 @@ export default function TableCandidate({
           position: 'relative',
           display: 'block',
           maxWidth: '100%',
-          '& td, & th': {whiteSpace: 'nowrap'},
         }}
       >
         <Table aria-labelledby='tableTitle'>
