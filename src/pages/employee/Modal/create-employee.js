@@ -499,7 +499,7 @@ export default function ModalCreateAsset({
                           {typeOpenModal == 'edit' && (
                             <Grid item xs={4}>
                               <TextField
-                                InputProps={{readOnly: true}}
+                                disabled
                                 name='employeeCode'
                                 type='string'
                                 label='Employee code'
@@ -531,9 +531,17 @@ export default function ModalCreateAsset({
                           <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                             <Grid item xs={4}>
                               <TextField
-                                InputProps={{
-                                  readOnly: typeOpenModal == 'edit',
-                                }}
+                                disabled={typeOpenModal == 'edit'}
+                                // InputProps={{
+                                //   readOnly: typeOpenModal == 'edit',
+                                // }}
+                                // inputProps={
+                                //   typeOpenModal == 'edit'
+                                //     ? {
+                                //         style: {cursor: 'not-allowed'},
+                                //       }
+                                //     : {}
+                                // }
                                 name='login'
                                 type='string'
                                 label='Username*'

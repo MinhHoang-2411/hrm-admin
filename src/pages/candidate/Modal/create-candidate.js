@@ -142,9 +142,6 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                         </div>
                         <div className=''>
                           <TextField
-                            InputProps={{
-                              readOnly: typeOpenModal == 'edit',
-                            }}
                             name='email'
                             label='Email*'
                             defaultValue={values.email}
@@ -166,6 +163,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                           <Grid item xs={4}>
                             <TextField
+                              fullWidth
                               name='phoneNumber'
                               type='string'
                               pattern='[0-9]*'
@@ -186,6 +184,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
+                              fullWidth
                               name='resumeUrl'
                               label='Resume URL*'
                               defaultValue={values.resumeUrl}
@@ -195,23 +194,8 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                             />
                           </Grid>
                           <Grid item xs={4}>
-                            <TextField
-                              name='note'
-                              label='Note'
-                              defaultValue={values.note}
-                              onChange={handleChange}
-                              error={touched.note && Boolean(errors.note)}
-                              helperText={touched.note && errors.note}
-                            />
-                          </Grid>
-                        </Grid>
-                      </Box>
-
-                      <Box sx={{width: '100%', marginTop: '40px'}}>
-                        <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
-                          <Grid item xs={4}>
                             <FormControl
-                              sx={{width: '192px'}}
+                              sx={{width: '100%'}}
                               error={touched.status && errors.status}
                             >
                               <InputLabel id='sex-select-label'>Status*</InputLabel>
@@ -230,8 +214,24 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                               <FormHelperText>{touched.status && errors.status}</FormHelperText>
                             </FormControl>
                           </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              fullWidth
+                              multiline
+                              name='note'
+                              label='Note'
+                              defaultValue={values.note}
+                              onChange={handleChange}
+                              error={touched.note && Boolean(errors.note)}
+                              helperText={touched.note && errors.note}
+                            />
+                          </Grid>
                         </Grid>
                       </Box>
+                      {/*
+                      <Box sx={{width: '100%', marginTop: '40px'}}>
+                        <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}></Grid>
+                      </Box> */}
                     </div>
                   </div>
                 </div>
