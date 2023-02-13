@@ -84,7 +84,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                 <div className='group-avatar-member'>
                   <div className='div-avatar-member'>
                     <span className='label-modal-create'>
-                      {typeOpenModal == 'create' ? 'Add new candidate' : 'Main information'}
+                      {typeOpenModal == 'create' ? 'Add New Candidate' : 'Main information'}
                     </span>
                     <div className='upload-img'>
                       <div className='item-center container-avatar'>

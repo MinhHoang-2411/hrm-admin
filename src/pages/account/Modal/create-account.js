@@ -11,6 +11,7 @@ import {departmentsActions} from 'store/departments/departmentsSlice';
 import {positionsActions} from 'store/positions/positionsSlice';
 import '../../../assets/style/employee.scss';
 import FieldData from './FieldData';
+import {Link} from 'react-router-dom';
 
 export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal, handleClose}) {
   const dispatch = useAppDispatch();
@@ -103,6 +104,20 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
                   value={formatTimeStampToDate(dataEmployee?.joinedDate || '')}
                 />
               </Grid>
+              <Grid item xs={6}>
+                <FieldData label='Leave days' value={dataEmployee?.leaveDays || ''} />
+              </Grid>
+              <Grid item xs={6}>
+                <FieldData
+                  label='CV URL'
+                  value={
+                    <a target='_blank' href={dataEmployee?.resumeUrl || ''}>
+                      URL
+                    </a>
+                  }
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <FieldData
                   label='Created date'
