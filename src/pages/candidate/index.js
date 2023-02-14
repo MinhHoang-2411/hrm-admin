@@ -176,7 +176,7 @@ const CandidateDefault = () => {
                 setTypeOpenModal('create');
               }}
             >
-              Add new Candidate
+              Add New Candidate
             </Button>
           </Box>
         </Box>

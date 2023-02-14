@@ -142,7 +142,13 @@ export default function TableCandidate({
           <TableCell align='left'>
             <Avatar alt={row?.fullName} src={row?.imageUrl || user} sx={{width: 40, height: 40}} />
           </TableCell>
-          <TableCell align='left'>{nameMatching(row?.firstName, row?.lastName)}</TableCell>
+          <TableCell
+            align='left'
+            sx={{cursor: 'pointer', color: 'primary.main', fontWeight: '600'}}
+            onClick={() => handleEdit(row?.id)}
+          >
+            {nameMatching(row?.firstName, row?.lastName)}
+          </TableCell>
           {/* <TableCell align='left'>{row?.phoneNumber}</TableCell> */}
           <TableCell align='left'>{row?.email}</TableCell>
           <TableCell align='left'>{row?.note}</TableCell>
@@ -156,7 +162,7 @@ export default function TableCandidate({
             .toLowerCase()}`}</TableCell>
           <TableCell>
             <Box>
-              <IconButton aria-label='delete' onClick={() => handleEdit(row?.id)}>
+              <IconButton aria-label='edit' onClick={() => handleEdit(row?.id)}>
                 <EditFilled />
               </IconButton>
               <IconButton aria-label='delete' onClick={() => handleRemove(row)}>
