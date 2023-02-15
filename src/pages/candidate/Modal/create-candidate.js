@@ -93,7 +93,7 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
                     value={
                       <IconButton
                         aria-label='edit'
-                        onClick={() => window.open(dataEmployee?.resumeUrl || '')}
+                        onClick={() => window.open(dataCandidate?.resumeUrl || '')}
                       >
                         <FilePdfOutlined style={{color: '#1890ff'}} />
                       </IconButton>
