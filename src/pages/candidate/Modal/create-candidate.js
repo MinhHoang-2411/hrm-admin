@@ -1,7 +1,8 @@
-import {CameraOutlined, CloseOutlined, SaveOutlined} from '@ant-design/icons';
+import {CameraOutlined, CloseOutlined, SaveOutlined, FilePdfOutlined} from '@ant-design/icons';
 import {
   Box,
   Button,
+  IconButton,
   FormControl,
   Grid,
   InputLabel,
@@ -9,6 +10,7 @@ import {
   Select,
   TextField,
   FormHelperText,
+  Divider,
 } from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
 import {STATUS_CANDIDATE} from 'constants/index';
@@ -21,6 +23,7 @@ import '../../../assets/style/employee.scss';
 import useUploadImg from '../../../hooks/useUploadImg';
 import {CreateCandidateSchema} from '../../../utils/validate/create-candidate-schema';
 import user from 'assets/images/users/user.png';
+import FieldData from 'components/FieldData';
 
 export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
   const dispatch = useAppDispatch();
@@ -51,11 +54,86 @@ export default function ModalCreateCandidate({id, typeOpenModal, handleClose}) {
   };
 
   useEffect(() => {
-    if (typeOpenModal == 'edit' && id) dispatch(candidateActions.getById(id));
+    if ((typeOpenModal == 'detail' && id) || (typeOpenModal == 'edit' && id))
+      dispatch(candidateActions.getById(id));
   }, [id]);
   useEffect(() => {
     if (dataCandidate?.phoneNumber) setPhoneNumber(dataCandidate?.phoneNumber);
   }, [dataCandidate?.phoneNumber]);
+
+  if (typeOpenModal == 'detail') {
+    return (
+      <>
+        {isLoading ? (
+          <div className={`text-center`}>
+            <ThreeDots height='60' width='60' color='#339cff' />
+          </div>
+        ) : (
+          <>
+            <div style={{padding: '15px'}}>
+              <span style={{fontSize: '20px', fontWeight: 700, color: '#000'}}>
+                Candidate Information
+              </span>
+            </div>
+            <Divider />
+            <div style={{padding: '20px'}}>
+              <Grid container>
+                <Grid item xs={6}>
+                  <FieldData label='First name' value={dataCandidate?.firstName || ''} />
+                </Grid>
+                <Grid item xs={6}>
+                  <FieldData label='Last name' value={dataCandidate?.lastName || ''} />
+                </Grid>
+                <Grid item xs={6}>
+                  <FieldData label='Email' value={dataCandidate?.email || ''} />
+                </Grid>
+                <Grid item xs={6}>
+                  <FieldData
+                    label='Resume URL'
+                    value={
+                      <IconButton
+                        aria-label='edit'
+                        onClick={() => window.open(dataEmployee?.resumeUrl || '')}
+                      >
+                        <FilePdfOutlined style={{color: '#1890ff'}} />
+                      </IconButton>
+                    }
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FieldData label='Note' value={dataCandidate?.note || ''} />
+                </Grid>
+                <Grid item xs={6}>
+                  <FieldData
+                    label='Status'
+                    value={
+                      `${dataCandidate?.status[0]}${dataCandidate?.status
+                        .substring(1)
+                        .toLowerCase()}` || ''
+                    }
+                  />
+                </Grid>
+              </Grid>
+            </div>
+            <Divider />
+            <div style={{padding: '20px', display: 'flex', justifyContent: 'flex-end'}}>
+              <Button
+                variant='outlined'
+                color='error'
+                className='button-submit-member'
+                startIcon={<CloseOutlined />}
+                onClick={() => handleClose()}
+                sx={{marginLeft: 'auto'}}
+              >
+                Close
+              </Button>
+            </div>
+            <Divider />
+          </>
+        )}
+      </>
+    );
+  }
 
   return (
     <>

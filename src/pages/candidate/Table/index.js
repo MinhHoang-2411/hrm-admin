@@ -113,6 +113,11 @@ export default function TableCandidate({
     setTypeOpenModal('edit');
     handleOpen();
   };
+  const handleViewDetail = (id) => {
+    setIdCandidate(id);
+    setTypeOpenModal('detail');
+    handleOpen();
+  };
 
   const renderList = useCallback(
     () =>
@@ -145,7 +150,7 @@ export default function TableCandidate({
           <TableCell
             align='left'
             sx={{cursor: 'pointer', color: 'primary.main', fontWeight: '600'}}
-            onClick={() => handleEdit(row?.id)}
+            onClick={() => handleViewDetail(row?.id)}
           >
             {nameMatching(row?.firstName, row?.lastName)}
           </TableCell>
