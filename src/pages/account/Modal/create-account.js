@@ -1,5 +1,6 @@
 import {CloseOutlined} from '@ant-design/icons';
-import {Button, Divider, Grid} from '@mui/material';
+import {Button, Divider, Grid, IconButton} from '@mui/material';
+import {FilePdfOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
 import {useEffect} from 'react';
 import {ThreeDots} from 'react-loader-spinner';
@@ -10,7 +11,7 @@ import useGetAllList from 'hooks/useGetAllList';
 import {departmentsActions} from 'store/departments/departmentsSlice';
 import {positionsActions} from 'store/positions/positionsSlice';
 import '../../../assets/style/employee.scss';
-import FieldData from './FieldData';
+import FieldData from 'components/FieldData';
 import {Link} from 'react-router-dom';
 
 export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal, handleClose}) {
@@ -105,15 +106,18 @@ export default function ModalCreateAccount({idAccount, idEmployee, typeOpenModal
                 />
               </Grid>
               <Grid item xs={6}>
-                <FieldData label='Leave days' value={dataEmployee?.leaveDays || ''} />
+                <FieldData label='Leave days' value={dataEmployee?.leaveDays.toString() || ''} />
               </Grid>
               <Grid item xs={6}>
                 <FieldData
                   label='CV URL'
                   value={
-                    <a target='_blank' href={dataEmployee?.resumeUrl || ''}>
-                      URL
-                    </a>
+                    <IconButton
+                      aria-label='edit'
+                      onClick={() => window.open(dataEmployee?.resumeUrl || '')}
+                    >
+                      <FilePdfOutlined style={{color: '#1890ff'}} />
+                    </IconButton>
                   }
                 />
               </Grid>
