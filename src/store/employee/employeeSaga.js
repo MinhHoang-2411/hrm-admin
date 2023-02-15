@@ -24,7 +24,7 @@ function* handleCreate(action) {
 
     yield put(
       alertActions.showAlert({
-        text: 'Create successful employees',
+        text: 'Create employee successfully',
         type: 'success',
       })
     );
@@ -50,7 +50,7 @@ function* handleEdit(action) {
 
     yield put(
       alertActions.showAlert({
-        text: 'Update successful employees',
+        text: 'Update employee successfully',
         type: 'success',
       })
     );

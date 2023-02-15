@@ -30,7 +30,7 @@ function* handleCreate(action) {
 
     yield put(
       alertActions.showAlert({
-        text: 'Create successfulaccounts',
+        text: 'Create account successfully',
         type: 'success',
       })
     );
@@ -54,7 +54,7 @@ function* handleEdit(action) {
 
     yield put(
       alertActions.showAlert({
-        text: 'Update successfulaccounts',
+        text: 'Update account successfully',
         type: 'success',
       })
     );
@@ -93,7 +93,7 @@ function* handleActivateOrDeactivate(action) {
     yield put(accountActions.activateOrDeactivateSuccess());
     yield put(
       alertActions.showAlert({
-        text: 'Successfully',
+        text: 'Change status successfully',
         type: 'success',
       })
     );
