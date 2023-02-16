@@ -208,10 +208,19 @@ const Profile = () => {
                           </Tabs>
                         </Box>
                         <TabPanel value={value} index={0} dir={theme.direction}>
-                          <ProfileTab handleLogout={handleLogout} />
+                          <ProfileTab
+                            handleClosePopup={() => {
+                              setOpen(false);
+                            }}
+                            handleLogout={handleLogout}
+                          />
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction}>
-                          <SettingTab />
+                          <SettingTab
+                            handleClosePopup={() => {
+                              setOpen(false);
+                            }}
+                          />
                         </TabPanel>
                       </>
                     )}

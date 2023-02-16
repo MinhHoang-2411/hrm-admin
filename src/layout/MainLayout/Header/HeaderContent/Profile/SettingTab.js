@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 
 // material-ui
 import {useTheme} from '@mui/material/styles';
@@ -16,14 +16,17 @@ import {
 
 // ==============================|| HEADER PROFILE - SETTING TAB ||============================== //
 
-const SettingTab = () => {
+const SettingTab = ({handleClosePopup}) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
+  const {pathname} = location;
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleListItemClick = (event, index) => {
+  const handleListItemClick = (event, index, path = '/underconstruction') => {
     setSelectedIndex(index);
-    navigate('/underconstruction');
+    navigate(path);
+    handleClosePopup();
   };
 
   return (
@@ -32,7 +35,7 @@ const SettingTab = () => {
       sx={{p: 0, '& .MuiListItemIcon-root': {minWidth: 32, color: theme.palette.grey[500]}}}
     >
       <ListItemButton
-        selected={selectedIndex === 0}
+        // selected={selectedIndex === 0}
         onClick={(event) => handleListItemClick(event, 0)}
       >
         <ListItemIcon>
@@ -41,8 +44,8 @@ const SettingTab = () => {
         <ListItemText primary='Support' />
       </ListItemButton>
       <ListItemButton
-        selected={selectedIndex === 1}
-        onClick={(event) => handleListItemClick(event, 1)}
+        selected={pathname === '/settings'}
+        onClick={(event) => handleListItemClick(event, 1, '/settings')}
       >
         <ListItemIcon>
           <UserOutlined />

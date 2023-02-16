@@ -17,7 +17,7 @@ import {
 
 // ==============================|| HEADER PROFILE - PROFILE TAB ||============================== //
 
-const ProfileTab = ({handleLogout}) => {
+const ProfileTab = ({handleLogout, handleClosePopup}) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -25,6 +25,7 @@ const ProfileTab = ({handleLogout}) => {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
     navigate('/underconstruction');
+    handleClosePopup();
   };
 
   return (
