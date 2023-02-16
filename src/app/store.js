@@ -17,6 +17,7 @@ import rootSaga from './rootSaga';
 import assetRequestReducer from 'store/asset-request/assetRequestSlice';
 import positionsReducer from 'store/positions/positionsSlice';
 import departmentsReducer from 'store/departments/departmentsSlice';
+import settingsReducer from 'store/settings/settingsSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
@@ -37,6 +38,7 @@ export const store = configureStore({
     account: accountReducer,
     leave: leaveReducer,
     skill: skillReducer,
+    settings: settingsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

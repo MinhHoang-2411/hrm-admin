@@ -23,6 +23,7 @@ const WorkRulePage = Loadable(lazy(() => import('pages/work-rule/index')));
 const PolicyPage = Loadable(lazy(() => import('pages/policy/index')));
 const SecurityPage = Loadable(lazy(() => import('pages/security/index')));
 const UnderConstructionPage = Loadable(lazy(() => import('pages/under-construction/index')));
+const SettingsPage = Loadable(lazy(() => import('pages/settings/index')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -102,6 +103,10 @@ const MainRoutes = {
     {
       path: '/security',
       element: <SecurityPage />,
+    },
+    {
+      path: '/settings',
+      element: <SettingsPage />,
     },
     {
       path: '/underconstruction',

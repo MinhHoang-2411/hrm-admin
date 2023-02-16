@@ -14,6 +14,7 @@ import {userSaga} from 'store/user/userSaga';
 import {accountSaga} from 'store/account/accountSaga';
 import {departmentsSaga} from 'store/departments/departmentsSaga';
 import {positionsSaga} from 'store/positions/positionsSaga';
+import {settingsSaga} from 'store/settings/settingsSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -32,5 +33,6 @@ export default function* rootSaga() {
     skillSaga(),
     departmentsSaga(),
     positionsSaga(),
+    settingsSaga(),
   ]);
 }

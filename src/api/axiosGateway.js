@@ -2,20 +2,20 @@ import axios from 'axios';
 import history from 'routes/history';
 import {getAuth, handleLogout} from 'utils/auth/index';
 
-const URL_API_ADMIN = process.env.REACT_APP_API_URL_ADMIN;
+const URL_API_GATEWAY = process.env.REACT_APP_API_URL_GATEWAY;
 
-const axiosClient = axios.create({
-  baseURL: URL_API_ADMIN,
+const axiosGateway = axios.create({
+  baseURL: URL_API_GATEWAY,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-export default axiosClient;
+export default axiosGateway;
 
-axiosClient.defaults.headers.Accept = 'application/json';
+axiosGateway.defaults.headers.Accept = 'application/json';
 // Add a request interceptor
-axiosClient.interceptors.request.use(
+axiosGateway.interceptors.request.use(
   function (config) {
     const auth = getAuth();
     if (auth) {
@@ -32,7 +32,7 @@ axiosClient.interceptors.request.use(
 );
 
 // Add a response interceptor
-axiosClient.interceptors.response.use(
+axiosGateway.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
