@@ -47,6 +47,7 @@ const EmployeeDefault = () => {
     page: 0,
     order: 'asc',
     sort: 'lastModifiedDate,DESC',
+    'activated.equals': 'true',
     branch: undefined,
     team: undefined,
   });
