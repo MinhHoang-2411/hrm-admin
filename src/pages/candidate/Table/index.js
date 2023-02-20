@@ -192,28 +192,29 @@ export default function TableCandidate({
         }}
       >
         <Table aria-labelledby='tableTitle'>
-          <OrderTableHead
-            headCells={headCells}
-            order={order}
-            orderBy={orderBy}
-            handleCheckAll={handleCheckAll}
-            checked={isCheckAll}
-          />
-
           {isLoading ? (
             <TableLoading col={12} />
           ) : (
-            <TableBody>
-              {data?.length ? (
-                renderList()
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={12} scope='full' align='center'>
-                    <Empty />
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
+            <>
+              <OrderTableHead
+                headCells={headCells}
+                order={order}
+                orderBy={orderBy}
+                handleCheckAll={handleCheckAll}
+                checked={isCheckAll}
+              />
+              <TableBody>
+                {data?.length ? (
+                  renderList()
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={12} scope='full' align='center'>
+                      <Empty />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </>
           )}
         </Table>
       </TableContainer>
