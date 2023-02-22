@@ -11,7 +11,7 @@ const candidateApi = {
   },
   edit(params) {
     const url = `/candidates/${params.id}`;
-    return axiosClient.put(url, params);
+    return axiosClient.patch(url, params);
   },
   getById(id) {
     const url = `/candidates/${id}`;
