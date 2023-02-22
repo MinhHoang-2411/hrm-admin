@@ -9,13 +9,17 @@ function* handleLogin(action) {
   try {
     const response = yield call(login, action.payload);
     localStorage.setItem(AUTH_LOCAL_STORAGE_KEY, JSON.stringify(response?.data?.id_token));
+    const user = yield call(employeeApi.getBasicInfo);
+    localStorage.setItem(INFO_USER_LOCAL_STORAGE_KEY, JSON.stringify(user?.data));
+    yield put(authActions.getDataUser(user?.data));
 
     action.payload.onNavigate?.();
 
     yield put(authActions.loginSuccess());
 
-    yield call(getBasicInfo);
+    // yield call(getBasicInfo);
   } catch (error) {
+    localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY);
     yield put(authActions.loginFailed(error));
     yield put(
       alertActions.showAlert({
