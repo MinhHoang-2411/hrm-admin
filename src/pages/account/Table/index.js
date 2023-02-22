@@ -188,30 +188,31 @@ export default function TableAccount({
         }}
       >
         <Table aria-labelledby='tableTitle'>
-          <OrderTableHead
-            headCells={headCells}
-            order={order}
-            orderBy={orderBy}
-            handleCheckAll={() => {
-              handleCheckAll(data, listChecked, setListChecked);
-            }}
-            checked={isCheckAll}
-          />
-
           {isLoading ? (
             <TableLoading col={6} />
           ) : (
-            <TableBody>
-              {data?.length ? (
-                renderList()
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={6} scope='full' align='center'>
-                    <Empty />
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
+            <>
+              <OrderTableHead
+                headCells={headCells}
+                order={order}
+                orderBy={orderBy}
+                handleCheckAll={() => {
+                  handleCheckAll(data, listChecked, setListChecked);
+                }}
+                checked={isCheckAll}
+              />
+              <TableBody>
+                {data?.length ? (
+                  renderList()
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={6} scope='full' align='center'>
+                      <Empty />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </>
           )}
         </Table>
       </TableContainer>
