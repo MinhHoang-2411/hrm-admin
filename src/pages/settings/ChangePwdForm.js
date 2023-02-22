@@ -75,7 +75,7 @@ const ChangePwdForm = () => {
                           toggleShowPwds('currentPwd');
                         }}
                       >
-                        {!pwds.includes('currentPwd') ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                        {!pwds.includes('currentPwd') ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -98,7 +98,7 @@ const ChangePwdForm = () => {
                           toggleShowPwds('newPwd');
                         }}
                       >
-                        {!pwds.includes('newPwd') ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                        {!pwds.includes('newPwd') ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -122,9 +122,9 @@ const ChangePwdForm = () => {
                         }}
                       >
                         {!pwds.includes('confirmNewPwd') ? (
-                          <EyeOutlined />
-                        ) : (
                           <EyeInvisibleOutlined />
+                        ) : (
+                          <EyeOutlined />
                         )}
                       </IconButton>
                     </InputAdornment>
