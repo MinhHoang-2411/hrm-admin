@@ -1,4 +1,4 @@
-import logo from 'assets/images/logo/chainhaus.png';
+import logo from 'assets/images/logo/stdio.svg';
 
 const Logo = () => {
   return (
