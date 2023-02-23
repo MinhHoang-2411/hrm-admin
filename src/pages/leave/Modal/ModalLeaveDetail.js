@@ -103,7 +103,7 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                       {formatTimeStampGetTime(dataLeave?.createdDate)}
                     </Grid>
 
-                    <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={2}>
+                    <Grid item xs={2}>
                       <b>Duration:</b>
                     </Grid>
                     <Grid item xs={4}>
