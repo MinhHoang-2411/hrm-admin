@@ -387,16 +387,14 @@ export default function LeavePage() {
                     <span style={styleCount}>{paginationPending?.totalCount || 0}</span>
                   </h3>
                   <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: '10px'}}>
-                    <Stack direction='row' alignItems='center'>
+                    <Stack direction='row' alignItems='center' spacing={1}>
                       <InputSearch
-                        width={'470px'}
+                        width={'400px'}
                         search={searchListPending}
                         handleSearch={(value) => handleSearch(value, 'pending')}
                         placeholder='Search...'
                       />
-                    </Stack>
-                    <Box>
-                      <FormControl sx={{minWidth: 150, marginRight: '10px', marginTop: '10px'}}>
+                      <FormControl sx={{minWidth: 150}}>
                         <InputLabel id='demo-simple-select-label'>Leave type</InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
@@ -413,6 +411,8 @@ export default function LeavePage() {
                           ))}
                         </Select>
                       </FormControl>
+                    </Stack>
+                    <Box>
                       <DuoDatePicker
                         params={paramsPending}
                         handleFilter={handleFilterDate}
@@ -469,16 +469,14 @@ export default function LeavePage() {
                     <span style={styleCount}>{pagination?.totalCount || 0}</span>
                   </h3>
                   <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: '10px'}}>
-                    <Box>
+                    <Stack direction='row' alignItems='center' spacing={1}>
                       <InputSearch
-                        width={'470px'}
+                        width={'400px'}
                         search={search}
                         handleSearch={handleSearch}
                         placeholder='Search...'
                       />
-                    </Box>
-                    <Box>
-                      <FormControl sx={{minWidth: 120, marginRight: '10px', marginTop: '10px'}}>
+                      <FormControl sx={{minWidth: 120}}>
                         <InputLabel id='demo-simple-select-label'>Leave type</InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
@@ -495,7 +493,7 @@ export default function LeavePage() {
                           ))}
                         </Select>
                       </FormControl>
-                      <FormControl sx={{minWidth: 120, marginRight: '10px', marginTop: '10px'}}>
+                      <FormControl sx={{minWidth: 120}}>
                         <InputLabel id='demo-simple-select-label'>Status</InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
@@ -512,11 +510,9 @@ export default function LeavePage() {
                           ))}
                         </Select>
                       </FormControl>
-                      <DuoDatePicker
-                        params={paramsAll}
-                        handleFilter={handleFilterDate}
-                        width='110px'
-                      />
+                    </Stack>
+                    <Box>
+                      <DuoDatePicker params={paramsAll} handleFilter={handleFilterDate} />
                     </Box>
                   </Box>
                 </Box>
