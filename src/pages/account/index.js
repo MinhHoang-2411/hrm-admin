@@ -211,6 +211,8 @@ const AccountDefault = () => {
               count={totalPagePagination(pagination)}
               page={pagination?.page + 1 || 1}
               onChange={handlePagination}
+              showFirstButton
+              showLastButton
             />
           </BoxPagination>
         )}
