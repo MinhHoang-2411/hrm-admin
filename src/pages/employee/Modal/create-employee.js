@@ -582,7 +582,7 @@ export default function ModalCreateAsset({
                         </Box>
                         {typeOpenModal !== 'edit' && (
                           <Alert severity='info'>
-                            Default password is <b>"chainhausvn"</b>, please change after adding new
+                            Default password is <b>"stdioasia"</b>, please change after adding new
                             employee successfully
                           </Alert>
                         )}
