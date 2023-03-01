@@ -53,10 +53,10 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                     <Grid item xs={3.5}>
                       {dataLeave?.creatorName}
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={2.5}>
                       <b>Person on leave:</b>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={3.5}>
                       {dataLeave?.personOnLeave}
                     </Grid>
                     {dataLeave?.status !== 'canceled' && (
@@ -76,20 +76,20 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                     )}
                     {dataLeave?.status == 'APPROVED' && (
                       <>
-                        <Grid item xs={2}>
+                        <Grid item xs={2.5}>
                           <b>Approved by:</b>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3.5}>
                           {dataLeave?.approverName}
                         </Grid>
                       </>
                     )}
                     {dataLeave?.status == 'REJECTED' && (
                       <>
-                        <Grid item xs={2}>
+                        <Grid item xs={2.5}>
                           <b>Rejected by:</b>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3.5}>
                           {dataLeave?.rejecterName}
                         </Grid>
                       </>
@@ -103,10 +103,10 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                       {formatTimeStampGetTime(dataLeave?.createdDate)}
                     </Grid>
 
-                    <Grid item xs={2}>
+                    <Grid item xs={2.5}>
                       <b>Duration:</b>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={3.5}>
                       {formatTimeStampToDate(dataLeave?.startDate)} -{' '}
                       {formatTimeStampToDate(dataLeave?.endDate)}
                     </Grid>
@@ -122,10 +122,10 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                         color='primary'
                       />
                     </Grid>
-                    <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={2}>
+                    <Grid sx={{display: 'flex', alignItems: 'center'}} item xs={2.5}>
                       <b>Status:</b>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={3.5}>
                       {showStatusLeave(dataLeave?.status?.toLowerCase())}
                     </Grid>
 
