@@ -201,7 +201,8 @@ export default function TableEmployee({
           </TableCell>
           <TableCell align='left'>
             <Box>
-              <IconButton aria-label='edit' onClick={() => handleEdit(row?.id)}>
+              {/* <IconButton aria-label='edit' onClick={() => handleEdit(row?.id)}> */}
+              <IconButton aria-label='edit'>
                 <EditFilled />
               </IconButton>
               <IconButton aria-label='delete' onClick={() => handleRemove(row)}>
