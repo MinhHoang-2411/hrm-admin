@@ -18,6 +18,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
+import userImg from 'assets/images/users/user.png';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -26,7 +27,7 @@ import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
 
 // assets
-import avatar1 from 'assets/images/users/avatar-1.png';
+
 import {LogoutOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from 'app/hooks';
 import {authActions} from 'store/auth/authSlice';
@@ -113,7 +114,11 @@ const Profile = () => {
         onClick={handleToggle}
       >
         <Stack direction='row' spacing={2} alignItems='center' sx={{p: 0.5}}>
-          <Avatar alt='profile user' src={avatar1} sx={{width: 32, height: 32}} />
+          <Avatar
+            alt='profile user'
+            src={dataProfile?.user?.imageUrl || userImg}
+            sx={{width: 32, height: 32}}
+          />
           <Typography variant='subtitle1'>{dataProfile?.user?.firstName}</Typography>
         </Stack>
       </ButtonBase>
@@ -154,7 +159,11 @@ const Profile = () => {
                       <Grid container justifyContent='space-between' alignItems='center'>
                         <Grid item>
                           <Stack direction='row' spacing={1.25} alignItems='center'>
-                            <Avatar alt='profile user' src={avatar1} sx={{width: 32, height: 32}} />
+                            <Avatar
+                              alt='profile user'
+                              src={dataProfile?.user?.imageUrl || userImg}
+                              sx={{width: 32, height: 32}}
+                            />
                             <Stack>
                               <Typography variant='h6'>{dataProfile?.user?.fullName}</Typography>
                               <Typography variant='body2' color='textSecondary'>
