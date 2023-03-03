@@ -607,7 +607,7 @@ export default function ModalCreateAsset({
                   variant='contained'
                   color='primary'
                   size='large'
-                  type='submit'
+                  // type='submit'
                   className='button-submit-member'
                   startIcon={<SaveOutlined />}
                 >
