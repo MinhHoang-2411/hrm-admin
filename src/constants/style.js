@@ -6,7 +6,7 @@ const STYLE_MODAL = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 700,
-  maxHeight: 700,
+  maxHeight: 600,
   overflowY: 'auto',
   bgcolor: 'background.paper',
   boxShadow: 24,

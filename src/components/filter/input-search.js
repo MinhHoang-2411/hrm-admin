@@ -1,9 +1,9 @@
 import {SearchOutlined} from '@ant-design/icons';
 import {FormControl, InputAdornment, OutlinedInput} from '@mui/material';
 
-export function InputSearch({search, handleSearch, placeholder = 'Search...', width = 300}) {
+export function InputSearch({search, handleSearch, placeholder = 'Search...'}) {
   return (
-    <FormControl sx={{width: {xs: '100%', md: width}}}>
+    <FormControl sx={{width: {xs: '100%'}}}>
       <OutlinedInput
         size='small'
         id='header-search'
