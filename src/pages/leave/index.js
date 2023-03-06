@@ -36,6 +36,7 @@ import {
 } from 'utils/index';
 import ModalLeaveDetail from './Modal/ModalLeaveDetail';
 import ModalLeaveReason from './Modal/ModalLeaveReason';
+import useResponsive from '../../hooks/useResponsive';
 
 const styleTitle = {
   fontSize: '20px',
@@ -47,6 +48,7 @@ const styleTitle = {
   alignItems: 'center',
 };
 const styleName = {
+  margin: '10px 0',
   fontWeight: 'bold',
   cursor: 'pointer',
   textTransform: 'uppercase',
@@ -68,6 +70,8 @@ const styleCount = {
 };
 
 export default function LeavePage() {
+  const isMobile = useResponsive('mobile');
+
   const dispatch = useAppDispatch();
   const [paramsAll, setParamsAll] = useState({
     size: 10,
@@ -247,10 +251,11 @@ export default function LeavePage() {
             console.log('createDate', row?.createdDate);
           }}
         >
-          <Box sx={{display: 'flex', flexDirection: 'column', padding: '10px 30px'}}>
-            <Box sx={styleTitle}>
+          <Grid sx={{padding: isMobile ? 2 : 3}} container spacing={isMobile ? 1 : 2} columns={12}>
+            <Grid item xs={12}>
               <Box sx={styleName}>{row?.personOnLeave}</Box>
-              {/* <Tooltip title='Hide'>
+            </Grid>
+            {/* <Tooltip title='Hide'>
                 <IconButton
                   sx={{fontSize: '25px'}}
                   onClick={(e) => {
@@ -260,59 +265,46 @@ export default function LeavePage() {
                   {<EyeInvisibleOutlined /> || <EyeOutlined />}
                 </IconButton>
               </Tooltip> */}
-            </Box>
-            <Box sx={{display: 'flex', marginBottom: '20px'}}>
-              <Grid container spacing={2} columns={12}>
-                <Grid item xs={6}>
-                  <span style={{fontWeight: 'bold'}}>Title:</span>&nbsp; {row?.title}
-                </Grid>
-                <Grid item xs={6}>
-                  <span style={{fontWeight: 'bold'}}>Submitted time:</span>&nbsp;{' '}
-                  {formatTimeStampToDate(row?.createdDate)}
-                  &ensp;
-                  {formatTimeStampGetTime(row?.createdDate)}
-                </Grid>
-              </Grid>
-            </Box>
-            <Box sx={{display: 'flex', marginBottom: '20px'}}>
-              <Grid container spacing={2} columns={12}>
-                <Grid item xs={6}>
-                  <span style={{fontWeight: 'bold'}}>Leave type:</span>&nbsp;{' '}
-                  <Chip
-                    sx={{fontWeight: 'bold', textTransform: 'capitalize'}}
-                    variant='outlined'
-                    label={row?.type?.toLowerCase()}
-                    color='primary'
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <span style={{fontWeight: 'bold'}}>Status:</span>
-                  &nbsp; {showStatusLeave(row?.status?.toLowerCase())}
-                </Grid>
-              </Grid>
-            </Box>
-            <Box sx={{display: 'flex', marginBottom: '20px'}}>
-              <Grid container spacing={2} columns={12}>
-                <Grid item xs={6}>
-                  <span style={{fontWeight: 'bold'}}>From:</span>&nbsp;{' '}
-                  {formatTimeStampToDate(row?.startDate)}
-                </Grid>
-                <Grid item xs={6}>
-                  <span style={{fontWeight: 'bold'}}>To:</span>&nbsp;{' '}
-                  {formatTimeStampToDate(row?.endDate)}
-                </Grid>
-              </Grid>
-            </Box>
-            <Box sx={{display: 'flex', marginBottom: '20px'}}>
+            <Grid item md={6} xs={12}>
+              <span style={{fontWeight: 'bold'}}>Title:</span>&nbsp; {row?.title}
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <span style={{fontWeight: 'bold'}}>Submitted time:</span>&nbsp;{' '}
+              {formatTimeStampToDate(row?.createdDate)}
+              &ensp;
+              {formatTimeStampGetTime(row?.createdDate)}
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <span style={{fontWeight: 'bold'}}>Leave type:</span>&nbsp;{' '}
+              <Chip
+                sx={{fontWeight: 'bold', textTransform: 'capitalize'}}
+                variant='outlined'
+                label={row?.type?.toLowerCase()}
+                color='primary'
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <span style={{fontWeight: 'bold'}}>Status:</span>
+              &nbsp; {showStatusLeave(row?.status?.toLowerCase())}
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <span style={{fontWeight: 'bold'}}>From:</span>&nbsp;{' '}
+              {formatTimeStampToDate(row?.startDate)}
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <span style={{fontWeight: 'bold'}}>To:</span>&nbsp;{' '}
+              {formatTimeStampToDate(row?.endDate)}
+            </Grid>
+            <Grid item xs={12}>
               <span style={{fontWeight: 'bold'}}>Reason:</span>&nbsp; {row?.reason}
-            </Box>
+            </Grid>
             {row?.rejectReason ? (
-              <Box sx={{display: 'flex', marginBottom: '20px'}}>
+              <Grid item xs={12}>
                 <span>
                   <b>Reject Reason: </b>
                   {row?.rejectReason}
                 </span>
-              </Box>
+              </Grid>
             ) : null}
             {isLeavePending(row?.status) && (
               <Box sx={{margin: '10px 10px 12px 0px'}}>
@@ -341,7 +333,7 @@ export default function LeavePage() {
                 </Button>
               </Box>
             )}
-          </Box>
+          </Grid>
         </Card>
       )),
     [listLeave, listLeavePending]
@@ -374,34 +366,50 @@ export default function LeavePage() {
       <MainCard sx={{mt: 2}} content={false}>
         <Box
           sx={{
-            padding: '5px 20px',
+            padding: isMobile ? 0 : '5px 20px',
             display: 'flex-column',
           }}
         >
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={9}>
+          <Grid container spacing={2} columns={12}>
+            <Grid item xs={12} md={7}>
               <Box sx={{padding: '10px 10px'}}>
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                  <h3 style={styleLabel}>
-                    PENDING LEAVE REQUESTS{' '}
-                    <span style={styleCount}>{paginationPending?.totalCount || 0}</span>
-                  </h3>
-                  <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: '10px'}}>
-                    <Stack direction='row' alignItems='center' spacing={1}>
+                <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: '8px'}}>
+                  {isMobile ? (
+                    <>
+                      <h4 style={styleLabel}>
+                        PENDING LEAVE REQUESTS{' '}
+                        <span style={styleCount}>{paginationPending?.totalCount || 0}</span>
+                      </h4>
+                    </>
+                  ) : (
+                    <>
+                      <h3 style={styleLabel}>
+                        PENDING LEAVE REQUESTS{' '}
+                        <span style={styleCount}>{paginationPending?.totalCount || 0}</span>
+                      </h3>
+                    </>
+                  )}
+
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} md={8}>
                       <InputSearch
-                        width={'400px'}
+                        sx={{width: '100%'}}
                         search={searchListPending}
                         handleSearch={(value) => handleSearch(value, 'pending')}
                         placeholder='Search...'
                       />
-                      <FormControl sx={{minWidth: 150}}>
-                        <InputLabel id='demo-simple-select-label'>Leave type</InputLabel>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FormControl sx={{width: '100%'}}>
+                        <InputLabel id='demo-simple-select-label'>
+                          {isMobile ? 'Type' : 'Leave type'}
+                        </InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
                           value={paramsAll?.['type.equals']}
                           onChange={(e) => handleFilter('type.equals', e.target.value, 'pending')}
-                          label='Leave type'
+                          label={isMobile ? 'Type' : 'Leave type'}
                         >
                           <MenuItem value={'all'}>All</MenuItem>
                           {TYPE_LEAVE?.map((item, index) => (
@@ -411,23 +419,24 @@ export default function LeavePage() {
                           ))}
                         </Select>
                       </FormControl>
-                    </Stack>
-                    <Box>
+                    </Grid>
+                    <Grid item xs={8} md={6}>
                       <DuoDatePicker
                         params={paramsPending}
                         handleFilter={handleFilterDate}
                         type='pending'
                       />
-                    </Box>
-                  </Box>
+                    </Grid>
+                  </Grid>
                 </Box>
+
                 <InfiniteScroll
                   loader={
                     loadMorePending ? (
                       <SkeletonLoading sx={{marginBottom: '15px', minHeight: '270px'}} />
                     ) : null
                   }
-                  height='100vh'
+                  height={isMobile ? '50vh' : '100vh'}
                   hasMore={fetchMoreCondition(pagePending, paginationPending, paramsPending)}
                   dataLength={listLeavePending.length}
                   next={handleFetchMorePendingLeave}
@@ -455,35 +464,50 @@ export default function LeavePage() {
                 </InfiniteScroll>
               </Box>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={12} md={5}>
               <Box sx={{padding: '10px 10px'}}>
                 <Box
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    // paddingLeft: '5px',
+                    marginBottom: '8px',
                   }}
                 >
-                  <h3 style={styleLabel}>
-                    OTHER LEAVE REQUESTS{' '}
-                    <span style={styleCount}>{pagination?.totalCount || 0}</span>
-                  </h3>
-                  <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: '10px'}}>
-                    <Stack direction='row' alignItems='center' spacing={1}>
+                  {isMobile ? (
+                    <>
+                      <h4 style={styleLabel}>
+                        OTHER LEAVE REQUESTS{' '}
+                        <span style={styleCount}>{pagination?.totalCount || 0}</span>
+                      </h4>
+                    </>
+                  ) : (
+                    <>
+                      <h3 style={styleLabel}>
+                        OTHER LEAVE REQUESTS{' '}
+                        <span style={styleCount}>{pagination?.totalCount || 0}</span>
+                      </h3>
+                    </>
+                  )}
+                  <Grid container spacing={1}>
+                    <Grid item xs={8}>
                       <InputSearch
-                        width={'400px'}
+                        width={'100%'}
                         search={search}
                         handleSearch={handleSearch}
                         placeholder='Search...'
                       />
-                      <FormControl sx={{minWidth: 120}}>
-                        <InputLabel id='demo-simple-select-label'>Leave type</InputLabel>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FormControl sx={{width: '100%'}}>
+                        <InputLabel id='demo-simple-select-label'>
+                          {isMobile ? 'Type' : 'Leave type'}
+                        </InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
                           value={paramsAll?.['type.equals']}
                           onChange={(e) => handleFilter('type.equals', e.target.value)}
-                          label='Leave type'
+                          label={isMobile ? 'Type' : 'Leave type'}
                         >
                           <MenuItem value={'all'}>All</MenuItem>
                           {TYPE_LEAVE?.map((item, index) => (
@@ -493,7 +517,9 @@ export default function LeavePage() {
                           ))}
                         </Select>
                       </FormControl>
-                      <FormControl sx={{minWidth: 120}}>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FormControl sx={{width: '100%'}}>
                         <InputLabel id='demo-simple-select-label'>Status</InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
@@ -510,11 +536,12 @@ export default function LeavePage() {
                           ))}
                         </Select>
                       </FormControl>
-                    </Stack>
-                    <Box>
+                    </Grid>
+
+                    <Grid item xs={8}>
                       <DuoDatePicker params={paramsAll} handleFilter={handleFilterDate} />
-                    </Box>
-                  </Box>
+                    </Grid>
+                  </Grid>
                 </Box>
                 <InfiniteScroll
                   loader={
@@ -560,7 +587,7 @@ export default function LeavePage() {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box sx={{...STYLE_MODAL, width: 800}}>
+        <Box sx={{...STYLE_MODAL, width: isMobile ? '90%' : 800}}>
           <ModalLeaveDetail
             leaveId={leaveId}
             handleClose={handleClose}

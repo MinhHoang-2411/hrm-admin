@@ -41,7 +41,8 @@ const MainRoutes = {
     },
     {
       path: '/',
-      element: <DashboardDefault />,
+      // element: <DashboardDefault />,
+      element: <EmployeePage />,
     },
     {
       path: '/employee',

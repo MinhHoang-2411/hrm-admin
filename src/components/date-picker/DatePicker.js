@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import TextField from '@mui/material/TextField';
+import {TextField, Grid} from '@mui/material';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
@@ -16,64 +16,61 @@ export default function DuoDatePicker({params, handleFilter, width = '150px', ty
   const [invalidToTime, setInvalidToTime] = useState(false);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        label='From'
-        closeOnSelect={true}
-        maxDate={convertDateTime(params?.['endDate.lessThan'])}
-        value={formatDateMaterial(params?.['startDate.greaterThanOrEqual'])}
-        onChange={(newValue) => handleFilter(newValue, type, 'startDate')}
-        inputFormat='DD/MM'
-        onError={(reason, value) => {
-          if (reason) {
-            setInvalidFromTime(true);
-          } else {
-            setInvalidFromTime(false);
-          }
-        }}
-        renderInput={(params) => (
-          <TextField
-            sx={{
-              width: width,
-              marginTop: '10px',
-              marginRight: '10px',
-              input: {
-                paddingRight: '5px',
-              },
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <DatePicker
+            label='From'
+            closeOnSelect={true}
+            maxDate={convertDateTime(params?.['endDate.lessThan'])}
+            value={formatDateMaterial(params?.['startDate.greaterThanOrEqual'])}
+            onChange={(newValue) => handleFilter(newValue, type, 'startDate')}
+            inputFormat='DD/MM'
+            onError={(reason, value) => {
+              if (reason) {
+                setInvalidFromTime(true);
+              } else {
+                setInvalidFromTime(false);
+              }
             }}
-            {...params}
-            helperText={invalidFromTime ? 'Please choose valid Time' : null}
+            renderInput={(params) => (
+              <TextField
+                sx={{
+                  width: '100%',
+                }}
+                {...params}
+                helperText={invalidFromTime ? 'Please choose valid Time' : null}
+              />
+            )}
           />
-        )}
-      />
+        </Grid>
 
-      <DatePicker
-        label='To'
-        closeOnSelect={true}
-        minDate={formatDateMaterial(params?.['startDate.greaterThanOrEqual'])}
-        value={convertDateTime(params?.['endDate.lessThan'])}
-        onChange={(newValue) => handleFilter(newValue, type, 'endDate')}
-        onError={(reason, value) => {
-          if (reason) {
-            setInvalidToTime(true);
-          } else {
-            setInvalidToTime(false);
-          }
-        }}
-        inputFormat='DD/MM'
-        renderInput={(params) => (
-          <TextField
-            sx={{
-              width: width,
-              marginTop: '10px',
-              input: {
-                paddingRight: '5px',
-              },
+        <Grid item xs={6}>
+          <DatePicker
+            label='To'
+            closeOnSelect={true}
+            minDate={formatDateMaterial(params?.['startDate.greaterThanOrEqual'])}
+            value={convertDateTime(params?.['endDate.lessThan'])}
+            onChange={(newValue) => handleFilter(newValue, type, 'endDate')}
+            onError={(reason, value) => {
+              if (reason) {
+                setInvalidToTime(true);
+              } else {
+                setInvalidToTime(false);
+              }
             }}
-            {...params}
-            helperText={invalidToTime ? 'Please choose valid Time' : null}
+            inputFormat='DD/MM'
+            renderInput={(params) => (
+              <TextField
+                sx={{
+                  width: '100%',
+                }}
+                {...params}
+                helperText={invalidToTime ? 'Please choose valid Time' : null}
+              />
+            )}
           />
-        )}
-      />
+        </Grid>
+      </Grid>
     </LocalizationProvider>
   );
 }
