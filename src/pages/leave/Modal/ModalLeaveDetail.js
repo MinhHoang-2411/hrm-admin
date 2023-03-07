@@ -72,7 +72,7 @@ const ModalLeaveDetail = ({leaveId, handleClose, showStatusLeave}) => {
                         </Grid>
                       </>
                     )}
-                    {['CONFIRMED', 'WAITING'].includes(dataLeave?.status) && (
+                    {!isMobile && ['CONFIRMED', 'WAITING'].includes(dataLeave?.status) && (
                       <>
                         <Grid item md={6}></Grid>
                       </>
