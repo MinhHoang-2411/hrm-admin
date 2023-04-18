@@ -111,6 +111,21 @@ const AccountDefault = () => {
     dispatch(modalActions.showModal(params));
   };
 
+  const handleResetPwd = (data) => {
+    const params = {
+      type: 'modalConfirm',
+      title: 'Confirm',
+      content: (
+        <span>
+          Do you want to reset password an account{' '}
+          <b>{nameMatching(data?.firstName, data?.lastName)}</b>?
+        </span>
+      ),
+      onAction: () => dispatch(accountActions.resetPwd(data)),
+    };
+    dispatch(modalActions.showModal(params));
+  };
+
   const handlePagination = (e, value) => {
     setParams((prevState) => {
       return {...prevState, page: Number(value - 1)};
@@ -203,6 +218,7 @@ const AccountDefault = () => {
           setTypeOpenModal={setTypeOpenModal}
           handleActivateOrDeactivateAccount={handleActivateOrDeactivateAccount}
           isLoading={loading}
+          handleResetPwd={handleResetPwd}
         />
         {/* End Table */}
         {pagination && listAccount?.length > 0 && (

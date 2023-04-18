@@ -75,6 +75,7 @@ export default function TableAccount({
   handleOpen,
   handleActivateOrDeactivateAccount,
   isLoading,
+  handleResetPwd,
 }) {
   //STATES
   const [order, setOrder] = useState('asc');
@@ -101,7 +102,7 @@ export default function TableAccount({
     setTypeOpenModal('edit');
     handleOpen();
   };
-  const handleResetPwd = (data) => {};
+  // const handleResetPwd = (data) => {};
 
   const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
 
@@ -163,6 +164,7 @@ export default function TableAccount({
                   aria-label='reset pwd'
                   onClick={() => {
                     handleResetPwd(row);
+                    console.log({row});
                   }}
                 >
                   <SyncOutlined />
