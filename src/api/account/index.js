@@ -22,6 +22,10 @@ const accountApi = {
 
     return axiosClient.put(url, {...data, activated: !data.activated});
   },
+  resetPwd(data) {
+    const url = `${process.env.REACT_APP_API_URL}/account/${data}/reset-password`;
+    return axiosClient.post(url);
+  },
 };
 
 export default accountApi;

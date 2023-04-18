@@ -9,6 +9,7 @@ const initialState = {
   listData: [],
   dataAccount: null,
   pagination: undefined,
+  loadingResetPwd: false,
 };
 
 const accountSlice = createSlice({
@@ -87,6 +88,19 @@ const accountSlice = createSlice({
     },
     activateOrDeactivateFalse(state, action) {
       state.loadingActivateOrDeactivate = false;
+      console.error(action.payload);
+    },
+
+    //Reset Password
+    resetPwd(state, action) {
+      state.loadingResetPwd = true;
+    },
+    resetPwdSuccess(state, action) {
+      state.loadingResetPwd = false;
+      state.reloadList = !state.reloadList;
+    },
+    resetPwdFail(state, action) {
+      state.loadingResetPwd = false;
       console.error(action.payload);
     },
   },

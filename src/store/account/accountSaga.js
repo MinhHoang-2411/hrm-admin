@@ -108,12 +108,35 @@ function* handleActivateOrDeactivate(action) {
   }
 }
 
+function* handleResetPwd(action) {
+  try {
+    yield call(accountApi.resetPwd, action.payload.id);
+
+    yield put(accountActions.resetPwdSuccess());
+    yield put(
+      alertActions.showAlert({
+        text: 'Reset password successfully',
+        type: 'success',
+      })
+    );
+  } catch (error) {
+    yield put(accountActions.resetPwdFail('An error occurred, please try again'));
+    yield put(
+      alertActions.showAlert({
+        text: 'An error occurred, please try again',
+        type: 'error',
+      })
+    );
+  }
+}
+
 function* accountFlow() {
   yield all([
     takeLatest(accountActions.fetchData.type, handleFetchData),
     takeLatest(accountActions.create.type, handleCreate),
     takeLatest(accountActions.getById.type, handleGetById),
     takeLatest(accountActions.activateOrDeactivate.type, handleActivateOrDeactivate),
+    takeLatest(accountActions.resetPwd.type, handleResetPwd),
   ]);
 }
 
